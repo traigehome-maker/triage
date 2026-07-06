@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { SEGMENTS, WHATSAPP, CTA } from "./shared/config";
+import { SEGMENTS } from "./shared/config";
 import { Icons } from "./shared/icons";
 import { FadeUp } from "./shared/motion";
 
@@ -20,6 +20,48 @@ const CIRCLE_ROWS: { key: keyof CircleAccess; label: string }[] = [
 ];
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+
+// Kept local rather than assumed to already exist in shared/config, so this
+// file works standalone. If shared/config already exports a WHATSAPP_NUMBER
+// or buildWhatsAppLink helper, use that instead of having the number
+// defined in more than one place.
+const WHATSAPP_NUMBER = "2349134664547";
+
+function buildWhatsAppLink(message: string) {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
+
+/** Maps a segment to its own CTA label and its own WhatsApp message.
+ *  Matched against the segment's tag text rather than array index, so
+ *  this doesn't silently break if segments get reordered or renamed in
+ *  shared/config later. Falls back to a safe default for any segment
+ *  that doesn't match one of the three named audiences. */
+function getSegmentCTA(tag: string): { label: string; message: string } {
+  const t = tag.toLowerCase();
+
+  if (t.includes("hni") || t.includes("family")) {
+    return {
+      label: "Explore TriageConcierge",
+      message: `Hello TriageConcierge, I'd like to explore TriageConcierge for my family office.`,
+    };
+  }
+  if (t.includes("executive")) {
+    return {
+      label: "Request an Executive Consultation",
+      message: `Hello TriageConcierge, I'd like to request an executive consultation.`,
+    };
+  }
+  if (t.includes("individual")) {
+    return {
+      label: "Design a Personalized Care Plan",
+      message: `Hello TriageConcierge, I'd like to design a personalized care plan.`,
+    };
+  }
+  return {
+    label: "Speak with a Peace of Mind Representative",
+    message: `Hello TriageConcierge, I'd like to speak with a Peace of Mind Representative about ${tag}.`,
+  };
+}
 
 const listStagger = {
   hidden: {},
@@ -68,21 +110,34 @@ function SegmentTabs({
   );
 }
 
-/** The "talk to a rep" link: an arrow that eases out and an underline
- *  that draws in from the left, so it feels intentional on hover rather
- *  than just changing color. */
-function TalkToRepLink() {
+/** The segment CTA: label and destination both change with the active
+ *  segment. An arrow that eases out and an underline that draws in from
+ *  the left, so it feels intentional on hover rather than just changing
+ *  color. */
+function SegmentCTA({ tag }: { tag: string }) {
+  const { label, message } = getSegmentCTA(tag);
+  const href = buildWhatsAppLink(message);
+
   return (
     <a
-      href={WHATSAPP}
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
       className="group relative inline-flex w-fit items-center gap-2.5 font-raleway text-sm font-semibold text-[#aa7130] transition-colors duration-300 hover:text-[#8c5c22]"
     >
-      <span className="relative">
-        {CTA.talkToRep}
-        <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-current transition-transform duration-300 ease-out group-hover:scale-x-100" />
-      </span>
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={label}
+          initial={{ opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -4 }}
+          transition={{ duration: 0.25 }}
+          className="relative"
+        >
+          {label}
+          <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-current transition-transform duration-300 ease-out group-hover:scale-x-100" />
+        </motion.span>
+      </AnimatePresence>
       <motion.span
         className="flex"
         initial={false}
@@ -245,7 +300,7 @@ export default function WhoWeServe() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.45, delay: 0.35, ease: EASE }}
                 >
-                  <TalkToRepLink />
+                  <SegmentCTA tag={seg.tag} />
                 </motion.div>
               </div>
             </motion.div>

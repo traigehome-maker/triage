@@ -36,6 +36,19 @@ function buildProviders(raw: RawProvider[]): Provider[] {
   });
 }
 
+/** Shared everywhere a credential list is rendered, so the card grid and
+ *  the modal always parse "RN, RM" style strings identically. */
+function getCredentials(provider: Provider): string[] {
+  return provider.qualifications
+    .split(",")
+    .map((q) => q.trim())
+    .filter(Boolean);
+}
+
+function isHealthAssistant(provider: Provider): boolean {
+  return provider.title === "Health Assistant";
+}
+
 // ─── Data ─────────────────────────────────────────────────────────────────────
 // imageSlug must match exactly the filename in /public/images/providers/
 // e.g. imageSlug: "zuliyat" => /public/images/providers/zuliyat.jpg
@@ -325,6 +338,41 @@ function TitleBadge({ title }: { title: string }) {
   );
 }
 
+// ─── TriageVerified Badge ─────────────────────────────────────────────────────
+// The trust signal requested for every provider, card and modal alike: a
+// small filled checkmark badge, the same visual language as a verified
+// social profile, not a generic outline check.
+
+function VerifiedBadge({ size = "md" }: { size?: "sm" | "md" }) {
+  const px = size === "sm" ? "w-4 h-4" : "w-5 h-5";
+  return (
+    <span
+      className={`inline-flex ${px} flex-shrink-0 items-center justify-center rounded-full bg-[#00b99d] ring-2 ring-white`}
+      title="TriageVerified provider"
+      aria-label="TriageVerified provider"
+    >
+      <svg viewBox="0 0 24 24" fill="none" className="w-[62%] h-[62%]">
+        <path
+          d="M5 12.5l4.5 4.5L19 7"
+          stroke="white"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </span>
+  );
+}
+
+function VerifiedLabel() {
+  return (
+    <span className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-wide text-[#00897a] font-raleway">
+      <VerifiedBadge size="sm" />
+      TriageVerified
+    </span>
+  );
+}
+
 // ─── Avatar ───────────────────────────────────────────────────────────────────
 // object-top + scale-[1.8] + translate-y-[10%] zooms into the face/headshot area
 
@@ -339,50 +387,46 @@ function ProviderAvatar({
   const sizeClass = size === "lg" ? "w-24 h-24" : "w-16 h-16";
   const textClass = size === "lg" ? "text-2xl" : "text-lg";
   const px = size === "lg" ? 96 : 64;
+  const badgeSize = size === "lg" ? "w-6 h-6" : "w-5 h-5";
 
-  if (!imgError) {
-    return (
+  const inner = imgError ? (
+    <div
+      className="w-full h-full rounded-full flex items-center justify-center"
+      style={{ background: getGradient(provider.id) }}
+    >
+      <span className={`${textClass} font-bold tracking-wide text-white font-raleway`}>
+        {provider.initials}
+      </span>
+    </div>
+  ) : (
+    <div className="w-full h-full rounded-full overflow-hidden relative">
+      <Image
+        src={`/images/providers/${provider.imageSlug}.jpg`}
+        alt={`${provider.displayName} headshot`}
+        fill
+        className="object-cover"
+        sizes={`${px}px`}
+        onError={() => setImgError(true)}
+      />
+    </div>
+  );
+
+  return (
+    <div className={`relative ${sizeClass} flex-shrink-0`}>
       <div
-        className={`${sizeClass} rounded-full overflow-hidden flex-shrink-0 relative`}
+        className="w-full h-full rounded-full overflow-hidden relative"
         style={{
           padding: "2px",
           background: "linear-gradient(135deg, #02385a, #00b99d, #aa7130)",
           boxShadow: "0 4px 12px rgba(2,56,90,0.2)",
         }}
       >
-        <div className="w-full h-full rounded-full overflow-hidden relative">
-          <Image
-            src={`/images/providers/${provider.imageSlug}.jpg`}
-            alt={`${provider.displayName} headshot`}
-            fill
-            className="object-cover scale-[2] translate-y-[30%]"
-            sizes={`${px}px`}
-            onError={() => setImgError(true)}
-          />
-        </div>
+        {inner}
       </div>
-    );
-  }
-
-  return (
-    <div
-      className={`${sizeClass} rounded-full flex-shrink-0 flex items-center justify-center`}
-      style={{
-        padding: "2px",
-        background: "linear-gradient(135deg, #02385a, #00b99d, #aa7130)",
-        boxShadow: "0 4px 12px rgba(2,56,90,0.2)",
-      }}
-    >
-      <div
-        className="w-full h-full rounded-full flex items-center justify-center"
-        style={{ background: getGradient(provider.id) }}
-      >
-        <span
-          className={`${textClass} font-bold tracking-wide text-white font-raleway`}
-        >
-          {provider.initials}
-        </span>
-      </div>
+      {/* TriageVerified badge, bottom-right of every avatar, card and modal alike */}
+      <span className={`absolute -bottom-0.5 -right-0.5 ${badgeSize}`}>
+        <VerifiedBadge size={size === "lg" ? "md" : "sm"} />
+      </span>
     </div>
   );
 }
@@ -445,6 +489,8 @@ function ProviderCard({
   provider: Provider;
   onClick: () => void;
 }) {
+  const credentials = getCredentials(provider);
+
   return (
     <button
       type="button"
@@ -456,7 +502,7 @@ function ProviderCard({
 
       <div className="p-6 flex flex-col flex-1">
         {/* Avatar + Identity */}
-        <div className="flex items-center gap-4 mb-4">
+        <div className="flex items-center gap-4 mb-3">
           <ProviderAvatar provider={provider} size="sm" />
           <div className="flex-1 min-w-0">
             <p className="font-raleway font-bold text-[#02385a] text-sm leading-snug mb-1.5 truncate">
@@ -465,6 +511,24 @@ function ProviderCard({
             <TitleBadge title={provider.title} />
           </div>
         </div>
+
+        <div className="mb-4">
+          <VerifiedLabel />
+        </div>
+
+        {/* Credentials: visible here on the card, not only inside the modal */}
+        {credentials.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mb-4">
+            {credentials.map((q) => (
+              <span
+                key={q}
+                className="bg-slate-50 border border-slate-200 text-[#02385a] font-bold text-[11px] px-2.5 py-1 rounded-full font-nunito"
+              >
+                {q}
+              </span>
+            ))}
+          </div>
+        )}
 
         {/* Bio preview */}
         <p className="font-nunito text-[13.5px] text-slate-500 leading-relaxed line-clamp-3 flex-1 mb-5">
@@ -530,6 +594,7 @@ function ProviderModal({
   onClose: () => void;
 }) {
   const overlayRef = useRef<HTMLDivElement>(null);
+  const assistant = isHealthAssistant(provider);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -547,10 +612,22 @@ function ProviderModal({
     if (e.target === overlayRef.current) onClose();
   }
 
-  const credentials = provider.qualifications
-    .split(",")
-    .map((q) => q.trim())
-    .filter(Boolean);
+  const credentials = getCredentials(provider);
+
+  // Health Assistants are support staff, not individually bookable the way
+  // a licensed RN is: the CTA books the service through TriageHome rather
+  // than requesting that specific person by name.
+  const ctaHeading = assistant
+    ? "Book a home health assistant visit"
+    : `Book an appointment with ${provider.firstName}`;
+
+  const ctaMessage = assistant
+    ? `Hi TriageHome, I would like to book a home health assistant visit.`
+    : `Hi Triage, I would like to book an appointment with ${provider.firstName}.`;
+
+  const ctaLabel = assistant ? "Book with TriageHome" : "Book an Appointment";
+
+  const ctaHref = `https://wa.me/2349134664547?text=${encodeURIComponent(ctaMessage)}`;
 
   return (
     <div
@@ -587,7 +664,13 @@ function ProviderModal({
               <h2 className="font-raleway font-extrabold text-white text-xl leading-snug mb-2">
                 {provider.displayName}
               </h2>
-              <TitleBadge title={provider.title} />
+              <div className="flex flex-wrap items-center gap-2.5">
+                <TitleBadge title={provider.title} />
+                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-wide text-[#5eead4] font-raleway">
+                  <VerifiedBadge size="sm" />
+                  TriageVerified
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -713,25 +796,25 @@ function ProviderModal({
             </div>
           </div>
 
-          {/* CTA */}
+          {/* CTA: tailored so a Health Assistant visit books through
+              TriageHome generally, never as a named, individually
+              requested provider the way an RN can be */}
           <div className="bg-gradient-to-r from-[#02385a] to-[#024a78] rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <p className="font-raleway font-bold text-white text-base mb-1">
-                Book an appointment with {provider.firstName}
+                {ctaHeading}
               </p>
               <p className="font-nunito text-sm text-white/60">
                 #HomeHealth, Powered by People
               </p>
             </div>
             <a
-              href={`https://wa.me/2349134664547?text=Hi%20Triage%2C%20I%20would%20like%20to%20book%20an%20appointment%20with%20${encodeURIComponent(
-                provider.firstName
-              )}.`}
+              href={ctaHref}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-[#aa7130] hover:bg-[#8c5c22] text-white font-raleway font-bold text-[13px] tracking-wide px-6 py-3 rounded-xl transition-colors flex-shrink-0"
             >
-              Book an Appointment
+              {ctaLabel}
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M5 12h14M12 5l7 7-7 7"
@@ -772,17 +855,35 @@ export default function ClinicalProvidersPage() {
     <>
       <div className="min-h-screen bg-slate-50 font-nunito">
 
-        {/* Hero */}
-        <section className="bg-gradient-to-br from-[#02385a] via-[#024a78] to-[#013055] px-6 pt-20 pb-16 relative overflow-hidden">
-          <div className="absolute -top-16 -right-16 w-80 h-80 rounded-full bg-[#00b99d]/[0.07] pointer-events-none" />
-          <div className="absolute bottom-[-80px] left-[8%] w-56 h-56 rounded-full bg-[#aa7130]/[0.06] pointer-events-none" />
-          <div className="absolute top-1/4 left-[58%] w-32 h-32 rounded-full bg-white/[0.03] pointer-events-none" />
+        {/* Hero, now a looping background video behind the existing gradient
+            and decorative blobs, rather than gradient alone.
+            Replace poster + source with real footage: a clinical provider
+            arriving at a client's home, taking vitals, or a warm handoff
+            moment between provider and client. Silent, 6 to 10 second loop. */}
+        <section className="relative px-6 pt-20 pb-16 overflow-hidden">
+          <div className="absolute inset-0 z-0">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster="/images/providers/hero-poster.jpg"
+              className="absolute inset-0 w-full h-full object-cover"
+            >
+              <source src="/images/hero/cp.mov" type="video/mp4" />
+            </video>
+            {/* dark wash so the white hero text stays legible over any footage */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#02385a]/95 via-[#024a78]/90 to-[#013055]/95" />
+            <div className="absolute -top-16 -right-16 w-80 h-80 rounded-full bg-[#00b99d]/[0.1] pointer-events-none" />
+            <div className="absolute bottom-[-80px] left-[8%] w-56 h-56 rounded-full bg-[#aa7130]/[0.08] pointer-events-none" />
+            <div className="absolute top-1/4 left-[58%] w-32 h-32 rounded-full bg-white/[0.04] pointer-events-none" />
+          </div>
 
           <div className="max-w-4xl mx-auto relative z-10 py-20">
             <div className="inline-flex items-center gap-2 bg-[#aa7130]/20 border border-[#aa7130]/40 rounded-full px-4 py-1.5 mb-5">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#aa7130]" />
+              <VerifiedBadge size="sm" />
               <span className="font-raleway font-bold text-[11px] tracking-[0.12em] uppercase text-amber-300">
-                Verified Clinical Providers
+                TriageVerified Clinical Providers
               </span>
             </div>
 
@@ -797,7 +898,7 @@ export default function ClinicalProvidersPage() {
             <div className="flex gap-10 flex-wrap">
               {[
                 { value: `${PROVIDERS.length}+`, label: "Active Providers" },
-                { value: "100%", label: "Verified & Certified" },
+                { value: "100%", label: "TriageVerified" },
                 { value: "Lagos & Beyond", label: "Coverage Area" },
               ].map((s) => (
                 <div key={s.label}>

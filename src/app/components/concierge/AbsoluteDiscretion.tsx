@@ -172,11 +172,7 @@ export default function AbsoluteDiscretion() {
           <rect width="100%" height="100%" filter="url(#discretionGrain)" />
         </svg>
 
-        <div className="hidden lg:block absolute bottom-6 right-6 bg-black/40 backdrop-blur-sm rounded-lg px-3 py-1.5 z-10">
-          <p className="text-white/40 text-[10px] font-mono uppercase tracking-wider">
-            Replace panel: blurred luxury home exterior, or suited executive, face softly obscured
-          </p>
-        </div>
+       
 
         <div className="relative max-w-6xl mx-auto grid lg:grid-cols-[0.9fr,1.1fr] gap-12 lg:gap-16 items-center">
           <FadeIn className="flex justify-center lg:justify-start">

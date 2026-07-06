@@ -1,10 +1,10 @@
 export const WHATSAPP =
-  "https://wa.me/2349134664547?text=Hello%20TriageConcierge%2C%20I%20would%20like%20to%20learn%20more.";
+  "https://wa.me/2349134664547?text=Hello%20TriageConcierge%2C%20I%27d%20like%20to%20speak%20with%20a%20Peace%20of%20Mind%20Representative.";
 
 // CTA copy is intentionally varied per touchpoint on this page, per comms guidance.
 export const CTA = {
-  heroPrimary: "Executive Consultation",
-  heroSecondary: "Explore TriageConcierge",
+  heroPrimary: "Speak with a Peace of Mind Representative",
+  
   talkToRep: "Speak with a Peace of Mind Representative",
   designPlan: "Design a Personalized Care Plan",
   privateConsult: "Schedule a Private Consultation",

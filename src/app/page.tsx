@@ -12,6 +12,7 @@ import Typess from "./components/home/types";
 import Soln from "./components/home/soln";
 import Faq from "./components/home/faq";
 import Vid from "./components/home/vids";
+import Trust from "./components/home/trust";
 import Soon from "./components/soon";
 import Plan from "./components/plans";
 
@@ -153,6 +154,7 @@ export default function Home() {
       {/* Core hero & positioning */}
       <Hero />
       <About />
+      
 
       {/* Platform / WhatsApp / AI section */}
       <DiscoverProperties />
@@ -160,9 +162,11 @@ export default function Home() {
       {/* Workforce scope / industries / roles */}
       <Listing />
        <History />
+        <Trust />
        <Plan />
        <Soon />
         <Typess />
+        
         <Vid />
         
            <Soln />

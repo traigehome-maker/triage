@@ -379,7 +379,7 @@ export default function Hero({
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1e]/80 via-transparent to-transparent" />
       </motion.div>
 
-      <Image src="/images/hero/peace.png" alt="TriageConcierge" fill className="object-cover object-center" priority />
+      <Image src="/images/hero/pom.png" alt="TriageConcierge" fill className="object-cover object-center" priority />
       <div className="absolute inset-0 bg-black/60 z-[1]" />
 
       <motion.div
@@ -436,7 +436,7 @@ export default function Hero({
 
           <motion.div variants={rise} className="flex flex-wrap gap-3 sm:gap-4">
             <PrimaryCTA href={WHATSAPP}>{CTA.heroPrimary}</PrimaryCTA>
-            <SecondaryCTA href="#plans">{CTA.heroSecondary}</SecondaryCTA>
+            
           </motion.div>
 
           {/* condensed stand-in for the diagram, everything below the two-column breakpoint */}

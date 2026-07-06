@@ -135,9 +135,7 @@ export default function FinalCTA() {
         </svg>
 
         <div className="hidden lg:block absolute bottom-6 right-6 bg-black/40 backdrop-blur-sm rounded-lg px-3 py-1.5">
-          <p className="text-white/40 text-[10px] font-mono uppercase tracking-wider">
-            Replace: PM Rep on video call, care dashboard visible
-          </p>
+          
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0c14]/90 via-transparent to-[#0a0c14]/60" />
       </div>
@@ -193,7 +191,7 @@ export default function FinalCTA() {
         <FadeUp delay={0.15}>
           <div className="flex flex-wrap justify-center gap-4 mb-10">
             <MagneticPrimary href={WHATSAPP}>{CTA.heroPrimary}</MagneticPrimary>
-            <SecondaryCTA href={WHATSAPP}>{CTA.talkToRep}</SecondaryCTA>
+            
           </div>
 
           {/* the one place on the site rendered exactly as the brand book's own

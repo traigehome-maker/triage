@@ -2,11 +2,28 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { PLANS, PERSONA_COPY, PERSONAS, WHATSAPP } from "./shared/config";
+import { PLANS, PERSONA_COPY, PERSONAS } from "./shared/config";
 import { Icons } from "./shared/icons";
 import { FadeUp } from "./shared/motion";
 
 type PersonaKey = "myself" | "household" | "someone";
+
+// Kept local rather than assumed to already exist in shared/config, so this
+// file works standalone. If shared/config already exports a WHATSAPP_NUMBER
+// or buildWhatsAppLink helper, swap this for that import instead of having
+// the number defined in two places.
+const WHATSAPP_NUMBER = "2349134664547";
+
+function buildWhatsAppLink(message: string) {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
+
+/** Builds the exact message the CTA sends, from the plan and persona the
+ *  visitor actually chose. Direct: this is someone subscribing, not
+ *  someone requesting a call to think it over. */
+function buildPlanMessage(planName: string, personaLabel: string) {
+  return `Hello TriageConcierge, I'd like to subscribe to the ${planName} plan for ${personaLabel}.`;
+}
 
 function hexToRgba(hex: string, alpha: number): string {
   const h = hex.replace("#", "");
@@ -58,16 +75,23 @@ function PlanCard({
   plan,
   lead,
   tagline,
+  personaLabel,
   reduce,
 }: {
   plan: (typeof PLANS)[number];
   lead: string;
   tagline: string;
+  personaLabel: string;
   reduce: boolean;
 }) {
   const features = [...plan.features];
   features[0] = lead;
   const spotlightColor = plan.featured ? "#ffbf00" : plan.accent;
+
+  // this is the actual point of the exercise: the link is rebuilt whenever
+  // the persona tab changes, so whatever the visitor clicks always matches
+  // what they were just looking at
+  const waLink = buildWhatsAppLink(buildPlanMessage(plan.name, personaLabel));
 
   function handleMove(e: React.MouseEvent<HTMLDivElement>) {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -198,7 +222,7 @@ function PlanCard({
         </div>
 
         <a
-          href={WHATSAPP}
+          href={waLink}
           target="_blank"
           rel="noopener noreferrer"
           onMouseMove={(e) => {
@@ -221,7 +245,7 @@ function PlanCard({
             style={{ background: `radial-gradient(90px circle at var(--bx) var(--by), ${plan.featured ? "rgba(255,255,255,0.28)" : hexToRgba(plan.accent, 0.18)}, transparent 70%)` }}
           />
           <span className="relative" style={{ color: plan.featured ? "white" : plan.accent }}>
-            {plan.cta}
+            Subscribe to {plan.name}
           </span>
           <motion.span
             className="relative flex"
@@ -243,6 +267,7 @@ function PlanCard({
 export default function AccessPlans() {
   const [persona, setPersona] = useState<PersonaKey>("household");
   const reduce = !!useReducedMotion();
+  const personaLabel = PERSONAS.find((p) => p.key === persona)?.label ?? "";
 
   return (
     <section id="plans" className="relative overflow-hidden border-y border-slate-100 py-24 sm:py-28 px-5 sm:px-6">
@@ -300,7 +325,13 @@ export default function AccessPlans() {
             const override = PERSONA_COPY[persona][plan.key];
             return (
               <FadeUp key={plan.key} delay={i * 0.1}>
-                <PlanCard plan={plan} lead={override.lead} tagline={override.tagline} reduce={reduce} />
+                <PlanCard
+                  plan={plan}
+                  lead={override.lead}
+                  tagline={override.tagline}
+                  personaLabel={personaLabel}
+                  reduce={reduce}
+                />
               </FadeUp>
             );
           })}
