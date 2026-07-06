@@ -16,13 +16,20 @@ import { DiscretionModeToggle } from "./shared/DiscretionToggle";
 
 /**
  * Hero.
- * Replace /images/hero/peace.png with a real image brief:
- * "A beautifully dressed executive seated comfortably at home while a
- *  clinical provider takes vitals" or "A CEO beside a private jet with a
- *  PM Rep following, tablet in hand" or "An elderly executive reading
- *  while care is quietly delivered nearby." The TriageHome mark should be
- *  visible in frame or overlaid, so the coordinator's affiliation is
- *  unmistakable.
+ *
+ * Background image is art-directed by breakpoint, not just resized: mobile
+ * gets /images/hero/tpm.png, lg and up gets /images/hero/pom.png. These
+ * are two next/image <Image fill> elements toggled with Tailwind's
+ * hidden/lg:block, not one image with responsive sizing, since the brief
+ * is genuinely different artwork per breakpoint, not the same photo at a
+ * different resolution.
+ *
+ * Honest tradeoff: because visibility here is CSS-driven (display:none),
+ * not media-query-gated at the resource level, most browsers will still
+ * fetch both images rather than only the one being shown. If that
+ * bandwidth cost matters, swap this block for a native <picture> with
+ * <source media="(min-width: 1024px)"> instead, at the cost of losing
+ * next/image's automatic optimization for this element.
  *
  * Layout contract: capped at 100vh (h-screen). On lg+ the page splits
  * into two columns: copy on the left, the Continuity Line diagram as a
@@ -379,7 +386,22 @@ export default function Hero({
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1e]/80 via-transparent to-transparent" />
       </motion.div>
 
-      <Image src="/images/hero/pom.png" alt="TriageConcierge" fill className="object-cover object-center" priority />
+      {/* background photo, art-directed by breakpoint: different artwork
+          below lg, not a resized version of the desktop image */}
+      <Image
+        src="/images/hero/tpm.png"
+        alt="TriageConcierge"
+        fill
+        className="object-cover object-center lg:hidden"
+        priority
+      />
+      <Image
+        src="/images/hero/pom.png"
+        alt="TriageConcierge"
+        fill
+        className="hidden object-cover object-center lg:block"
+        priority
+      />
       <div className="absolute inset-0 bg-black/60 z-[1]" />
 
       <motion.div
@@ -436,7 +458,6 @@ export default function Hero({
 
           <motion.div variants={rise} className="flex flex-wrap gap-3 sm:gap-4">
             <PrimaryCTA href={WHATSAPP}>{CTA.heroPrimary}</PrimaryCTA>
-            
           </motion.div>
 
           {/* condensed stand-in for the diagram, everything below the two-column breakpoint */}
