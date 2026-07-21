@@ -113,44 +113,7 @@ export default function PeaceOfMindSection() {
             <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl">
 
               <img
-                src="/images/hero/bg2.
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                webp"
+                src="/images/hero/bg2.webp"
                 alt="TriageHome clinical provider supporting a client at home"
                 className="h-[620px] w-full object-cover"
               />
