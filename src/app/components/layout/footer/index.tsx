@@ -85,7 +85,7 @@ export default function Footer() {
 
   <li>
     <Link
-      href="/services/elderly-care"
+      href="/access-plans/elderly-care"
       className="hover:text-triage-orange transition"
     >
       Elderly Care
@@ -94,7 +94,7 @@ export default function Footer() {
 
   <li>
     <Link
-      href="/services/post-surgery-care"
+      href="/access-plans/post-surgery-care"
       className="hover:text-triage-orange transition"
     >
       Post-Surgery Care
@@ -103,7 +103,7 @@ export default function Footer() {
 
   <li>
     <Link
-      href="/services/chronic-disease-management"
+      href="/access-plans/chronic-disease-management"
       className="hover:text-triage-orange transition"
     >
       Chronic Disease Management
@@ -112,7 +112,7 @@ export default function Footer() {
 
   <li>
     <Link
-      href="/services/iv-therapy"
+      href="/access-plans/iv-therapy"
       className="hover:text-triage-orange transition"
     >
       IV Therapy
@@ -121,7 +121,7 @@ export default function Footer() {
 
   <li>
     <Link
-      href="/services/wellness-check"
+      href="/access-plans/wellness-check"
       className="hover:text-triage-orange transition"
     >
       Wellness Check
@@ -130,7 +130,7 @@ export default function Footer() {
 
   <li>
     <Link
-      href="/services/health-screening"
+      href="/access-plans/health-screening"
       className="hover:text-triage-orange transition"
     >
       Health Screenings
@@ -139,7 +139,7 @@ export default function Footer() {
 
   <li>
     <Link
-      href="/services/wound-care"
+      href="/access-plans/wound-care"
       className="hover:text-triage-orange transition"
     >
       Wound Care
