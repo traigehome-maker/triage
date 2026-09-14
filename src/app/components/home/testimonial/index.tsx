@@ -114,7 +114,7 @@ Hello, I’d like to request care service.
                 )}
               </div>
 
-              <input type="hidden" text-white name="Service" value={service} />
+              <input type="hidden" name="Service" value={service} />
             </div>
 
             {/* LOCATION */}
@@ -125,7 +125,6 @@ Hello, I’d like to request care service.
 
               <input
                 type="text"
-                text-white
                 name="Location"
                 required
                 placeholder="Enter your address"
@@ -156,7 +155,7 @@ Hello, I’d like to request care service.
                 ))}
               </div>
 
-              <input type="hidden" text-white name="Time" value={time} />
+              <input type="hidden" name="Time" value={time} />
             </div>
 
             {/* NAME */}
@@ -168,7 +167,6 @@ Hello, I’d like to request care service.
               <input
                 type="text"
                 name="Name"
-                text-white
                 required
                 placeholder="Full name"
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-triage-orange"
@@ -184,7 +182,6 @@ Hello, I’d like to request care service.
               <input
                 type="tel"
                 name="Phone"
-                text-color ="white"
                 required
                 placeholder="080..."
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-triage-orange"
