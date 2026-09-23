@@ -103,11 +103,11 @@ export default function HeroSlider() {
             className="max-w-2xl"
           >
 
-            <h1 className="text-4xl md:text-7xl font-semibold leading-tight text-white">
+            <h1 className="text-4xl md:text-7xl font-raleway font-semibold leading-tight text-white">
               {slides[index].title}
             </h1>
 
-            <p className="mt-4 md:mt-6 text-base md:text-xl text-white/80">
+            <p className="mt-4 md:mt-6 text-base md:text-xl font-nunito text-white/80">
               {slides[index].desc}
             </p>
 
@@ -118,7 +118,7 @@ export default function HeroSlider() {
                 href={slides[index].link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 md:px-8 py-3 md:py-4 rounded-full bg-triage-orange hover:bg-[#8c5c27] text-white font-medium inline-block transition"
+                className="px-6 md:px-8 py-3 md:py-4 rounded-full bg-triage-orange hover:bg-[#8c5c27] text-white font-nunito font-medium inline-block transition"
               >
                 {slides[index].cta}
               </a>
@@ -126,7 +126,7 @@ export default function HeroSlider() {
               {/* SECONDARY CTA */}
               <a
                 href="/about"
-                className="px-6 md:px-8 py-3 md:py-4 rounded-full border border-white/20 text-white inline-block hover:border-triage-orange transition"
+                className="px-6 md:px-8 py-3 md:py-4 rounded-full border border-white/20 text-white font-nunito font-medium inline-block hover:border-triage-orange transition"
               >
                 Learn More →
               </a>

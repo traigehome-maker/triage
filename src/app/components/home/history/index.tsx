@@ -114,7 +114,7 @@ export default function WhatWeDoTabs() {
             <button
               key={i}
               onClick={() => setActive(i)}
-              className={`px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 border
+              className={`px-5 py-3 rounded-xl text-sm font-nunito font-medium transition-all duration-300 border
               ${
                 active === i
                   ? `${tab.color} text-white border-transparent shadow-lg`
@@ -160,14 +160,14 @@ export default function WhatWeDoTabs() {
 
                   <Link
                     href={`/access-plans/${services[active].slug}`}
-                    className="inline-flex items-center justify-center rounded-2xl bg-white text-triage-navy px-6 py-3 text-sm font-semibold transition hover:scale-[1.02] hover:bg-white/90"
+                    className="inline-flex items-center justify-center rounded-2xl bg-white text-triage-navy px-6 py-3 text-sm font-nunito font-semibold transition hover:scale-[1.02] hover:bg-white/90"
                   >
                     Learn More
                   </Link>
 
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center rounded-2xl border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/20"
+                    className="inline-flex items-center justify-center rounded-2xl border border-white/20 bg-white/10 px-6 py-3 text-sm font-nunito font-semibold text-white transition hover:bg-white/20"
                   >
                     Book Care
                   </Link>

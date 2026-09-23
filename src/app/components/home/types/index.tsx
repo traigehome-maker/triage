@@ -40,11 +40,11 @@ export default function WhatWeOffer() {
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* HEADER */}
         <div className="text-center mb-28">
-          <h2 className="text-4xl md:text-5xl font-semibold text-white">
+          <h2 className="text-4xl md:text-5xl font-semibold text-white font-raleway">
             What We Offer
           </h2>
 
-          <p className="mt-4 text-white/70 text-lg">
+          <p className="mt-4 text-white/70 text-lg font-nunito">
             Designed to meet you wherever you are, from everyday care to elite support.
           </p>
         </div>
@@ -90,18 +90,18 @@ export default function WhatWeOffer() {
                     {/* accent line */}
                     <div className="w-14 h-[2px] bg-triage-orange mb-6" />
 
-                    <h3 className="text-3xl md:text-4xl font-semibold text-white">
+                    <h3 className="text-3xl md:text-4xl font-semibold text-white font-raleway">
                       {item.title}
                     </h3>
 
-                    <p className="mt-6 text-white/75 text-lg leading-relaxed">
+                    <p className="mt-6 text-white/75 text-lg leading-relaxed font-nunito">
                       {item.desc}
                     </p>
 
                     {/* ✅ CTA FIXED */}
                     <div
                       onClick={() => setOpen(true)}
-                      className="mt-8 inline-flex items-center gap-2 font-medium text-triage-orange cursor-pointer group"
+                      className="mt-8 inline-flex items-center gap-2 font-medium text-triage-orange cursor-pointer group font-nunito"
                     >
                       <span>{item.cta}</span>
 

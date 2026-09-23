@@ -41,11 +41,11 @@ export default function SolutionsSection() {
 
         {/* HEADER */}
         <div className="max-w-6xl mx-auto px-6 mb-20">
-          <h2 className="text-5xl md:text-6xl font-semibold tracking-tight text-gray-900">
+          <h2 className="text-5xl md:text-6xl font-semibold tracking-tight text-gray-900 font-raleway">
             Our Solutions
           </h2>
 
-          <p className="mt-6 text-gray-600 text-lg max-w-2xl">
+          <p className="mt-6 text-gray-600 text-lg max-w-2xl font-nunito">
             A new healthcare infrastructure, designed to move care closer,
             respond faster, and elevate how people experience wellbeing.
           </p>
@@ -80,15 +80,15 @@ export default function SolutionsSection() {
                   {/* CONTENT */}
                   <div className="p-6">
 
-                    <div className="inline-block text-xs px-3 py-1 rounded-full bg-gray-100 text-gray-600 mb-4">
+                    <div className="inline-block text-xs px-3 py-1 rounded-full bg-gray-100 text-gray-600 mb-4 font-nunito font-semibold">
                       {item.tag}
                     </div>
 
-                    <h3 className="text-xl text-black/70 font-semibold text-gray-900">
+                    <h3 className="text-xl text-black/70 font-semibold text-gray-900 font-raleway">
                       {item.title}
                     </h3>
 
-                    <p className="mt-3 text-gray-600 text-sm leading-relaxed">
+                    <p className="mt-3 text-gray-600 text-sm leading-relaxed font-nunito">
                       {item.desc}
                     </p>
 
