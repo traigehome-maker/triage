@@ -87,17 +87,17 @@ export default function AccessPlansSection() {
             viewport={{ once: true }}
           >
             <div className="mb-5 inline-flex items-center rounded-full border border-[#02385A]/10 bg-white/80 px-4 py-2 backdrop-blur-md">
-              <span className="text-xs sm:text-sm font-medium text-[#02385A]">
+              <span className="text-xs sm:text-sm font-nunito font-medium text-[#02385A]">
                 Premium Healthcare Access
               </span>
             </div>
 
-            <h2 className="max-w-5xl text-[2rem] font-semibold leading-[1.05] tracking-tight text-[#02385A] sm:text-5xl lg:text-6xl">
+            <h2 className="max-w-5xl text-[2rem] font-raleway font-semibold leading-[1.05] tracking-tight text-[#02385A] sm:text-5xl lg:text-6xl">
               Healthcare plans designed around care, comfort, and peace of
               mind.
             </h2>
 
-            <p className="mt-5 max-w-2xl text-sm leading-relaxed text-[#49606B] sm:text-base lg:text-lg">
+            <p className="mt-5 max-w-2xl text-sm leading-relaxed text-[#49606B] sm:text-base lg:text-lg font-nunito">
               Choose a care experience tailored to your needs, from proactive
               wellness support to premium recovery and concierge healthcare
               access.
@@ -134,7 +134,7 @@ export default function AccessPlansSection() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#001623]/40 via-transparent to-transparent" />
 
                   <div className="absolute right-4 top-4 sm:right-5 sm:top-5">
-                    <div className="rounded-full bg-white/90 px-3 py-2 text-[10px] font-semibold text-[#02385A] shadow-md backdrop-blur-xl sm:px-4 sm:text-xs">
+                    <div className="rounded-full bg-white/90 px-3 py-2 text-[10px] font-nunito font-semibold text-[#02385A] shadow-md backdrop-blur-xl sm:px-4 sm:text-xs">
                       {plan.tag}
                     </div>
                   </div>
@@ -143,22 +143,22 @@ export default function AccessPlansSection() {
                 {/* CONTENT */}
                 <div className="relative p-5 sm:p-6 lg:p-7">
                   <div className="mb-5">
-                    <h3 className="text-2xl font-semibold leading-tight text-[#02385A] sm:text-[28px] lg:text-[30px]">
+                    <h3 className="text-2xl font-raleway font-semibold leading-tight text-[#02385A] sm:text-[28px] lg:text-[30px]">
                       {plan.title}
                     </h3>
 
-                    <p className="mt-3 text-sm leading-relaxed text-[#5B717A] sm:text-[15px]">
+                    <p className="mt-3 text-sm leading-relaxed text-[#5B717A] sm:text-[15px] font-nunito">
                       {plan.description}
                     </p>
                   </div>
 
                   {/* PRICE */}
                   <div className="mb-7 flex flex-wrap items-end gap-2">
-                    <span className="text-[2rem] font-semibold tracking-tight text-[#02385A] sm:text-[40px] lg:text-[42px]">
+                    <span className="text-[2rem] font-raleway font-semibold tracking-tight text-[#02385A] sm:text-[40px] lg:text-[42px]">
                       {plan.price}
                     </span>
 
-                    <span className="mb-2 text-sm text-[#738992]">
+                    <span className="mb-2 text-sm text-[#738992] font-nunito">
                       {plan.duration}
                     </span>
                   </div>
@@ -175,7 +175,7 @@ export default function AccessPlansSection() {
                           className="mt-[2px] shrink-0 text-[#AA7130]"
                         />
 
-                        <span className="text-sm leading-relaxed text-[#4D646E]">
+                        <span className="text-sm leading-relaxed text-[#4D646E] font-nunito">
                           {feature}
                         </span>
                       </div>
@@ -193,11 +193,11 @@ export default function AccessPlansSection() {
 
                     <div className="relative flex items-center justify-between">
                       <div className="text-left">
-                        <p className="text-[15px] font-semibold sm:text-[16px]">
+                        <p className="text-[15px] font-nunito font-semibold sm:text-[16px]">
                           Get Access
                         </p>
 
-                        <p className="text-xs text-white/70 sm:text-sm">
+                        <p className="text-xs text-white/70 sm:text-sm font-nunito">
                           Speak with TriageHome
                         </p>
                       </div>

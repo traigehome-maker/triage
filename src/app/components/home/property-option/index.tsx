@@ -41,11 +41,11 @@ export default function HowItWorks() {
         {/* HEADER */}
         <div className="mb-16 text-center md:mb-20">
 
-          <h2 className="text-3xl font-semibold tracking-tight text-white md:text-5xl">
+          <h2 className="text-3xl font-raleway font-semibold tracking-tight text-white md:text-5xl">
             Care, in three simple steps
           </h2>
 
-          <p className="mt-4 text-base text-white/70 md:text-lg">
+          <p className="mt-4 text-base text-white/70 md:text-lg font-nunito">
             From request to care, seamless, reliable, and fast.
           </p>
 
@@ -99,11 +99,11 @@ export default function HowItWorks() {
 
                       </div>
 
-                      <h3 className="text-xl font-semibold">
+                      <h3 className="text-xl font-raleway font-semibold">
                         {step.title}
                       </h3>
 
-                      <p className="mt-2 text-sm text-white/70">
+                      <p className="mt-2 text-sm text-white/70 font-nunito">
                         {step.desc}
                       </p>
 
@@ -140,11 +140,11 @@ export default function HowItWorks() {
 
                           </div>
 
-                          <h3 className="text-2xl font-semibold">
+                          <h3 className="text-2xl font-raleway font-semibold">
                             {step.title}
                           </h3>
 
-                          <p className="mt-3 text-white/70">
+                          <p className="mt-3 text-white/70 font-nunito">
                             {step.desc}
                           </p>
 
@@ -184,11 +184,11 @@ export default function HowItWorks() {
 
                           </div>
 
-                          <h3 className="text-2xl font-semibold">
+                          <h3 className="text-2xl font-raleway font-semibold">
                             {step.title}
                           </h3>
 
-                          <p className="mt-3 text-white/70">
+                          <p className="mt-3 text-white/70 font-nunito">
                             {step.desc}
                           </p>
 

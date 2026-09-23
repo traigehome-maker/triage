@@ -14,7 +14,9 @@ const config: Config = {
 
       fontFamily: {
         heading: ["Raleway", "sans-serif"],
+        raleway: ["Raleway", "sans-serif"],
         body: ["Nunito", "sans-serif"],
+        nunito: ["Nunito", "sans-serif"],
       },
     },
   },

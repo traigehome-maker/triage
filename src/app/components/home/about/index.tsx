@@ -72,11 +72,11 @@ export default function RoutingSection() {
 
         {/* HEADER */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-triage-navy">
+          <h2 className="text-4xl md:text-5xl font-raleway font-semibold tracking-tight text-triage-navy">
             How can we help you today?
           </h2>
 
-          <p className="mt-4 text-triage-gray-600 text-lg">
+          <p className="mt-4 text-triage-gray-600 text-lg font-nunito">
             Choose what you need, we’ll take care of the rest.
           </p>
         </div>
@@ -104,16 +104,16 @@ export default function RoutingSection() {
                 {/* SOLID COLOR CONTENT */}
                 <div className={`${route.color} p-6 text-white`}>
 
-                  <h3 className="text-xl font-semibold">
+                  <h3 className="text-xl font-raleway font-semibold">
                     {route.title}
                   </h3>
 
-                  <p className="mt-2 text-white/85 text-sm leading-relaxed">
+                  <p className="mt-2 text-white/85 text-sm leading-relaxed font-nunito">
                     {route.desc}
                   </p>
 
                   {/* CTA */}
-                  <div className="mt-5 flex items-center gap-2 font-medium">
+                  <div className="mt-5 flex items-center gap-2 font-nunito font-medium">
 
                     <span>{route.cta}</span>
 

@@ -47,11 +47,11 @@ export default function TrustSection() {
         {/* HEADER */}
         <div className="mb-16 text-center">
 
-          <h2 className="text-4xl font-semibold tracking-tight text-triage-navy md:text-5xl">
+          <h2 className="text-4xl md:text-5xl font-raleway font-semibold tracking-tight text-triage-navy">
             Care you can trust, every time
           </h2>
 
-          <p className="mt-4 text-lg text-triage-gray-600">
+          <p className="mt-4 text-lg text-triage-gray-600 font-nunito">
             Verified professionals. Reliable response. Peace of mind.
           </p>
 
@@ -93,11 +93,11 @@ export default function TrustSection() {
                   {/* TEXT */}
                   <div>
 
-                    <h3 className="text-lg font-semibold text-triage-navy">
+                    <h3 className="text-lg font-raleway font-semibold text-triage-navy">
                       {feature.title}
                     </h3>
 
-                    <p className="mt-2 leading-relaxed text-triage-gray-600">
+                    <p className="mt-2 leading-relaxed text-triage-gray-600 font-nunito">
                       {feature.desc}
                     </p>
 

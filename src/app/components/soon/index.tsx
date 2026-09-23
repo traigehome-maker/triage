@@ -40,15 +40,15 @@ export default function JoinTriageSection() {
             >
 
               {/* label */}
-              <p className="text-triage-lime text-sm uppercase tracking-widest mb-4">
+              <p className="text-triage-lime text-sm uppercase tracking-widest mb-4 font-raleway font-semibold">
                 TriageHome Care
               </p>
 
-              <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight">
+              <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight font-raleway">
                 Join TriageHome
               </h2>
 
-              <p className="mt-6 text-white/80 text-lg max-w-md leading-relaxed">
+              <p className="mt-6 text-white/80 text-lg max-w-md leading-relaxed font-nunito">
                 Experience a smarter, more connected way to access home healthcare.  
                 Built for comfort, speed, and peace of mind, right where you are.
               </p>
@@ -57,15 +57,29 @@ export default function JoinTriageSection() {
               <div className="mt-10 flex flex-wrap gap-4">
 
                 {/* GOOGLE PLAY */}
-                <div className="px-6 py-4 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 hover:border-triage-orange transition">
-                  <p className="text-xs text-white/60">Coming soon on</p>
-                  <p className="text-lg font-semibold">Google Play</p>
+                <div className="flex items-center gap-3 px-6 py-4 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 hover:border-triage-orange transition">
+                  <img
+                    src="/icons/google-play.png"
+                    alt="Google Play"
+                    className="w-7 h-7 object-contain"
+                  />
+                  <div>
+                    <p className="text-xs text-white/60 font-nunito">Coming soon on</p>
+                    <p className="text-lg font-semibold font-raleway">Google Play</p>
+                  </div>
                 </div>
 
                 {/* APP STORE */}
-                <div className="px-6 py-4 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 hover:border-triage-orange transition">
-                  <p className="text-xs text-white/60">Coming soon on</p>
-                  <p className="text-lg font-semibold">App Store</p>
+                <div className="flex items-center gap-3 px-6 py-4 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 hover:border-triage-orange transition">
+                  <img
+                    src="/icons/app-store.png"
+                    alt="App Store"
+                    className="w-7 h-7 object-contain"
+                  />
+                  <div>
+                    <p className="text-xs text-white/60 font-nunito">Coming soon on</p>
+                    <p className="text-lg font-semibold font-raleway">App Store</p>
+                  </div>
                 </div>
 
               </div>

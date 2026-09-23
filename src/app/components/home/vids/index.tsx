@@ -18,11 +18,11 @@ export default function TriageVideoSection() {
           whileInView={{ opacity: 1, y: 0 }}
           className="max-w-2xl mx-auto"
         >
-          <h2 className="text-4xl md:text-5xl font-semibold text-triage-navy">
+          <h2 className="text-4xl md:text-5xl font-semibold text-triage-navy font-raleway">
             See how TriageHome works
           </h2>
 
-          <p className="mt-4 text-triage-gray-600 text-lg">
+          <p className="mt-4 text-triage-gray-600 text-lg font-nunito">
             Experience a smarter, faster, and more human way to access care.
           </p>
         </motion.div>

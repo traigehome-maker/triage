@@ -88,11 +88,11 @@ export default function FAQSection() {
           {/* LEFT SIDE (INTRO) */}
           <div>
 
-            <h2 className="text-4xl md:text-5xl font-semibold text-gray-900">
+            <h2 className="font-raleway text-4xl md:text-5xl font-semibold text-gray-900">
               Frequently Asked Questions
             </h2>
 
-            <p className="mt-6 text-gray-600 text-lg max-w-md leading-relaxed">
+            <p className="font-nunito mt-6 text-gray-600 text-lg max-w-md leading-relaxed">
               Confused about how TriageHome works or need clarity on something?  
               Here are answers to the most common questions.
             </p>
@@ -117,7 +117,7 @@ export default function FAQSection() {
                   className="w-full flex items-center justify-between p-6 text-left"
                 >
 
-                  <span className="text-lg font-medium text-gray-900">
+                  <span className="font-raleway text-lg font-semibold text-gray-900">
                     {faq.question}
                   </span>
 
@@ -141,7 +141,7 @@ export default function FAQSection() {
                       transition={{ duration: 0.4 }}
                       className="overflow-hidden"
                     >
-                     <div className="px-6 pb-6 text-gray-600 leading-relaxed whitespace-pre-line">
+                     <div className="font-nunito px-6 pb-6 text-gray-600 leading-relaxed whitespace-pre-line">
   {faq.answer}
 </div>
                     </motion.div>
