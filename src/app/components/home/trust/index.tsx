@@ -56,7 +56,7 @@ type StatDef = {
 };
 
 const STATS: StatDef[] = [
-  { target: 350, suffix: "+", label: "People Screened", gradient: ["#02385a", "#aa7130"] },
+  { target: 1500, suffix: "+", label: "People Screened", gradient: ["#02385a", "#aa7130"] },
   { target: 20, suffix: "+", label: "Verified Providers", gradient: ["#02385a", "#00b99d"] },
   { target: 100, suffix: "%", label: "Background Checked", gradient: ["#aa7130", "#ffbf00"] },
 ];
