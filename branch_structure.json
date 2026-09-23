@@ -1,0 +1,15 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "main",
+    "new-triage"
+  ],
+  "parent": {
+    "main": null,
+    "new-triage": "main"
+  },
+  "order": [
+    "main",
+    "new-triage"
+  ]
+}
