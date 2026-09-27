@@ -70,6 +70,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: "https://www.triage-home.com/quick-care",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
       url: "https://www.triage-home.com/contact",
       lastModified: new Date(),
       changeFrequency: "monthly",

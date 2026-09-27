@@ -87,14 +87,14 @@ export default function HeroSlider() {
             <img src={slide.image} className="w-full h-full object-cover" />
 
             {/* 🔥 NAVY OVERLAY (PRIMARY BRAND) */}
-            <div className="absolute inset-0 bg-triage-navy/80" />
+            <div className="absolute inset-0 bg-triage-navy/70" />
           </motion.div>
         ))}
       </div>
 
       {/* CONTENT */}
       <div className="relative z-10 flex h-full items-center">
-        <div className="max-w-6xl mx-auto px-6 w-full">
+        <div className="max-w-7xl mx-auto px-6 w-full">
 
           <motion.div
             key={index}
