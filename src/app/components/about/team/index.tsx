@@ -38,14 +38,11 @@ const team = [
 export default function ExecutiveTeam() {
   return (
     <section className="relative py-32 px-6 overflow-hidden text-triage-navy">
-      {/* 🔷 BACKGROUND */}
       <div className="absolute inset-0 bg-triage-gray-50" />
 
-      {/* subtle grid */}
       <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(0deg,black_1px,transparent_1px),linear-gradient(90deg,black_1px,transparent_1px)] bg-[size:60px_60px]" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        {/* HEADER */}
         <div className="text-center mb-20">
           <h2 className="font-raleway text-4xl md:text-5xl font-semibold text-triage-navy">
             Leadership
@@ -56,8 +53,6 @@ export default function ExecutiveTeam() {
             innovation, expertise, and vision.
           </p>
         </div>
-
-        {/* TEAM */}
         <div className="grid md:grid-cols-3 gap-10">
           {team.map((member, i) => (
             <motion.div
