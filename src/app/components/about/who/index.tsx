@@ -84,7 +84,7 @@ export default function WhoWeAre() {
         {/* ✍️ RIGHT TEXT */}
         <div className="max-w-xl">
 
-          <h2 className="text-4xl md:text-5xl font-semibold leading-tight">
+          <h2 className="font-raleway text-4xl md:text-5xl font-semibold leading-tight">
 
             <span className="text-triage-navy">
               Healthcare,
@@ -98,15 +98,15 @@ export default function WhoWeAre() {
 
           </h2>
 
-          <p className="mt-6 text-triage-gray-600 text-lg leading-relaxed">
+          <p className="font-nunito mt-6 text-triage-gray-600 text-lg leading-relaxed">
             TriageHome is a modern healthcare platform built to make quality care accessible at home.
           </p>
 
-          <p className="mt-4 text-triage-gray-600 text-lg leading-relaxed">
+          <p className="font-nunito mt-4 text-triage-gray-600 text-lg leading-relaxed">
             We combine technology, clinical expertise, and human-centered design to remove the friction people experience when trying to access healthcare.
           </p>
 
-          <p className="mt-4 text-triage-gray-600 text-lg leading-relaxed">
+          <p className="font-nunito mt-4 text-triage-gray-600 text-lg leading-relaxed">
             Whether it’s immediate care, ongoing support, or long-term wellness, we bring trusted professionals directly to you, when you need them.
           </p>
 

@@ -70,11 +70,11 @@ Hello, I’d like to request care service.
 
         {/* HEADER */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-semibold text-white">
+          <h2 className="font-raleway text-4xl md:text-5xl font-semibold text-white">
             Get care in minutes
           </h2>
 
-          <p className="mt-4 text-white/70 text-lg">
+          <p className="font-nunito mt-4 text-white/70 text-lg">
             Tell us what you need, we’ll handle the rest.
           </p>
         </div>
@@ -91,7 +91,7 @@ Hello, I’d like to request care service.
 
             {/* SERVICE */}
             <div>
-              <label className="block text-sm font-medium mb-2 text-white/80">
+              <label className="font-nunito block text-sm font-medium mb-2 text-white/80">
                 What do you need?
               </label>
 
@@ -102,7 +102,7 @@ Hello, I’d like to request care service.
                       type="button"
                       key={item}
                       onClick={() => setService(item)}
-                      className={`px-4 py-2 rounded-full border transition ${
+                      className={`font-nunito px-4 py-2 rounded-full border transition cursor-pointer ${
                         service === item
                           ? "bg-triage-orange text-white border-transparent"
                           : "border-white/20 text-white/70 hover:border-triage-orange"
@@ -119,7 +119,7 @@ Hello, I’d like to request care service.
 
             {/* LOCATION */}
             <div>
-              <label className="block text-sm font-medium mb-2 text-white/80">
+              <label className="font-nunito block text-sm font-medium mb-2 text-white/80">
                 Your location
               </label>
 
@@ -128,13 +128,13 @@ Hello, I’d like to request care service.
                 name="Location"
                 required
                 placeholder="Enter your address"
-                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-triage-orange"
+                className="font-nunito w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 !text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-triage-orange"
               />
             </div>
 
             {/* TIME */}
             <div>
-              <label className="block text-sm font-medium mb-2 text-white/80">
+              <label className="font-nunito block text-sm font-medium mb-2 text-white/80">
                 When do you need care?
               </label>
 
@@ -144,7 +144,7 @@ Hello, I’d like to request care service.
                     type="button"
                     key={item}
                     onClick={() => setTime(item)}
-                    className={`px-4 py-2 rounded-full border transition ${
+                    className={`font-nunito px-4 py-2 rounded-full border transition cursor-pointer ${
                       time === item
                         ? "bg-triage-orange text-white border-transparent"
                         : "border-white/20 text-white/70 hover:border-triage-orange"
@@ -160,7 +160,7 @@ Hello, I’d like to request care service.
 
             {/* NAME */}
             <div>
-              <label className="block text-sm font-medium mb-2 text-white/80">
+              <label className="font-nunito block text-sm font-medium mb-2 text-white/80">
                 Your name
               </label>
 
@@ -169,13 +169,13 @@ Hello, I’d like to request care service.
                 name="Name"
                 required
                 placeholder="Full name"
-                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-triage-orange"
+                className="font-nunito w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 !text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-triage-orange"
               />
             </div>
 
             {/* PHONE */}
             <div>
-              <label className="block text-sm font-medium mb-2 text-white/80">
+              <label className="font-nunito block text-sm font-medium mb-2 text-white/80">
                 Phone number
               </label>
 
@@ -184,14 +184,14 @@ Hello, I’d like to request care service.
                 name="Phone"
                 required
                 placeholder="080..."
-                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-triage-orange"
+                className="font-nunito w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 !text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-triage-orange"
               />
             </div>
 
             {/* CTA */}
             <button
               type="submit"
-              className="w-full py-4 rounded-xl bg-triage-orange hover:bg-[#8c5c27] transition text-white font-semibold flex items-center justify-center gap-2"
+              className="font-raleway w-full py-4 rounded-xl bg-triage-orange hover:bg-[#8c5c27] transition text-white font-semibold flex items-center justify-center gap-2 cursor-pointer"
             >
               Find a Provider →
             </button>

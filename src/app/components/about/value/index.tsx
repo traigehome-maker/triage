@@ -65,18 +65,18 @@ export default function MissionVisionValues() {
 
             <div className="pl-6">
 
-              <p className="mb-4 text-sm uppercase tracking-widest text-triage-orange">
+              <p className="font-nunito mb-4 text-sm uppercase tracking-widest text-triage-orange">
                 Our Mission
               </p>
 
-              <h3 className="text-3xl font-semibold leading-tight text-triage-navy md:text-4xl">
+              <h3 className="font-raleway text-3xl font-semibold leading-tight text-triage-navy md:text-4xl">
                 Making healthcare
                 <span className="block text-triage-teal">
                   accessible at home
                 </span>
               </h3>
 
-              <p className="mt-6 text-lg leading-relaxed text-triage-gray-600">
+              <p className="font-nunito mt-6 text-lg leading-relaxed text-triage-gray-600">
                 To make quality healthcare accessible at home, removing barriers, reducing delays, and improving lives through faster, smarter care.
               </p>
 
@@ -96,18 +96,18 @@ export default function MissionVisionValues() {
 
             <div className="pl-6">
 
-              <p className="mb-4 text-sm uppercase tracking-widest text-triage-teal">
+              <p className="font-nunito mb-4 text-sm uppercase tracking-widest text-triage-teal">
                 Our Vision
               </p>
 
-              <h3 className="text-3xl font-semibold leading-tight text-triage-navy md:text-4xl">
+              <h3 className="font-raleway text-3xl font-semibold leading-tight text-triage-navy md:text-4xl">
                 A world where care
                 <span className="block text-triage-lime">
                   comes to you
                 </span>
               </h3>
 
-              <p className="mt-6 text-lg leading-relaxed text-triage-gray-600">
+              <p className="font-nunito mt-6 text-lg leading-relaxed text-triage-gray-600">
                 A world where healthcare is not a place you go, but a service that comes to you, seamlessly integrated into everyday life.
               </p>
 
@@ -123,7 +123,7 @@ export default function MissionVisionValues() {
 
         <div className="mb-16 text-center">
 
-          <h2 className="text-4xl font-semibold text-triage-navy md:text-5xl">
+          <h2 className="font-raleway text-4xl font-semibold text-triage-navy md:text-5xl">
             What drives us
           </h2>
 
@@ -160,11 +160,11 @@ export default function MissionVisionValues() {
 
                 </div>
 
-                <h3 className="text-lg font-semibold text-triage-navy">
+                <h3 className="font-raleway text-lg font-semibold text-triage-navy">
                   {item.title}
                 </h3>
 
-                <p className="mt-3 text-sm leading-relaxed text-triage-gray-600">
+                <p className="font-nunito mt-3 text-sm leading-relaxed text-triage-gray-600">
                   {item.desc}
                 </p>
 

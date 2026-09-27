@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ChevronDown, ArrowRight } from "lucide-react";
 
 export const servicesList = [
@@ -28,6 +29,7 @@ const navItems = [
 ];
 
 export default function PremiumNavbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
@@ -51,6 +53,19 @@ export default function PremiumNavbar() {
     dropdownTimeoutRef.current = setTimeout(() => {
       setServicesOpen(false);
     }, 180);
+  };
+
+  const checkIsActive = (item: { name: string; href: string; isDropdown?: boolean }) => {
+    if (item.name === "Home") {
+      return pathname === "/";
+    }
+    if (item.isDropdown) {
+      return pathname.startsWith("/access-plans/");
+    }
+    if (item.name === "Access Plans") {
+      return pathname === "/access-plans";
+    }
+    return pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
   };
 
   return (
@@ -85,9 +100,11 @@ export default function PremiumNavbar() {
           </Link>
 
           {/* NAV ITEMS */}
-          <div className="hidden md:flex items-center gap-7 lg:gap-8">
+          <div className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-7">
 
             {navItems.map((item, i) => {
+              const isActive = checkIsActive(item);
+
               if (item.isDropdown) {
                 return (
                   <div
@@ -99,8 +116,14 @@ export default function PremiumNavbar() {
                     <button
                       type="button"
                       onClick={() => setServicesOpen(!servicesOpen)}
-                      className={`flex items-center gap-1.5 text-sm font-medium transition py-2 relative group focus:outline-none ${
-                        scrolled ? "text-triage-navy" : "text-white"
+                      className={`font-nunito flex items-center gap-1 text-[13px] lg:text-sm font-medium transition py-2 relative group focus:outline-none cursor-pointer ${
+                        scrolled
+                          ? isActive
+                            ? "text-triage-orange font-semibold"
+                            : "text-triage-navy"
+                          : isActive
+                          ? "text-white font-semibold"
+                          : "text-white"
                       }`}
                     >
                       <span>{item.name}</span>
@@ -111,11 +134,17 @@ export default function PremiumNavbar() {
                         transition={{ duration: 0.2 }}
                         className="inline-flex items-center"
                       >
-                        <ChevronDown size={14} className="opacity-80" />
+                        <ChevronDown size={13} className="opacity-80" />
                       </motion.span>
 
-                      {/* underline on hover */}
-                      <span className="absolute left-1/2 bottom-[2px] h-[2px] w-0 bg-triage-orange transition-all duration-300 group-hover:w-full group-hover:left-0" />
+                      {/* underline on hover / active */}
+                      <span
+                        className={`absolute bottom-[2px] h-[2px] bg-triage-orange transition-all duration-300 ${
+                          isActive
+                            ? "w-full left-0"
+                            : "w-0 left-1/2 group-hover:w-full group-hover:left-0"
+                        }`}
+                      />
                     </button>
 
                     {/* SERVICES DROPDOWN DRAWER */}
@@ -140,24 +169,35 @@ export default function PremiumNavbar() {
                             </div>
 
                             <div className="space-y-0.5">
-                              {servicesList.map((service, sIndex) => (
-                                <Link
-                                  key={sIndex}
-                                  href={service.href}
-                                  onClick={() => setServicesOpen(false)}
-                                  className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs sm:text-[13px] font-medium transition-all duration-200 group/link ${
-                                    scrolled
-                                      ? "text-slate-700 hover:bg-slate-100 hover:text-triage-navy"
-                                      : "text-white/85 hover:bg-white/10 hover:text-white"
-                                  }`}
-                                >
-                                  <span>{service.name}</span>
-                                  <ArrowRight
-                                    size={12}
-                                    className="opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all text-triage-orange"
-                                  />
-                                </Link>
-                              ))}
+                              {servicesList.map((service, sIndex) => {
+                                const isServiceActive = pathname === service.href;
+                                return (
+                                  <Link
+                                    key={sIndex}
+                                    href={service.href}
+                                    onClick={() => setServicesOpen(false)}
+                                    className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs sm:text-[13px] font-medium transition-all duration-200 group/link ${
+                                      scrolled
+                                        ? isServiceActive
+                                          ? "bg-slate-100 text-triage-orange font-semibold"
+                                          : "text-slate-700 hover:bg-slate-100 hover:text-triage-navy"
+                                        : isServiceActive
+                                        ? "bg-white/15 text-triage-lime font-semibold"
+                                        : "text-white/85 hover:bg-white/10 hover:text-white"
+                                    }`}
+                                  >
+                                    <span>{service.name}</span>
+                                    <ArrowRight
+                                      size={12}
+                                      className={`transition-all text-triage-orange ${
+                                        isServiceActive
+                                          ? "opacity-100 translate-x-0"
+                                          : "opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0"
+                                      }`}
+                                    />
+                                  </Link>
+                                );
+                              })}
                             </div>
                           </div>
                         </motion.div>
@@ -170,25 +210,27 @@ export default function PremiumNavbar() {
               return (
                 <Link key={i} href={item.href} className="relative group py-2">
                   <div
-                    className={`flex items-center gap-2 text-sm font-medium transition ${
-                      scrolled ? "text-triage-navy" : "text-white"
+                    className={`font-nunito text-[13px] lg:text-sm font-medium transition ${
+                      scrolled
+                        ? isActive
+                          ? "text-triage-orange font-semibold"
+                          : "text-triage-navy"
+                        : isActive
+                        ? "text-white font-semibold"
+                        : "text-white"
                     }`}
                   >
                     {item.name}
-
-                    {/* arrow */}
-                    <motion.span
-                      className="text-xs"
-                      initial={{ rotate: 0 }}
-                      whileHover={{ rotate: -90 }}
-                      transition={{ duration: 0.25 }}
-                    >
-                      →
-                    </motion.span>
                   </div>
 
                   {/* underline */}
-                  <span className="absolute left-1/2 bottom-[2px] h-[2px] w-0 bg-triage-orange transition-all duration-300 group-hover:w-full group-hover:left-0" />
+                  <span
+                    className={`absolute bottom-[2px] h-[2px] bg-triage-orange transition-all duration-300 ${
+                      isActive
+                        ? "w-full left-0"
+                        : "w-0 left-1/2 group-hover:w-full group-hover:left-0"
+                    }`}
+                  />
                 </Link>
               );
             })}
@@ -227,6 +269,8 @@ export default function PremiumNavbar() {
 
             <div className="w-full max-w-sm mx-auto flex flex-col gap-5">
               {navItems.map((item, i) => {
+                const isActive = checkIsActive(item);
+
                 if (item.isDropdown) {
                   return (
                     <motion.div
@@ -239,14 +283,16 @@ export default function PremiumNavbar() {
                       <button
                         type="button"
                         onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                        className="flex items-center justify-between text-2xl font-semibold text-triage-navy text-left w-full"
+                        className={`flex items-center justify-between text-2xl font-semibold text-left w-full ${
+                          isActive ? "text-triage-orange" : "text-triage-navy"
+                        }`}
                       >
                         <span>{item.name}</span>
                         <motion.span
                           animate={{ rotate: mobileServicesOpen ? 180 : 0 }}
                           transition={{ duration: 0.2 }}
                         >
-                          <ChevronDown size={20} className="text-slate-400" />
+                          <ChevronDown size={20} className={isActive ? "text-triage-orange" : "text-slate-400"} />
                         </motion.span>
                       </button>
 
@@ -260,16 +306,23 @@ export default function PremiumNavbar() {
                             transition={{ duration: 0.25 }}
                             className="overflow-hidden pl-3 pt-3 space-y-2.5"
                           >
-                            {servicesList.map((service, sIndex) => (
-                              <Link
-                                key={sIndex}
-                                href={service.href}
-                                onClick={() => setMobileOpen(false)}
-                                className="block text-sm font-medium text-slate-600 hover:text-triage-orange transition py-1"
-                              >
-                                {service.name}
-                              </Link>
-                            ))}
+                            {servicesList.map((service, sIndex) => {
+                              const isServiceActive = pathname === service.href;
+                              return (
+                                <Link
+                                  key={sIndex}
+                                  href={service.href}
+                                  onClick={() => setMobileOpen(false)}
+                                  className={`block text-sm font-medium transition py-1 ${
+                                    isServiceActive
+                                      ? "text-triage-orange font-semibold"
+                                      : "text-slate-600 hover:text-triage-orange"
+                                  }`}
+                                >
+                                  {service.name}
+                                </Link>
+                              );
+                            })}
                           </motion.div>
                         )}
                       </AnimatePresence>
@@ -288,7 +341,9 @@ export default function PremiumNavbar() {
                     <Link
                       href={item.href}
                       onClick={() => setMobileOpen(false)}
-                      className="text-2xl font-semibold text-triage-navy block"
+                      className={`text-2xl font-semibold block ${
+                        isActive ? "text-triage-orange" : "text-triage-navy"
+                      }`}
                     >
                       {item.name}
                     </Link>

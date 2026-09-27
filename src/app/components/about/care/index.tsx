@@ -53,7 +53,7 @@ export default function EcosystemSection() {
         {/* HEADER */}
         <div className="mb-20 flex flex-col items-center justify-center text-center">
 
-          <h2 className="text-4xl font-semibold leading-tight text-center md:text-5xl">
+          <h2 className="font-raleway text-4xl font-semibold leading-tight text-center md:text-5xl">
 
             <span className="block text-white">
               One system.
@@ -65,7 +65,7 @@ export default function EcosystemSection() {
 
           </h2>
 
-          <p className="mt-6 max-w-2xl text-center text-lg text-white/70">
+          <p className="font-nunito mt-6 max-w-2xl text-center text-lg text-white/70">
             We’ve built an integrated ecosystem designed to deliver care seamlessly across different needs and environments.
           </p>
 
@@ -96,11 +96,11 @@ export default function EcosystemSection() {
                 </div>
 
                 {/* TEXT */}
-                <h3 className="text-lg font-semibold">
+                <h3 className="font-raleway text-lg font-semibold">
                   {item.title}
                 </h3>
 
-                <p className="mt-3 text-sm leading-relaxed text-white/60">
+                <p className="font-nunito mt-3 text-sm leading-relaxed text-white/60">
                   {item.desc}
                 </p>
 
@@ -116,7 +116,7 @@ export default function EcosystemSection() {
         </div>
 
         {/* FOOTNOTE */}
-        <p className="mx-auto mt-16 max-w-xl text-center text-white/50">
+        <p className="font-nunito mx-auto mt-16 max-w-xl text-center text-white/50">
           Every part of TriageHome works together, so your care is never fragmented.
         </p>
 
