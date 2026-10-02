@@ -112,6 +112,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: "https://www.triage-home.com/media",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
       url: "https://www.triage-home.com/privacy",
       lastModified: new Date(),
       changeFrequency: "monthly",
