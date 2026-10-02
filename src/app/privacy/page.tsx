@@ -41,7 +41,7 @@ export default function PrivacyPolicyPage() {
   const [activeSection, setActiveSection] = useState("section-1");
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  // const [scrollProgress, setScrollProgress] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
 
   // Table of Contents list with 23 sections
@@ -187,34 +187,34 @@ export default function PrivacyPolicyPage() {
   ];
 
   // Track scroll position & active section
-  useEffect(() => {
-    const handleScroll = () => {
-      // Calculate scroll progress percentage
-      const totalHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const currentProgress = (window.scrollY / totalHeight) * 100;
-      setScrollProgress(Math.min(100, Math.max(0, currentProgress)));
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     // Calculate scroll progress percentage
+  //     const totalHeight =
+  //       document.documentElement.scrollHeight - window.innerHeight;
+  //     const currentProgress = (window.scrollY / totalHeight) * 100;
+  //     setScrollProgress(Math.min(100, Math.max(0, currentProgress)));
 
-      setShowBackToTop(window.scrollY > 400);
+  //     setShowBackToTop(window.scrollY > 400);
 
-      // Section detection
-      const scrollPosition = window.scrollY + 220;
-      for (const item of tocItems) {
-        const el = document.getElementById(item.id);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(item.id);
-            break;
-          }
-        }
-      }
-    };
+  //     // Section detection
+  //     const scrollPosition = window.scrollY + 220;
+  //     for (const item of tocItems) {
+  //       const el = document.getElementById(item.id);
+  //       if (el) {
+  //         const top = el.offsetTop;
+  //         const height = el.offsetHeight;
+  //         if (scrollPosition >= top && scrollPosition < top + height) {
+  //           setActiveSection(item.id);
+  //           break;
+  //         }
+  //       }
+  //     }
+  //   };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  //   window.addEventListener("scroll", handleScroll, { passive: true });
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -256,12 +256,12 @@ export default function PrivacyPolicyPage() {
       {/* ===================================================== */}
       {/* 📊 TOP READING PROGRESS BAR */}
       {/* ===================================================== */}
-      <div className="fixed top-0 left-0 right-0 h-1 z-[60] bg-slate-200/50">
+      {/* <div className="fixed top-0 left-0 right-0 h-1 z-[60] bg-slate-200/50">
         <motion.div
           className="h-full bg-gradient-to-r from-triage-teal via-triage-lime to-triage-orange"
           style={{ width: `${scrollProgress}%` }}
         />
-      </div>
+      </div> */}
 
       {/* ===================================================== */}
       {/* 🌌 HERO HEADER (MOBILE-FIRST REFINED) */}
