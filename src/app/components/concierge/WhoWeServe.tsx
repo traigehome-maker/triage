@@ -73,8 +73,6 @@ const listItem = {
   show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: EASE } },
 };
 
-/** Segment switcher: an animated pill slides between tabs (shared layout
- *  animation) instead of each button hard-swapping its own background. */
 function SegmentTabs({
   active,
   onSelect,
@@ -83,7 +81,7 @@ function SegmentTabs({
   onSelect: (i: number) => void;
 }) {
   return (
-    <div className="mb-10 inline-flex flex-wrap gap-1.5 rounded-xl border border-slate-200 bg-white p-1.5 shadow-sm">
+    <div className="mb-10 inline-flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-white p-1.5 shadow-sm">
       {SEGMENTS.map((seg, i) => {
         const isActive = active === i;
         return (
@@ -91,7 +89,7 @@ function SegmentTabs({
             key={seg.tag}
             type="button"
             onClick={() => onSelect(i)}
-            className="relative rounded-full px-5 py-2.5 font-raleway text-[13px] font-semibold tracking-wide transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#aa7130]"
+            className="relative rounded-full px-5 sm:px-6 py-2.5 sm:py-3 font-raleway text-sm sm:text-base font-bold tracking-wide transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#aa7130]"
           >
             {isActive && (
               <motion.span
@@ -100,7 +98,7 @@ function SegmentTabs({
                 transition={{ type: "spring", stiffness: 380, damping: 32 }}
               />
             )}
-            <span className={`relative z-10 ${isActive ? "text-white" : "text-slate-500 hover:text-slate-700"}`}>
+            <span className={`relative z-10 ${isActive ? "text-white" : "text-slate-600 hover:text-slate-900"}`}>
               {seg.tag}
             </span>
           </button>
@@ -123,7 +121,7 @@ function SegmentCTA({ tag }: { tag: string }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative inline-flex w-fit items-center gap-2.5 font-raleway text-sm font-semibold text-[#aa7130] transition-colors duration-300 hover:text-[#8c5c22]"
+      className="group relative inline-flex w-fit items-center gap-2.5 font-raleway text-sm sm:text-base font-bold text-[#aa7130] transition-colors duration-300 hover:text-[#8c5c22]"
     >
       <AnimatePresence mode="wait">
         <motion.span
@@ -165,18 +163,14 @@ export default function WhoWeServe() {
     <section className="bg-[#fafafa] border-y border-slate-100 py-20 sm:py-28 px-5 sm:px-6">
       <div className="max-w-7xl mx-auto">
         <FadeUp className="mb-12 sm:mb-14">
-          <p className="text-[#aa7130] font-raleway font-semibold text-[11px] tracking-[0.22em] uppercase mb-4">
-            Who We Serve
-          </p>
+          <div className="inline-flex items-center gap-3 mb-4">
+            <div className="w-8 h-[2px] bg-triage-teal" />
+            <p className="text-triage-navy font-raleway font-bold text-xs sm:text-sm tracking-[0.22em] uppercase">
+              Who We Serve
+            </p>
+          </div>
           <h2
-            className="font-raleway font-light leading-[1.15] max-w-xl tracking-tight"
-            style={{
-              fontSize: "clamp(26px, 3.5vw, 44px)",
-              background: "linear-gradient(90deg, #02385a 0%, #aa7130 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
+            className="font-raleway font-extrabold leading-[1.15] max-w-3xl tracking-tight text-2xl sm:text-4xl lg:text-5xl text-triage-navy"
           >
             Supporting executives, organisations and professionals across continents.
           </h2>
@@ -184,7 +178,7 @@ export default function WhoWeServe() {
 
         <SegmentTabs active={activeSegment} onSelect={setActiveSegment} />
 
-        <div className="relative rounded-3xl border border-slate-200 overflow-hidden">
+        <div className="relative rounded-3xl border border-slate-200 overflow-hidden shadow-sm bg-white">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSegment}
@@ -195,7 +189,7 @@ export default function WhoWeServe() {
               className="grid lg:grid-cols-2"
             >
               {/* Image */}
-              <div className="relative min-h-[260px] sm:min-h-[340px] lg:min-h-[500px] overflow-hidden">
+              <div className="relative min-h-[280px] sm:min-h-[360px] lg:min-h-[520px] overflow-hidden">
                 <motion.div
                   initial={{ scale: 1.08, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
@@ -213,7 +207,7 @@ export default function WhoWeServe() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.1, ease: EASE }}
-                  className="text-[#aa7130] font-raleway font-semibold text-[11px] tracking-[0.22em] uppercase mb-4"
+                  className="text-triage-teal font-raleway font-bold text-xs sm:text-sm tracking-[0.22em] uppercase mb-3"
                 >
                   {seg.tag}
                 </motion.p>
@@ -222,8 +216,7 @@ export default function WhoWeServe() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.45, delay: 0.15, ease: EASE }}
-                  className="font-raleway font-light text-[#0f172a] leading-[1.2] mb-5 tracking-tight"
-                  style={{ fontSize: "clamp(21px, 2.5vw, 32px)" }}
+                  className="font-raleway font-bold text-triage-navy leading-[1.2] mb-4 tracking-tight text-xl sm:text-2xl md:text-3xl"
                 >
                   {seg.headline}
                 </motion.h3>
@@ -232,7 +225,7 @@ export default function WhoWeServe() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.45, delay: 0.2, ease: EASE }}
-                  className="text-slate-500 text-[15px] leading-[1.85] mb-8 font-nunito"
+                  className="text-slate-700 text-sm sm:text-base leading-relaxed mb-8 font-nunito"
                 >
                   {seg.body}
                 </motion.p>
@@ -241,49 +234,48 @@ export default function WhoWeServe() {
                   variants={listStagger}
                   initial="hidden"
                   animate="show"
-                  className="flex flex-col gap-3 mb-6"
+                  className="flex flex-col gap-3 mb-8"
                 >
                   {seg.services.map((s) => (
                     <motion.div key={s} variants={listItem} className="flex items-center gap-3">
                       <div
-                        className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 text-[#aa7130]"
-                        style={{ background: "rgba(170,113,48,0.1)" }}
+                        className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 text-triage-teal"
+                        style={{ background: "rgba(0,185,157,0.15)" }}
                       >
                         <Icons.Check />
                       </div>
-                      <span className="text-slate-600 text-sm font-nunito">{s}</span>
+                      <span className="text-slate-800 text-sm sm:text-base font-semibold font-nunito">{s}</span>
                     </motion.div>
                   ))}
                 </motion.div>
 
-                {/* Customize Your Circle: interactive mock, only shown on the segment
-                    that mentions circle/dashboard reporting (Family Offices & HNIs). */}
+                {/* Customize Your Circle */}
                 {seg.showCircleBuilder && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.45, delay: 0.3, ease: EASE }}
-                    className="mb-8 rounded-2xl border border-slate-200 bg-[#fafafa] p-5"
+                    className="mb-8 rounded-2xl border border-slate-200 bg-[#fafafa] p-5 sm:p-6"
                   >
-                    <p className="font-raleway font-semibold text-[#0f172a] text-[13px] mb-1">
+                    <p className="font-raleway font-bold text-triage-navy text-sm sm:text-base mb-1">
                       Customize Your Circle
                     </p>
-                    <p className="text-slate-400 text-[12px] mb-4 leading-relaxed font-nunito">
+                    <p className="text-slate-500 text-xs sm:text-sm mb-4 leading-relaxed font-nunito">
                       You decide who sees what. Set access levels for each contact on your account.
                     </p>
                     <div className="flex flex-col gap-2.5">
                       {CIRCLE_ROWS.map((row) => (
                         <div
                           key={row.key}
-                          className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2 transition-colors duration-200 hover:border-[#aa7130]/40"
+                          className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 transition-colors duration-200 hover:border-triage-teal/40 shadow-xs"
                         >
-                          <span className="text-slate-600 text-[12px] font-medium">{row.label}</span>
+                          <span className="text-slate-700 text-xs sm:text-sm font-semibold">{row.label}</span>
                           <select
                             value={circleAccess[row.key]}
                             onChange={(e) =>
                               setCircleAccess((prev) => ({ ...prev, [row.key]: e.target.value }))
                             }
-                            className="rounded-md border border-slate-200 bg-transparent px-2 py-1 font-raleway text-[12px] font-semibold text-[#02385a] transition-colors duration-200 focus:outline-none focus:border-[#aa7130]"
+                            className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 font-raleway text-xs sm:text-sm font-bold text-triage-navy transition-colors duration-200 focus:outline-none focus:border-triage-teal"
                           >
                             <option>Full Updates</option>
                             <option>Emergency Only</option>

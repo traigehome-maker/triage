@@ -87,18 +87,18 @@ function WhyCard({
         {String(index + 1).padStart(2, "0")}
       </span>
 
-      <div className="relative mb-5 flex h-11 w-11 items-center justify-center rounded-full bg-white/5 transition-all duration-300 group-hover:scale-110">
+      <div className="relative mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 transition-all duration-300 group-hover:scale-110">
         <div
-          className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-          style={{ background: hexToRgba(accent, 0.18), boxShadow: `0 0 20px 2px ${hexToRgba(accent, 0.4)}` }}
+          className="absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style={{ background: hexToRgba(accent, 0.2), boxShadow: `0 0 20px 2px ${hexToRgba(accent, 0.4)}` }}
         />
-        <div className={`relative h-5 w-5 text-white/70 transition-colors duration-300 ${iconHoverClass}`}>
+        <div className={`relative h-6 w-6 text-white/80 transition-colors duration-300 ${iconHoverClass}`}>
           <Icon />
         </div>
       </div>
 
-      <p className="relative font-raleway font-semibold text-white text-sm mb-2">{title}</p>
-      <p className="relative text-white/45 text-[13px] leading-relaxed font-nunito">{desc}</p>
+      <p className="relative font-raleway font-bold text-white text-base sm:text-lg mb-2">{title}</p>
+      <p className="relative text-white/80 text-xs sm:text-sm leading-relaxed font-nunito font-medium">{desc}</p>
     </div>
   );
 
@@ -117,7 +117,7 @@ export default function WhyConcierge() {
   return (
     <section className="relative overflow-hidden py-24 sm:py-28 px-5 sm:px-6">
       {/* deep vignette: dark at both edges, a quiet glow gathered behind the grid */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1e] via-[#02385a] to-[#0a0f1e]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#012644] via-[#02385a] to-[#012644]" />
       <motion.div
         animate={reduce ? undefined : { scale: [1, 1.08, 1] }}
         transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
@@ -136,19 +136,16 @@ export default function WhyConcierge() {
       </svg>
 
       <div className="relative max-w-7xl mx-auto">
-        <FadeUp className="mb-14 sm:mb-16">
-          <p className="text-[#aa7130] font-raleway font-semibold text-[11px] tracking-[0.22em] uppercase mb-4">
-            Why TriageConcierge
-          </p>
+        <FadeUp className="mb-14 sm:mb-16 text-center">
+          <div className="inline-flex items-center justify-center gap-3 mb-4">
+            <div className="w-8 h-[2px] bg-triage-lime" />
+            <p className="text-triage-lime font-raleway font-bold text-xs sm:text-sm tracking-[0.22em] uppercase">
+              Why TriageConcierge
+            </p>
+            <div className="w-8 h-[2px] bg-triage-lime" />
+          </div>
           <h2
-            className="font-raleway font-light leading-[1.15] max-w-xl tracking-tight"
-            style={{
-              fontSize: "clamp(28px, 3.5vw, 44px)",
-              background: "linear-gradient(90deg, #ffffff 0%, #ffbf00 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
+            className="font-raleway font-extrabold leading-[1.15] max-w-2xl mx-auto tracking-tight text-2xl sm:text-4xl lg:text-5xl text-white"
           >
             The difference is in the detail.
           </h2>

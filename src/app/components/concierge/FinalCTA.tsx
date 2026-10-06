@@ -51,7 +51,7 @@ function MagneticPrimary({ children, href }: { children: React.ReactNode; href: 
       onMouseLeave={handleLeave}
       style={{ x: springX, y: springY }}
       whileTap={{ scale: 0.96 }}
-      className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full px-10 py-4 font-raleway text-sm font-semibold text-white shadow-[0_20px_40px_rgba(170,113,48,0.3)] transition-shadow duration-500 hover:shadow-[0_24px_50px_rgba(170,113,48,0.5)]"
+      className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full px-10 py-4 font-raleway text-sm sm:text-base font-bold text-white shadow-[0_20px_40px_rgba(170,113,48,0.3)] transition-shadow duration-500 hover:shadow-[0_24px_50px_rgba(170,113,48,0.5)]"
     >
       <span
         aria-hidden="true"
@@ -86,7 +86,7 @@ function SecondaryCTA({ children, href }: { children: React.ReactNode; href: str
         e.currentTarget.style.setProperty("--gy", `${e.clientY - rect.top}px`);
       }}
       style={{ ["--gx" as string]: "50%", ["--gy" as string]: "50%" }}
-      className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-white/20 px-10 py-4 font-raleway text-sm font-semibold text-white/80 transition-colors duration-300 hover:border-[#aa7130]/60 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
+      className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-white/20 px-10 py-4 font-raleway text-sm sm:text-base font-bold text-white/90 transition-colors duration-300 hover:border-[#aa7130]/60 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
     >
       <span
         aria-hidden="true"
@@ -107,7 +107,7 @@ export default function FinalCTA() {
   return (
     <section className="relative min-h-[580px] flex items-center justify-center px-5 sm:px-6 py-24 sm:py-28 overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0c14] via-[#0a0c14] to-[#02385a]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#012644] via-[#02385a] to-[#012644]" />
 
         {/* a warm glow gathering low, rising behind the close, distinct from every other section's gradient shape */}
         <motion.div
@@ -137,7 +137,7 @@ export default function FinalCTA() {
         <div className="hidden lg:block absolute bottom-6 right-6 bg-black/40 backdrop-blur-sm rounded-lg px-3 py-1.5">
           
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0c14]/90 via-transparent to-[#0a0c14]/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#02385a]/90 via-transparent to-[#02385a]/60" />
       </div>
 
       <div className="relative z-10 max-w-3xl mx-auto text-center">
@@ -149,9 +149,9 @@ export default function FinalCTA() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, ease: EASE }}
               style={{ transformOrigin: "right" }}
-              className="w-8 h-[1px] bg-[#aa7130]"
+              className="w-8 h-[2px] bg-[#aa7130]"
             />
-            <span className="font-raleway font-semibold text-[11px] tracking-[0.22em] uppercase text-[#aa7130]">
+            <span className="font-raleway font-bold text-xs sm:text-sm tracking-[0.22em] uppercase text-[#aa7130]">
               More Than Healthcare
             </span>
             <motion.div
@@ -160,13 +160,12 @@ export default function FinalCTA() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, ease: EASE }}
               style={{ transformOrigin: "left" }}
-              className="w-8 h-[1px] bg-[#aa7130]"
+              className="w-8 h-[2px] bg-[#aa7130]"
             />
           </div>
 
           <h2
-            className="font-raleway font-light leading-[1.08] mb-6 tracking-tight"
-            style={{ fontSize: "clamp(34px, 5.5vw, 64px)" }}
+            className="font-raleway font-extrabold leading-[1.08] mb-6 tracking-tight text-4xl sm:text-6xl lg:text-7xl"
           >
             <span
               style={{
@@ -181,7 +180,7 @@ export default function FinalCTA() {
               Peace of mind.
             </span>
           </h2>
-          <p className="text-white/55 text-base sm:text-lg leading-[1.85] max-w-xl mx-auto mb-11 sm:mb-12 font-nunito">
+          <p className="text-white/85 text-base sm:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto mb-11 sm:mb-12 font-nunito">
             TriageConcierge is not about waiting until you are ill. It is about
             having an elite team standing behind you, while you focus on your
             work, your priorities, and your life.
@@ -197,7 +196,7 @@ export default function FinalCTA() {
           {/* the one place on the site rendered exactly as the brand book's own
               "Gradient Slogan on Primary Colour" example shows it */}
           <p
-            className="text-xs font-raleway font-semibold tracking-[0.2em] uppercase"
+            className="text-xs sm:text-sm font-raleway font-bold tracking-[0.2em] uppercase"
             style={{
               background: "linear-gradient(90deg, #b745d8 0%, #aa7130 50%, #a6d200 100%)",
               WebkitBackgroundClip: "text",

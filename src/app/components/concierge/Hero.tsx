@@ -81,14 +81,14 @@ const CONTINUITY_PATH =
 
 function ContinuityLine({ reduce }: { reduce: boolean }) {
   return (
-    <div className="relative flex h-[400px] xl:h-[460px] w-full flex-col rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm px-6 xl:px-8 py-6 xl:py-7">
+    <div className="relative flex h-[420px] xl:h-[480px] w-full flex-col rounded-3xl border border-white/15 bg-white/[0.06] backdrop-blur-md px-6 xl:px-8 py-6 xl:py-7 shadow-2xl">
       <div className="mb-1 flex items-baseline justify-between">
-        <span className="font-raleway font-semibold text-[10px] tracking-[0.2em] uppercase text-white/45">
-          How coordination works
+        <span className="font-raleway font-bold text-xs tracking-[0.2em] uppercase text-triage-lime">
+          How Coordination Works
         </span>
       </div>
-      <span className="mb-6 font-nunito text-[10px] tracking-[0.14em] uppercase text-white/30">
-        One relationship, start to finish
+      <span className="mb-6 font-nunito text-xs tracking-wider uppercase text-white/70 font-medium">
+        One Relationship &middot; Start to Finish
       </span>
 
       <div className="relative flex-1">
@@ -148,8 +148,7 @@ function ContinuityLine({ reduce }: { reduce: boolean }) {
           )}
         </svg>
 
-        {/* labels: each one is fully self-contained, it does not wait on
-            any parent animation state to decide whether to appear */}
+        {/* labels */}
         <div className="relative ml-[84px] h-full xl:ml-[96px]">
           {CONTINUITY_MARKERS.map((m, i) => (
             <motion.div
@@ -158,17 +157,17 @@ function ContinuityLine({ reduce }: { reduce: boolean }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
               transition={{ delay: reduce ? 0 : 1.5 + i * 0.16, duration: 0.5, ease: EASE }}
-              className="absolute left-0 w-[150px] -translate-y-1/2 xl:w-[170px]"
+              className="absolute left-0 w-[160px] -translate-y-1/2 xl:w-[190px]"
               style={{ top: `${m.cy / 10}%` }}
             >
               <p
-                className={`font-raleway font-semibold text-[13px] leading-tight xl:text-[14px] ${
-                  m.tone === "teal" ? "text-[#3fd6b8]" : "text-white/90"
+                className={`font-raleway font-bold text-sm xl:text-base leading-tight ${
+                  m.tone === "teal" ? "text-triage-teal" : "text-white"
                 }`}
               >
                 {m.label}
               </p>
-              <p className="mt-0.5 font-nunito text-[11px] leading-snug text-white/45 xl:text-[12px]">
+              <p className="mt-0.5 font-nunito text-xs xl:text-sm leading-snug text-white/70 font-medium">
                 {m.caption}
               </p>
             </motion.div>
@@ -182,8 +181,8 @@ function ContinuityLine({ reduce }: { reduce: boolean }) {
           { v: "3", l: "access plans" },
           { v: "10+", l: "global cities" },
         ].map((s) => (
-          <p key={s.l} className="font-nunito text-[11px] text-white/35 xl:text-[12px]">
-            <span className="font-semibold text-white/70">{s.v}</span> {s.l}
+          <p key={s.l} className="font-nunito text-xs xl:text-sm text-white/70 font-medium">
+            <span className="font-bold text-white">{s.v}</span> {s.l}
           </p>
         ))}
       </div>
@@ -256,7 +255,7 @@ function PrimaryCTA({ children, href }: { children: React.ReactNode; href: strin
       onMouseLeave={handleLeave}
       style={{ x: springX, y: springY }}
       whileTap={{ scale: 0.95 }}
-      className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full bg-[#aa7130] px-7 sm:px-8 py-3.5 sm:py-4 text-sm font-raleway font-semibold tracking-wide text-white shadow-[0_6px_20px_-6px_rgba(170,113,48,0.55)] transition-shadow duration-500 ease-out hover:shadow-[0_16px_36px_-8px_rgba(170,113,48,0.9)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffbf00]"
+      className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full bg-[#aa7130] px-7 sm:px-8 py-3.5 sm:py-4 text-sm sm:text-base font-raleway font-bold tracking-wide text-white shadow-[0_6px_20px_-6px_rgba(170,113,48,0.55)] transition-shadow duration-500 ease-out hover:shadow-[0_16px_36px_-8px_rgba(170,113,48,0.9)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffbf00]"
     >
       <span
         ref={glowRef}
@@ -278,9 +277,7 @@ function PrimaryCTA({ children, href }: { children: React.ReactNode; href: strin
   );
 }
 
-/** Secondary CTA: quieter twin of the primary. Same cursor-tracked
- *  glow at low opacity, plus a center-out underline instead of a fill,
- *  so the two buttons read as one family without being identical. */
+/** Secondary CTA: quieter twin of the primary. */
 function SecondaryCTA({ children, href }: { children: React.ReactNode; href: string }) {
   const glowRef = useRef<HTMLAnchorElement>(null);
 
@@ -297,7 +294,7 @@ function SecondaryCTA({ children, href }: { children: React.ReactNode; href: str
       ref={glowRef}
       href={href}
       onMouseMove={handleMove}
-      className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-white/20 px-7 sm:px-8 py-3.5 sm:py-4 text-sm font-raleway font-semibold tracking-wide text-white/80 transition-colors duration-300 hover:border-[#ffbf00]/50 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
+      className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-white/20 px-7 sm:px-8 py-3.5 sm:py-4 text-sm sm:text-base font-raleway font-bold tracking-wide text-white/90 transition-colors duration-300 hover:border-[#ffbf00]/50 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
       style={{ ["--glow-x" as string]: "50%", ["--glow-y" as string]: "50%" }}
     >
       <span
@@ -327,9 +324,9 @@ export default function Hero({
   const reduce = !!useReducedMotion();
 
   return (
-    <section ref={heroRef} className="relative h-screen min-h-[600px] max-h-screen flex items-center overflow-hidden">
+    <section ref={heroRef} className="relative h-screen min-h-[600px] max-h-screen flex items-center overflow-hidden bg-[#02385a]">
       <motion.div style={{ y: heroY }} className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0f1e] via-[#02385a] to-[#061428]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#012644] via-[#02385a] to-[#012644]" />
 
         {/* ambient glow drifting behind the headline */}
         <motion.div
@@ -352,7 +349,7 @@ export default function Hero({
           />
         </div>
 
-        {/* brand pattern: the logomark motif, tiled, almost invisible */}
+        {/* brand pattern */}
         <svg className="absolute inset-0 w-full h-full opacity-[0.05]" aria-hidden="true">
           <defs>
             <pattern id="triageTile" width="72" height="72" patternUnits="userSpaceOnUse" patternTransform="rotate(6)">
@@ -369,7 +366,7 @@ export default function Hero({
           />
         </svg>
 
-        {/* fine film grain for a premium, non-flat surface */}
+        {/* fine film grain */}
         <svg className="absolute inset-0 w-full h-full opacity-[0.035] mix-blend-overlay" aria-hidden="true">
           <filter id="heroGrain">
             <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
@@ -377,17 +374,11 @@ export default function Hero({
           <rect width="100%" height="100%" filter="url(#heroGrain)" />
         </svg>
 
-        <div className="hidden xl:flex absolute bottom-3 inset-x-0 justify-center z-10">
-          <p className="rounded-lg bg-black/40 px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider text-white/50 backdrop-blur-sm">
-            Replace: executive at home with clinical provider, or CEO with PM Rep, TriageHome mark visible
-          </p>
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0f1e]/95 via-[#0a0f1e]/70 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1e]/80 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#02385a]/95 via-[#02385a]/75 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#02385a]/85 via-transparent to-transparent" />
       </motion.div>
 
-      {/* background photo, art-directed by breakpoint: different artwork
-          below lg, not a resized version of the desktop image */}
+      {/* background photo */}
       <Image
         src="/images/hero/tpm.png"
         alt="TriageConcierge"
@@ -402,7 +393,7 @@ export default function Hero({
         className="hidden object-cover object-center lg:block"
         priority
       />
-      <div className="absolute inset-0 bg-black/60 z-[1]" />
+      <div className="absolute inset-0 bg-[#02385a]/70 z-[1]" />
 
       <motion.div
         style={{ opacity: heroOpacity }}
@@ -411,19 +402,19 @@ export default function Hero({
         <motion.div variants={columnStagger} initial="hidden" animate="show" className="max-w-2xl">
           <motion.div variants={rise} className="flex flex-wrap items-center justify-between gap-3 sm:gap-4 mb-5 sm:mb-7">
             <div className="inline-flex items-center gap-3">
-              <div className="w-8 h-[1px] bg-[#aa7130]" />
-              <span className="font-raleway font-semibold text-[10px] sm:text-[11px] tracking-[0.22em] uppercase text-[#aa7130]">
+              <div className="w-8 h-[2px] bg-triage-lime" />
+              <span className="font-raleway font-bold text-xs sm:text-sm tracking-[0.22em] uppercase text-triage-lime">
                 TriageConcierge
               </span>
             </div>
 
             <div className="flex items-center gap-3 sm:gap-4">
-              <div className="hidden sm:inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5">
-                <span className="relative flex h-2 w-2">
-                  {!reduce && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#00b99d] opacity-60" />}
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[#00b99d]" />
+              <div className="hidden sm:inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 backdrop-blur-md">
+                <span className="relative flex h-2.5 w-2.5">
+                  {!reduce && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#00b99d] opacity-75" />}
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#00b99d]" />
                 </span>
-                <span className="font-nunito text-[11px] text-white/60">Coordinators active now</span>
+                <span className="font-nunito text-xs sm:text-sm text-white/90 font-semibold">Coordinators active now</span>
               </div>
               <DiscretionModeToggle on={discretionMode} onToggle={onToggleDiscretion} />
             </div>
@@ -431,8 +422,7 @@ export default function Hero({
 
           <motion.h1
             variants={rise}
-            className="font-raleway font-light text-white leading-[1.08] tracking-tight mb-4 sm:mb-6"
-            style={{ fontSize: "clamp(32px, 5vw, 60px)" }}
+            className="text-4xl sm:text-5xl md:text-7xl font-raleway font-extrabold text-white leading-[1.08] tracking-tight mb-4 sm:mb-6"
           >
             <span
               style={{
@@ -450,7 +440,7 @@ export default function Hero({
             </span>
           </motion.h1>
 
-          <motion.p variants={rise} className="font-nunito text-white/60 text-base sm:text-lg leading-[1.7] sm:leading-[1.8] max-w-lg mb-6 sm:mb-8 font-light">
+          <motion.p variants={rise} className="font-nunito text-white/90 text-base sm:text-lg md:text-xl leading-relaxed max-w-lg mb-6 sm:mb-8 font-medium">
             A dedicated coordinator. Verified providers. Real-time health updates.
             For individuals, executives, and organisations who need trusted oversight,
             whether across town or across the world.
@@ -460,21 +450,21 @@ export default function Hero({
             <PrimaryCTA href={WHATSAPP}>{CTA.heroPrimary}</PrimaryCTA>
           </motion.div>
 
-          {/* condensed stand-in for the diagram, everything below the two-column breakpoint */}
+          {/* condensed stats for mobile */}
           <motion.div variants={rise} className="flex lg:hidden flex-wrap gap-x-5 gap-y-1.5 mt-6">
             {[
               { v: "From ₦120K", l: "per month" },
               { v: "3", l: "access plans" },
               { v: "24/7", l: "monitoring" },
             ].map((s) => (
-              <p key={s.l} className="font-nunito text-[11px] text-white/35">
-                <span className="text-white/70 font-semibold">{s.v}</span> {s.l}
+              <p key={s.l} className="font-nunito text-xs sm:text-sm text-white/70 font-medium">
+                <span className="text-white font-bold">{s.v}</span> {s.l}
               </p>
             ))}
           </motion.div>
         </motion.div>
 
-        {/* right column: lg+ only, real width means the vertical timeline never feels choked */}
+        {/* right column */}
         <motion.div
           initial={{ opacity: 0, x: 24 }}
           whileInView={{ opacity: 1, x: 0 }}
