@@ -156,7 +156,7 @@ export default function AbsoluteDiscretion() {
 
   return (
     <>
-      <section id="discretion" className="relative bg-[#02385a] py-24 sm:py-28 px-5 sm:px-6 overflow-hidden">
+      <section id="discretion" className="relative bg-[#02385a] py-20 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-br from-[#012644] via-[#02385a] to-[#012644]" />
         </div>
@@ -169,7 +169,7 @@ export default function AbsoluteDiscretion() {
           <rect width="100%" height="100%" filter="url(#discretionGrain)" />
         </svg>
 
-        <div className="relative max-w-6xl mx-auto grid lg:grid-cols-[0.9fr,1.1fr] gap-12 lg:gap-16 items-center">
+        <div className="relative max-w-7xl mx-auto grid lg:grid-cols-[0.9fr,1.1fr] gap-12 lg:gap-16 items-center">
           <FadeIn className="flex justify-center lg:justify-start">
             <DiscretionVisual reduce={reduce} />
           </FadeIn>

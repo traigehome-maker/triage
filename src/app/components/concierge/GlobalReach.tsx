@@ -757,7 +757,7 @@ export default function GlobalReach() {
   const selectedCity = GLOBE_CITIES.find((c) => c.name === modalCity);
 
   return (
-    <section className="relative overflow-hidden bg-white py-24 sm:py-28 px-5 sm:px-6 border-b border-slate-100">
+    <section className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8 border-b border-slate-100">
       {/* Background ambient lighting */}
       <div className="absolute inset-0 bg-gradient-to-b from-white via-white to-[#eef3f8]" />
       <motion.div
@@ -771,7 +771,7 @@ export default function GlobalReach() {
         className="absolute left-[-6%] bottom-[-8%] h-80 w-80 rounded-full bg-[#00b99d]/[0.08] blur-[120px]"
       />
 
-      <div className="relative max-w-6xl mx-auto">
+      <div className="relative max-w-7xl mx-auto">
         <FadeUp className="text-center mb-12 sm:mb-14">
           <div className="inline-flex items-center justify-center gap-3 mb-4">
             <div className="w-8 h-[2px] bg-triage-teal" />

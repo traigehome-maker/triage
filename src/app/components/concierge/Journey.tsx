@@ -44,7 +44,7 @@ export default function Journey() {
   const stepDelay = count > 1 ? LINE_DURATION / (count - 1) : 0;
 
   return (
-    <section className="relative overflow-hidden py-24 sm:py-28 px-5 sm:px-6">
+    <section className="relative overflow-hidden py-20 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8">
       {/* deep brand gradient, its own angle so it doesn't just repeat the hero */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#012644] via-[#02385a] to-[#012644]" />
 
@@ -67,7 +67,7 @@ export default function Journey() {
         <rect width="100%" height="100%" filter="url(#journeyGrain)" />
       </svg>
 
-      <div className="relative max-w-6xl mx-auto">
+      <div className="relative max-w-7xl mx-auto">
         <FadeUp className="text-center mb-16 sm:mb-20">
           <div className="inline-flex items-center justify-center gap-3 mb-4">
             <div className="w-8 h-[2px] bg-triage-lime" />

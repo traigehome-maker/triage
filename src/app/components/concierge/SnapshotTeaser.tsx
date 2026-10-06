@@ -59,7 +59,7 @@ export default function SnapshotTeaser() {
 
   return (
     <>
-      <section className="relative overflow-hidden py-24 sm:py-28 px-5 sm:px-6">
+      <section className="relative overflow-hidden py-20 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8">
         {/* white, flowing into TriageSnapshot's own teal at the bottom */}
         <div className="absolute inset-0 bg-gradient-to-b from-white via-white to-[#e3f6f2]" />
         <motion.div

@@ -9,7 +9,7 @@ import { FadeUp } from "./shared/motion";
  */
 export default function FooterCTA() {
   return (
-    <section className="bg-[#fafafa] border-t border-slate-100 py-24 px-6">
+    <section className="bg-[#fafafa] border-t border-slate-100 py-20 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto text-center">
         <FadeUp>
           <h2

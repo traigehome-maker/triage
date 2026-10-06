@@ -270,7 +270,7 @@ export default function AccessPlans() {
   const personaLabel = PERSONAS.find((p) => p.key === persona)?.label ?? "";
 
   return (
-    <section id="plans" className="relative overflow-hidden border-y border-slate-100 py-24 sm:py-28 px-5 sm:px-6">
+    <section id="plans" className="relative overflow-hidden border-y border-slate-100 py-20 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8">
       {/* white, flowing into a soft navy wash at the bottom */}
       <div className="absolute inset-0 bg-gradient-to-b from-white via-white to-[#e7eef4]" />
       <motion.div
@@ -290,7 +290,7 @@ export default function AccessPlans() {
         <rect width="100%" height="100%" filter="url(#plansGrain)" />
       </svg>
 
-      <div className="relative max-w-6xl mx-auto">
+      <div className="relative max-w-7xl mx-auto">
         <FadeUp className="text-center mb-10 sm:mb-12">
           <p className="text-[#aa7130] font-raleway font-bold text-xs sm:text-sm tracking-[0.22em] uppercase mb-4">
             Access Plans

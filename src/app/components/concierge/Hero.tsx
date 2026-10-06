@@ -324,7 +324,7 @@ export default function Hero({
   const reduce = !!useReducedMotion();
 
   return (
-    <section ref={heroRef} className="relative h-screen min-h-[600px] max-h-screen flex items-center overflow-hidden bg-[#02385a]">
+    <section ref={heroRef} className="relative min-h-screen lg:min-h-[860px] xl:min-h-[920px] flex items-center overflow-hidden bg-[#02385a] pt-28 sm:pt-32 pb-16 sm:pb-20 lg:pt-36 lg:pb-24">
       <motion.div style={{ y: heroY }} className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-[#012644] via-[#02385a] to-[#012644]" />
 
@@ -397,7 +397,7 @@ export default function Hero({
 
       <motion.div
         style={{ opacity: heroOpacity }}
-        className="relative z-10 h-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 w-full grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 xl:gap-16 items-center py-20 sm:py-24"
+        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 xl:gap-16 items-center my-auto"
       >
         <motion.div variants={columnStagger} initial="hidden" animate="show" className="max-w-2xl">
           <motion.div variants={rise} className="flex flex-wrap items-center justify-between gap-3 sm:gap-4 mb-5 sm:mb-7">
