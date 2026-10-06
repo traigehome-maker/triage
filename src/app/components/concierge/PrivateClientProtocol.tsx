@@ -82,7 +82,7 @@ export default function PrivateClientProtocol() {
   const reduce = !!useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden py-24 sm:py-28 px-5 sm:px-6">
+    <section className="relative overflow-hidden py-20 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8">
       <div className="absolute inset-0 bg-gradient-to-b from-[#012644] via-[#02385a] to-[#012644]" />
 
       {/* three low, color-matched lights, one per pillar, none dominant over the others */}
@@ -112,7 +112,7 @@ export default function PrivateClientProtocol() {
         <rect width="100%" height="100%" filter="url(#protocolGrain)" />
       </svg>
 
-      <div className="relative max-w-6xl mx-auto">
+      <div className="relative max-w-7xl mx-auto">
         <FadeUp className="text-center mb-14 sm:mb-16">
           <p className="text-[#aa7130] font-raleway font-bold text-xs sm:text-sm tracking-[0.22em] uppercase mb-4">
             Private Client Protocol

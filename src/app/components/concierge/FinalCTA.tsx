@@ -105,7 +105,7 @@ export default function FinalCTA() {
   const reduce = !!useReducedMotion();
 
   return (
-    <section className="relative min-h-[580px] flex items-center justify-center px-5 sm:px-6 py-24 sm:py-28 overflow-hidden">
+    <section className="relative min-h-[580px] flex items-center justify-center px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-28 overflow-hidden">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-[#012644] via-[#02385a] to-[#012644]" />
 
