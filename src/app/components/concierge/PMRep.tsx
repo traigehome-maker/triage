@@ -30,7 +30,7 @@ export default function PMRep() {
   const reduce = !!useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-white">
+    <section className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8 border-b border-slate-100">
       {/* flowing background: white dominant, navy wash bottom, warm orange glow for depth */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-b from-white via-white to-[#e7eef4]" />
@@ -53,8 +53,8 @@ export default function PMRep() {
         </svg>
       </div>
 
-      <div className="relative max-w-7xl mx-auto grid lg:grid-cols-2 min-h-[660px]">
-        <div className="px-6 sm:px-10 py-16 sm:py-20 lg:px-16 flex flex-col justify-center">
+      <div className="relative max-w-7xl mx-auto rounded-3xl border border-slate-200/80 bg-white/90 backdrop-blur-sm shadow-sm overflow-hidden grid lg:grid-cols-2 min-h-[640px]">
+        <div className="p-8 sm:p-12 lg:p-14 flex flex-col justify-center">
           <FadeUp>
             <div className="inline-flex items-center gap-3 mb-6">
               <motion.div

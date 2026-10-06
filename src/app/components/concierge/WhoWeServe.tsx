@@ -160,7 +160,7 @@ export default function WhoWeServe() {
   const seg = SEGMENTS[activeSegment];
 
   return (
-    <section className="bg-[#fafafa] border-y border-slate-100 py-20 sm:py-28 px-5 sm:px-6">
+    <section className="bg-[#fafafa] border-y border-slate-100 py-20 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <FadeUp className="mb-12 sm:mb-14">
           <div className="inline-flex items-center gap-3 mb-4">
