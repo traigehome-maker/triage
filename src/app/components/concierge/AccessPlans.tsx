@@ -44,7 +44,7 @@ function PersonaTabs({
   onSelect: (p: PersonaKey) => void;
 }) {
   return (
-    <div className="inline-flex flex-wrap justify-center gap-1 rounded-full border border-slate-200 bg-white p-1.5 shadow-sm">
+    <div className="inline-flex flex-wrap justify-center gap-1.5 rounded-full border border-slate-200 bg-white p-1.5 shadow-sm">
       {PERSONAS.map((p) => {
         const isActive = persona === p.key;
         return (
@@ -52,7 +52,7 @@ function PersonaTabs({
             key={p.key}
             type="button"
             onClick={() => onSelect(p.key as PersonaKey)}
-            className="relative rounded-full px-5 py-2 font-raleway text-[13px] font-semibold transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#aa7130]"
+            className="relative rounded-full px-5 sm:px-6 py-2.5 font-raleway text-sm sm:text-base font-bold transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#aa7130]"
           >
             {isActive && (
               <motion.span
@@ -61,7 +61,7 @@ function PersonaTabs({
                 transition={{ type: "spring", stiffness: 380, damping: 32 }}
               />
             )}
-            <span className={`relative z-10 ${isActive ? "text-white" : "text-slate-500 hover:text-slate-700"}`}>
+            <span className={`relative z-10 ${isActive ? "text-white" : "text-slate-600 hover:text-slate-900"}`}>
               {p.label}
             </span>
           </button>
@@ -133,23 +133,23 @@ function PlanCard({
       )}
 
       <div
-        className="relative h-[3px] w-full"
-        style={{ background: plan.featured ? "linear-gradient(90deg, #aa7130, #ffbf00)" : `${plan.accent}50` }}
+        className="relative h-1 w-full"
+        style={{ background: plan.featured ? "linear-gradient(90deg, #aa7130, #ffbf00)" : `${plan.accent}80` }}
       />
 
-      <div className="relative p-8 flex flex-col flex-1">
+      <div className="relative p-7 sm:p-8 flex flex-col flex-1">
         <div className="mb-6">
           <span
-            className="inline-block text-[10px] font-raleway font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full mb-3"
+            className="inline-block text-xs font-raleway font-bold tracking-[0.2em] uppercase px-3.5 py-1.5 rounded-full mb-3.5"
             style={{
-              background: plan.featured ? "rgba(170,113,48,0.2)" : `${plan.accent}12`,
-              color: plan.featured ? "#d4a050" : plan.accent,
+              background: plan.featured ? "rgba(170,113,48,0.25)" : `${plan.accent}15`,
+              color: plan.featured ? "#e6b060" : plan.accent,
             }}
           >
             {plan.tag}
           </span>
           <h3
-            className="font-raleway font-bold text-2xl mb-1"
+            className="font-raleway font-bold text-2xl sm:text-3xl mb-2"
             style={{ color: plan.featured ? "white" : "#0f172a" }}
           >
             {plan.name}
@@ -161,8 +161,8 @@ function PlanCard({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
               transition={{ duration: 0.25 }}
-              className="text-sm"
-              style={{ color: plan.featured ? "rgba(255,255,255,0.5)" : "#94a3b8" }}
+              className="text-sm sm:text-base font-nunito leading-relaxed"
+              style={{ color: plan.featured ? "rgba(255,255,255,0.8)" : "#475569" }}
             >
               {tagline}
             </motion.p>
@@ -170,30 +170,30 @@ function PlanCard({
         </div>
 
         <div
-          className="mb-8 pb-8 border-b"
-          style={{ borderColor: plan.featured ? "rgba(255,255,255,0.1)" : "#f1f5f9" }}
+          className="mb-8 pb-7 border-b"
+          style={{ borderColor: plan.featured ? "rgba(255,255,255,0.15)" : "#e2e8f0" }}
         >
           <span
-            className="font-raleway font-bold"
-            style={{ fontSize: "2.25rem", color: plan.featured ? "white" : "#0f172a", lineHeight: 1 }}
+            className="font-raleway font-extrabold text-3xl sm:text-4xl"
+            style={{ color: plan.featured ? "white" : "#0f172a", lineHeight: 1 }}
           >
             {plan.price}
           </span>
           {plan.period && (
-            <span className="text-sm ml-1" style={{ color: plan.featured ? "rgba(255,255,255,0.4)" : "#94a3b8" }}>
+            <span className="text-sm sm:text-base ml-1.5 font-nunito font-semibold" style={{ color: plan.featured ? "rgba(255,255,255,0.7)" : "#64748b" }}>
               {plan.period}
             </span>
           )}
         </div>
 
-        <div className="flex flex-col gap-3 flex-1 mb-8">
+        <div className="flex flex-col gap-3.5 flex-1 mb-8">
           {features.map((f, fi) => (
-            <div key={fi === 0 ? f : `static-${fi}`} className="flex items-center gap-3">
+            <div key={fi === 0 ? f : `static-${fi}`} className="flex items-start gap-3">
               <div
-                className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
+                className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
                 style={{
-                  background: plan.featured ? "rgba(170,113,48,0.25)" : `${plan.accent}15`,
-                  color: plan.featured ? "#d4a050" : plan.accent,
+                  background: plan.featured ? "rgba(170,113,48,0.3)" : `${plan.accent}18`,
+                  color: plan.featured ? "#ffc870" : plan.accent,
                 }}
               >
                 <Icons.Check />
@@ -206,14 +206,14 @@ function PlanCard({
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 6 }}
                     transition={{ duration: 0.3 }}
-                    className="text-[13px]"
-                    style={{ color: plan.featured ? "rgba(255,255,255,0.7)" : "#475569" }}
+                    className="text-sm sm:text-base font-nunito leading-snug"
+                    style={{ color: plan.featured ? "rgba(255,255,255,0.92)" : "#334155" }}
                   >
                     {f}
                   </motion.span>
                 </AnimatePresence>
               ) : (
-                <span className="text-[13px]" style={{ color: plan.featured ? "rgba(255,255,255,0.7)" : "#475569" }}>
+                <span className="text-sm sm:text-base font-nunito leading-snug" style={{ color: plan.featured ? "rgba(255,255,255,0.92)" : "#334155" }}>
                   {f}
                 </span>
               )}
@@ -231,12 +231,12 @@ function PlanCard({
             e.currentTarget.style.setProperty("--by", `${e.clientY - rect.top}px`);
           }}
           style={{ ["--bx" as string]: "50%", ["--by" as string]: "50%" }}
-          className="group/cta relative flex items-center justify-center gap-2 w-full overflow-hidden py-3.5 rounded-xl font-raleway font-semibold text-sm tracking-wide transition-all duration-300"
+          className="group/cta relative flex items-center justify-center gap-2 w-full overflow-hidden py-4 rounded-xl font-raleway font-bold text-sm sm:text-base tracking-wide transition-all duration-300"
         >
           <span
             className="absolute inset-0 rounded-xl transition-colors duration-300"
             style={{
-              background: plan.featured ? "linear-gradient(135deg, #aa7130, #8c5c22)" : `${plan.accent}12`,
+              background: plan.featured ? "linear-gradient(135deg, #aa7130, #8c5c22)" : `${plan.accent}15`,
             }}
           />
           <span
@@ -244,7 +244,7 @@ function PlanCard({
             className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-500 group-hover/cta:opacity-100"
             style={{ background: `radial-gradient(90px circle at var(--bx) var(--by), ${plan.featured ? "rgba(255,255,255,0.28)" : hexToRgba(plan.accent, 0.18)}, transparent 70%)` }}
           />
-          <span className="relative" style={{ color: plan.featured ? "white" : plan.accent }}>
+          <span className="relative font-bold" style={{ color: plan.featured ? "white" : plan.accent }}>
             Subscribe to {plan.name}
           </span>
           <motion.span
@@ -291,14 +291,13 @@ export default function AccessPlans() {
       </svg>
 
       <div className="relative max-w-6xl mx-auto">
-        <FadeUp className="text-center mb-10">
-          <p className="text-[#aa7130] font-raleway font-semibold text-[11px] tracking-[0.22em] uppercase mb-4">
+        <FadeUp className="text-center mb-10 sm:mb-12">
+          <p className="text-[#aa7130] font-raleway font-bold text-xs sm:text-sm tracking-[0.22em] uppercase mb-4">
             Access Plans
           </p>
           <h2
-            className="font-raleway font-light leading-[1.15] mx-auto mb-4 tracking-tight"
+            className="font-raleway font-extrabold leading-[1.15] mx-auto mb-4 tracking-tight text-3xl sm:text-4xl lg:text-5xl"
             style={{
-              fontSize: "clamp(28px, 3.5vw, 44px)",
               background: "linear-gradient(90deg, #02385a 0%, #aa7130 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
@@ -307,20 +306,20 @@ export default function AccessPlans() {
           >
             Find the plan that fits your life.
           </h2>
-          <p className="text-slate-500 text-[15px] sm:text-[16px] max-w-lg mx-auto font-nunito">
+          <p className="text-slate-600 text-base sm:text-lg max-w-xl mx-auto font-nunito leading-relaxed">
             Every plan includes a dedicated PM Rep, verified providers, and
             access to the TriageSnapshot health summary.
           </p>
         </FadeUp>
 
         <FadeUp className="flex flex-col items-center gap-3 mb-14">
-          <p className="text-slate-400 text-[12px] font-raleway font-semibold tracking-[0.14em] uppercase">
+          <p className="text-slate-500 text-xs sm:text-sm font-raleway font-bold tracking-[0.14em] uppercase">
             I need care for
           </p>
           <PersonaTabs persona={persona} onSelect={setPersona} />
         </FadeUp>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {PLANS.map((plan, i) => {
             const override = PERSONA_COPY[persona][plan.key];
             return (

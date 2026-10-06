@@ -63,22 +63,21 @@ export default function PMRep() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, ease: EASE }}
                 style={{ transformOrigin: "left" }}
-                className="w-8 h-[1px] bg-[#aa7130]"
+                className="w-8 h-[2px] bg-triage-teal"
               />
-              <span className="font-raleway font-semibold text-[11px] sm:text-[12px] tracking-[0.24em] uppercase text-[#aa7130]">
-                Your PM Rep, Our Core Service
+              <span className="font-raleway font-bold text-xs sm:text-sm tracking-[0.24em] uppercase text-triage-navy">
+                Your PM Rep &middot; Our Core Service
               </span>
             </div>
 
             <h2
-              className="font-raleway font-light leading-[1.1] mb-6 tracking-tight text-[#0f172a]"
-              style={{ fontSize: "clamp(30px, 4.6vw, 56px)" }}
+              className="font-raleway font-extrabold leading-[1.1] mb-6 tracking-tight text-triage-navy text-2xl sm:text-4xl lg:text-5xl"
             >
               Think of them as your
               <br />
               <span
                 style={{
-                  background: "linear-gradient(90deg, #02385a 0%, #aa7130 100%)",
+                  background: "linear-gradient(90deg, #02385a 0%, #00b99d 100%)",
                   backgroundSize: "200% auto",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
@@ -90,25 +89,25 @@ export default function PMRep() {
               </span>
             </h2>
 
-            <p className="text-slate-500 text-[15px] sm:text-[16px] leading-[1.85] mb-9 sm:mb-10 max-w-md font-nunito">
+            <p className="text-slate-700 text-base sm:text-lg leading-relaxed mb-9 sm:mb-10 max-w-md font-nunito font-medium">
               Every TriageConcierge client is assigned a dedicated Peace of Mind
               Representative, your single point of contact for everything health related.
               They know your history, your preferences, and your circle.
             </p>
           </FadeUp>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             {PM_REP_DUTIES_KEYS.map(({ icon, text }, i) => {
               const Icon = Icons[icon as IconKey];
               return (
                 <FadeUp key={i} delay={i * 0.06}>
-                  <div className="group flex items-start gap-3 rounded-xl border border-slate-200 bg-white/80 px-4 py-3.5 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[#aa7130]/40 hover:shadow-md">
-                    <div className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#aa7130]/10 text-[#aa7130] transition-colors duration-300 group-hover:bg-[#aa7130]/20">
-                      <div className="h-4 w-4">
+                  <div className="group flex items-start gap-3.5 rounded-2xl border border-slate-200 bg-white/90 px-4.5 py-4 shadow-xs backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-triage-teal/50 hover:shadow-md">
+                    <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-triage-teal/10 text-triage-teal transition-colors duration-300 group-hover:bg-triage-teal/20">
+                      <div className="h-4.5 w-4.5">
                         <Icon />
                       </div>
                     </div>
-                    <span className="text-slate-600 text-[13px] leading-snug font-nunito">{text}</span>
+                    <span className="text-slate-800 text-sm sm:text-base font-semibold leading-snug font-nunito">{text}</span>
                   </div>
                 </FadeUp>
               );
@@ -117,7 +116,7 @@ export default function PMRep() {
         </div>
 
         <FadeIn className="relative min-h-[320px] sm:min-h-[420px] lg:min-h-full">
-          {/* Silent looping PM Rep avatar. Replace poster + source with real footage. */}
+          {/* Silent looping PM Rep avatar. */}
           <video
             autoPlay
             loop
@@ -129,12 +128,11 @@ export default function PMRep() {
             <source src="/videos/pm-rep-loop.mp4" type="video/mp4" />
           </video>
 
-          {/* blends the video into the light panel instead of a navy fade */}
+          {/* blends the video into the light panel */}
           <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-transparent lg:block hidden" />
-          {/* keeps the corner brackets and floating card legible over real footage */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
-          {/* quiet verification corners, echoing the discretion section's oversight motif without a literal frame */}
+          {/* quiet verification corners */}
           {[
             "left-5 top-5 border-l border-t",
             "right-5 top-5 border-r border-t",
@@ -147,7 +145,7 @@ export default function PMRep() {
               whileInView={{ opacity: 0.5 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: EASE }}
-              className={`absolute h-6 w-6 border-white/40 ${pos}`}
+              className={`absolute h-6 w-6 border-white/50 ${pos}`}
             />
           ))}
 
@@ -162,23 +160,23 @@ export default function PMRep() {
               e.currentTarget.style.setProperty("--gy", `${e.clientY - rect.top}px`);
             }}
             style={{ ["--gx" as string]: "50%", ["--gy" as string]: "50%" }}
-            className="group absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8 sm:right-8 lg:left-auto lg:right-8 lg:max-w-[240px] overflow-hidden rounded-2xl bg-white p-5 shadow-2xl"
+            className="group absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8 sm:right-8 lg:left-auto lg:right-8 lg:max-w-[260px] overflow-hidden rounded-2xl bg-white p-5 shadow-2xl border border-slate-100"
           >
             <span
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-              style={{ background: "radial-gradient(120px circle at var(--gx) var(--gy), rgba(170,113,48,0.12), transparent 70%)" }}
+              style={{ background: "radial-gradient(120px circle at var(--gx) var(--gy), rgba(0,185,157,0.12), transparent 70%)" }}
             />
-            <p className="relative font-raleway font-semibold text-[#02385a] text-sm mb-1">Your PM Rep</p>
-            <p className="relative text-slate-400 text-[12px] leading-relaxed font-nunito">
-              One person. Every appointment, update, and emergency, coordinated.
+            <p className="relative font-raleway font-bold text-triage-navy text-base mb-1">Your PM Rep</p>
+            <p className="relative text-slate-600 text-xs sm:text-sm leading-relaxed font-nunito">
+              One dedicated coordinator. Every appointment, update, and emergency handled.
             </p>
             <div className="relative mt-3 flex items-center gap-2">
-              <span className="relative flex h-2 w-2">
-                {!reduce && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#00b99d] opacity-60" />}
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#00b99d]" />
+              <span className="relative flex h-2.5 w-2.5">
+                {!reduce && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#00b99d] opacity-75" />}
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#00b99d]" />
               </span>
-              <span className="text-[11px] font-semibold text-[#00b99d] font-raleway">Available 24/7</span>
+              <span className="text-xs sm:text-sm font-bold text-[#00b99d] font-raleway">Available 24/7</span>
             </div>
           </motion.div>
         </FadeIn>

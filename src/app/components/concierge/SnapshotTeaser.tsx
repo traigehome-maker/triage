@@ -82,25 +82,23 @@ export default function SnapshotTeaser() {
         <div className="relative max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
             <FadeUp>
-              <div className="inline-flex items-center gap-3 mb-7 sm:mb-8">
+              <div className="inline-flex items-center gap-3 mb-6 sm:mb-7">
                 <motion.div
                   initial={{ scaleX: 0 }}
                   whileInView={{ scaleX: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, ease: EASE }}
                   style={{ transformOrigin: "left" }}
-                  className="w-8 h-[1px] bg-[#00b99d]"
+                  className="w-8 h-[2px] bg-[#00b99d]"
                 />
-                <span className="font-raleway font-semibold text-[11px] tracking-[0.22em] uppercase text-[#00897a]">
+                <span className="font-raleway font-bold text-xs sm:text-sm tracking-[0.22em] uppercase text-[#00897a]">
                   TriageSnapshot
                 </span>
               </div>
               <h2
-                className="font-raleway font-light leading-[1.1] mb-5 tracking-tight"
-                style={{ fontSize: "clamp(28px, 3.5vw, 44px)" }}
+                className="font-raleway font-extrabold leading-[1.12] mb-5 tracking-tight text-3xl sm:text-4xl lg:text-5xl"
               >
-                <span className="text-[#0f172a]">Your health story in</span>
-                <br />
+                <span className="text-[#0f172a]">Your health story in </span>
                 <span
                   style={{
                     background: "linear-gradient(90deg, #02385a 0%, #046657 100%)",
@@ -112,23 +110,23 @@ export default function SnapshotTeaser() {
                   one secure view.
                 </span>
               </h2>
-              <p className="text-slate-500 text-[15px] sm:text-[16px] leading-[1.85] mb-9 sm:mb-10 max-w-md font-nunito">
+              <p className="text-slate-600 text-base sm:text-lg leading-relaxed mb-8 sm:mb-9 max-w-lg font-nunito">
                 A digital health summary that captures vital signs, medications,
                 care history, assessments and visit records in one shareable format.
               </p>
             </FadeUp>
 
             <FadeUp delay={0.1}>
-              <div className="flex flex-col gap-3 mb-9 sm:mb-10">
+              <div className="flex flex-col gap-3.5 mb-9 sm:mb-10">
                 {SNAPSHOT_POINTS.map((p, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <div
                       className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 text-[#00897a]"
-                      style={{ background: "rgba(0,185,157,0.1)" }}
+                      style={{ background: "rgba(0,185,157,0.14)" }}
                     >
                       <Icons.Check />
                     </div>
-                    <span className="text-slate-600 text-sm font-nunito">{p}</span>
+                    <span className="text-slate-700 text-sm sm:text-base font-nunito font-medium">{p}</span>
                   </div>
                 ))}
               </div>
@@ -142,7 +140,7 @@ export default function SnapshotTeaser() {
                   e.currentTarget.style.setProperty("--gy", `${e.clientY - rect.top}px`);
                 }}
                 style={{ ["--gx" as string]: "50%", ["--gy" as string]: "50%" }}
-                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-[#aa7130] px-7 py-3.5 font-raleway text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(170,113,48,0.5)] transition-shadow duration-500 hover:shadow-[0_12px_28px_-6px_rgba(170,113,48,0.8)]"
+                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-[#aa7130] px-8 py-4 font-raleway text-sm sm:text-base font-bold text-white shadow-[0_6px_18px_-6px_rgba(170,113,48,0.5)] transition-shadow duration-500 hover:shadow-[0_12px_28px_-6px_rgba(170,113,48,0.8)]"
               >
                 <span
                   aria-hidden="true"
@@ -174,45 +172,45 @@ export default function SnapshotTeaser() {
                 className="absolute inset-0 z-20 flex items-center justify-center rounded-2xl bg-black/0 transition-colors duration-300 sm:group-hover:bg-black/40"
                 aria-label="Open interactive TriageSnapshot demo"
               >
-                <span className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 font-raleway text-[13px] font-semibold text-[#02385a] shadow-xl transition-opacity duration-300 sm:opacity-0 sm:px-6 sm:py-3 sm:text-sm sm:group-hover:opacity-100">
+                <span className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-raleway text-sm font-bold text-[#02385a] shadow-xl transition-opacity duration-300 sm:opacity-0 sm:group-hover:opacity-100">
                   <Icons.Expand /> Live Demo
                 </span>
               </button>
 
               <div
-                className="relative rounded-2xl overflow-hidden"
-                style={{ background: "#0f172a", border: "1px solid rgba(255,255,255,0.07)" }}
+                className="relative rounded-2xl overflow-hidden shadow-2xl"
+                style={{ background: "#02385a", border: "1px solid rgba(255,255,255,0.15)" }}
               >
-                <div className="px-6 py-4 flex items-center justify-between" style={{ background: "#b45309" }}>
+                <div className="px-6 py-4 flex items-center justify-between" style={{ background: "#aa7130" }}>
                   <div>
-                    <p className="font-raleway font-bold text-white text-sm leading-none">TriageHome</p>
-                    <p className="text-white/60 text-[10px] mt-0.5">Health Passport &middot; TriageSnapshot</p>
+                    <p className="font-raleway font-bold text-white text-base leading-none">TriageHome</p>
+                    <p className="text-white/80 text-xs mt-1">Health Passport &middot; TriageSnapshot</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-white/60 text-[10px]">
+                    <p className="text-white/80 text-xs">
                       {new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}
                     </p>
-                    <p className="text-white/40 text-[10px]">www.triage-home.com</p>
+                    <p className="text-white/60 text-[11px]">www.triage-home.com</p>
                   </div>
                 </div>
 
                 <div className="px-6 py-5 flex flex-col gap-4">
-                  <div className="flex items-center justify-between bg-white/[0.04] rounded-xl px-4 py-3">
+                  <div className="flex items-center justify-between bg-white/[0.08] rounded-xl px-4 py-3.5">
                     <div>
-                      <p className="text-white/40 text-[10px] uppercase tracking-wider mb-0.5">Client</p>
-                      <p className="text-white font-raleway font-bold">Adebayo Tunde</p>
-                      <p className="text-white/40 text-[11px]">Male &middot; 42 yrs</p>
+                      <p className="text-white/60 text-xs uppercase tracking-wider mb-0.5">Client</p>
+                      <p className="text-white font-raleway font-bold text-base">Adebayo Tunde</p>
+                      <p className="text-white/70 text-xs">Male &middot; 42 yrs</p>
                     </div>
-                    <div className="w-9 h-9 rounded-full bg-[#aa7130]/20 flex items-center justify-center">
-                      <div className="w-5 h-5 text-[#aa7130]">
+                    <div className="w-10 h-10 rounded-full bg-[#aa7130]/25 flex items-center justify-center">
+                      <div className="w-5 h-5 text-[#ffc870]">
                         <Icons.UserShield />
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <p className="text-white/30 text-[10px] uppercase tracking-wider mb-2 font-semibold">Vital Signs</p>
-                    <div className="grid grid-cols-3 gap-2">
+                    <p className="text-white/60 text-xs uppercase tracking-wider mb-2 font-bold font-raleway">Vital Signs</p>
+                    <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
                       {[
                         { l: "Temp", v: "36.8°C", ok: true },
                         { l: "BP", v: "118/76", ok: true },
@@ -221,11 +219,11 @@ export default function SnapshotTeaser() {
                         { l: "SpO₂", v: "98%", ok: true },
                         { l: "BMI", v: "23.4", ok: true },
                       ].map((v) => (
-                        <div key={v.l} className="bg-white/[0.04] rounded-lg px-2.5 py-2">
-                          <p className="text-white/30 text-[9px] mb-0.5">{v.l}</p>
-                          <p className="text-white font-raleway font-bold text-xs leading-none">{v.v}</p>
+                        <div key={v.l} className="bg-white/[0.08] rounded-lg px-3 py-2.5">
+                          <p className="text-white/60 text-[10px] mb-0.5 font-nunito">{v.l}</p>
+                          <p className="text-white font-raleway font-bold text-sm leading-none">{v.v}</p>
                           <div
-                            className="w-1.5 h-1.5 rounded-full mt-1"
+                            className="w-2 h-2 rounded-full mt-1.5"
                             style={{ background: v.ok ? "#00b99d" : "#aa7130" }}
                           />
                         </div>
@@ -234,19 +232,19 @@ export default function SnapshotTeaser() {
                   </div>
 
                   <div
-                    className="rounded-xl px-4 py-3"
-                    style={{ background: "rgba(170,113,48,0.1)", border: "1px solid rgba(170,113,48,0.2)" }}
+                    className="rounded-xl px-4 py-3.5"
+                    style={{ background: "rgba(170,113,48,0.18)", border: "1px solid rgba(170,113,48,0.3)" }}
                   >
-                    <p className="text-[#aa7130] text-[10px] font-bold uppercase tracking-wider mb-1">Provider Note</p>
-                    <p className="text-white/50 text-[11px] leading-relaxed">
+                    <p className="text-[#e6b060] text-xs font-bold uppercase tracking-wider mb-1 font-raleway">Provider Note</p>
+                    <p className="text-white/80 text-xs sm:text-sm leading-relaxed font-nunito">
                       Blood sugar slightly elevated. Dietary review recommended. All other vitals normal.
                     </p>
-                    <p className="text-white/25 text-[10px] mt-1.5">Kemisola I., RN, TriageHome</p>
+                    <p className="text-white/50 text-xs mt-1.5 font-nunito">Kemisola I., RN, TriageHome</p>
                   </div>
                 </div>
 
-                <div className="px-6 py-3 text-center" style={{ background: "#1e2937" }}>
-                  <p className="text-slate-500 text-[10px]">For informational purposes only. Consult a licensed professional.</p>
+                <div className="px-6 py-3 text-center" style={{ background: "#012644" }}>
+                  <p className="text-slate-400 text-xs font-nunito">For informational purposes only. Consult a licensed professional.</p>
                 </div>
               </div>
 
@@ -262,8 +260,8 @@ export default function SnapshotTeaser() {
                   <Icons.Phone />
                 </div>
                 <div>
-                  <p className="font-raleway font-bold text-[#02385a] text-[11px]">Sent to WhatsApp</p>
-                  <p className="text-slate-400 text-[10px]">Instant delivery</p>
+                  <p className="font-raleway font-bold text-[#02385a] text-xs">Sent to WhatsApp</p>
+                  <p className="text-slate-500 text-[11px] font-nunito">Instant delivery</p>
                 </div>
               </motion.div>
 
@@ -279,8 +277,8 @@ export default function SnapshotTeaser() {
                   <Icons.Shield />
                 </div>
                 <div>
-                  <p className="font-raleway font-bold text-[#02385a] text-[11px]">PDF Health Passport</p>
-                  <p className="text-slate-400 text-[10px]">Ready to download</p>
+                  <p className="font-raleway font-bold text-[#02385a] text-xs">PDF Health Passport</p>
+                  <p className="text-slate-500 text-[11px] font-nunito">Ready to download</p>
                 </div>
               </motion.div>
             </div>
@@ -307,15 +305,15 @@ export default function SnapshotTeaser() {
               exit={{ opacity: 0, y: 12, scale: 0.97 }}
               transition={{ duration: 0.35, ease: EASE }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-md bg-[#0f172a] rounded-[2rem] overflow-hidden shadow-2xl max-h-[85vh] flex flex-col"
-              style={{ border: "1px solid rgba(255,255,255,0.08)" }}
+              className="relative w-full max-w-md bg-[#02385a] rounded-[2rem] overflow-hidden shadow-2xl max-h-[85vh] flex flex-col"
+              style={{ border: "1px solid rgba(255,255,255,0.15)" }}
             >
               {/* phone-style status notch, purely decorative, sells the "this is the app" idea */}
               <div className="flex justify-center pt-2.5">
                 <div className="h-1 w-10 rounded-full bg-white/15" />
               </div>
 
-              <div className="relative overflow-hidden px-6 pt-3 pb-4 flex items-center justify-between" style={{ background: "#b45309" }}>
+              <div className="relative overflow-hidden px-6 pt-3 pb-4 flex items-center justify-between" style={{ background: "#aa7130" }}>
                 {!reduce && (
                   <motion.div
                     animate={{ x: ["-30%", "130%"] }}
@@ -323,13 +321,13 @@ export default function SnapshotTeaser() {
                     className="pointer-events-none absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/10 to-transparent"
                   />
                 )}
-                <p className="relative font-raleway font-bold text-white text-sm">TriageSnapshot, Live Demo</p>
+                <p className="relative font-raleway font-bold text-white text-base">TriageSnapshot, Live Demo</p>
                 <motion.button
                   onClick={() => setShowDemo(false)}
                   whileHover={{ scale: 1.1, rotate: 90 }}
                   whileTap={{ scale: 0.9 }}
                   transition={{ type: "spring", stiffness: 400, damping: 18 }}
-                  className="relative text-white/70 hover:text-white"
+                  className="relative text-white/80 hover:text-white"
                   aria-label="Close"
                 >
                   <Icons.Close />
@@ -341,8 +339,8 @@ export default function SnapshotTeaser() {
                   <button
                     key={t.key}
                     onClick={() => setDemoTab(t.key)}
-                    className="relative flex-1 py-3 text-[12px] font-raleway font-semibold transition-colors"
-                    style={{ color: demoTab === t.key ? "#d4a050" : "rgba(255,255,255,0.4)" }}
+                    className="relative flex-1 py-3 text-sm font-raleway font-bold transition-colors"
+                    style={{ color: demoTab === t.key ? "#ffc870" : "rgba(255,255,255,0.6)" }}
                   >
                     {t.label}
                     {demoTab === t.key && (
@@ -366,39 +364,39 @@ export default function SnapshotTeaser() {
                     transition={{ duration: 0.25, ease: EASE }}
                   >
                     {demoTab === "vitals" && (
-                      <div className="grid grid-cols-3 gap-2">
+                      <div className="grid grid-cols-3 gap-2.5">
                         {VITALS.map((v, i) => (
                           <motion.div
                             key={v.l}
                             initial={{ opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.05, duration: 0.3 }}
-                            className="bg-white/[0.04] rounded-lg px-2.5 py-3"
+                            className="bg-white/[0.05] rounded-lg px-3 py-3"
                           >
-                            <p className="text-white/30 text-[9px] mb-1">{v.l}</p>
-                            <p className="text-white font-raleway font-bold text-sm">{v.v}</p>
+                            <p className="text-white/60 text-xs mb-1 font-nunito">{v.l}</p>
+                            <p className="text-white font-raleway font-bold text-base">{v.v}</p>
                           </motion.div>
                         ))}
                       </div>
                     )}
                     {demoTab === "medications" && (
-                      <div className="flex flex-col gap-2.5">
+                      <div className="flex flex-col gap-3">
                         {MEDICATIONS.map((m, i) => (
                           <motion.div
                             key={m.name}
                             initial={{ opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.06, duration: 0.3 }}
-                            className="bg-white/[0.04] rounded-lg px-4 py-3"
+                            className="bg-white/[0.05] rounded-lg px-4 py-3.5"
                           >
-                            <p className="text-white font-raleway font-semibold text-[13px]">{m.name}</p>
-                            <p className="text-white/40 text-[11px] mt-0.5">{m.freq}</p>
+                            <p className="text-white font-raleway font-bold text-sm sm:text-base">{m.name}</p>
+                            <p className="text-white/70 text-xs sm:text-sm mt-0.5 font-nunito">{m.freq}</p>
                           </motion.div>
                         ))}
                       </div>
                     )}
                     {demoTab === "history" && (
-                      <div className="flex flex-col gap-3">
+                      <div className="flex flex-col gap-3.5">
                         {VISIT_HISTORY.map((h, i) => (
                           <motion.div
                             key={h.date}
@@ -407,10 +405,10 @@ export default function SnapshotTeaser() {
                             transition={{ delay: i * 0.07, duration: 0.3 }}
                             className="flex gap-3"
                           >
-                            <div className="w-1.5 h-1.5 rounded-full bg-[#00b99d] mt-1.5 flex-shrink-0" />
+                            <div className="w-2 h-2 rounded-full bg-[#00b99d] mt-1.5 flex-shrink-0" />
                             <div>
-                              <p className="text-white/40 text-[10px] uppercase tracking-wide">{h.date}</p>
-                              <p className="text-white/70 text-[13px] leading-relaxed">{h.note}</p>
+                              <p className="text-white/60 text-xs uppercase tracking-wide font-bold font-raleway">{h.date}</p>
+                              <p className="text-white/85 text-sm sm:text-base leading-relaxed font-nunito">{h.note}</p>
                             </div>
                           </motion.div>
                         ))}
@@ -418,15 +416,15 @@ export default function SnapshotTeaser() {
                     )}
                     {demoTab === "notes" && (
                       <div
-                        className="rounded-xl px-4 py-3"
-                        style={{ background: "rgba(170,113,48,0.1)", border: "1px solid rgba(170,113,48,0.2)" }}
+                        className="rounded-xl px-4 py-3.5"
+                        style={{ background: "rgba(170,113,48,0.12)", border: "1px solid rgba(170,113,48,0.25)" }}
                       >
-                        <p className="text-[#aa7130] text-[10px] font-bold uppercase tracking-wider mb-1">Provider Note</p>
-                        <p className="text-white/60 text-[13px] leading-relaxed">
+                        <p className="text-[#e6b060] text-xs font-bold uppercase tracking-wider mb-1 font-raleway">Provider Note</p>
+                        <p className="text-white/85 text-sm leading-relaxed font-nunito">
                           Blood sugar slightly elevated at last visit. Dietary review recommended.
                           All other vitals normal. Next check in scheduled for two weeks.
                         </p>
-                        <p className="text-white/25 text-[10px] mt-2">Kemisola I., RN, TriageHome</p>
+                        <p className="text-white/50 text-xs mt-2 font-nunito">Kemisola I., RN, TriageHome</p>
                       </div>
                     )}
                   </motion.div>
@@ -441,7 +439,7 @@ export default function SnapshotTeaser() {
                     className="h-1.5 rounded-full transition-all duration-300"
                     style={{
                       width: demoTab === t.key ? 16 : 6,
-                      background: demoTab === t.key ? "#aa7130" : "rgba(255,255,255,0.15)",
+                      background: demoTab === t.key ? "#aa7130" : "rgba(255,255,255,0.25)",
                     }}
                   />
                 ))}

@@ -46,7 +46,7 @@ export default function Journey() {
   return (
     <section className="relative overflow-hidden py-24 sm:py-28 px-5 sm:px-6">
       {/* deep brand gradient, its own angle so it doesn't just repeat the hero */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#061428] via-[#02385a] to-[#0a0f1e]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#012644] via-[#02385a] to-[#012644]" />
 
       <motion.div
         animate={reduce ? undefined : { x: [0, 26, 0], y: [0, -18, 0] }}
@@ -69,12 +69,16 @@ export default function Journey() {
 
       <div className="relative max-w-6xl mx-auto">
         <FadeUp className="text-center mb-16 sm:mb-20">
-          <p className="text-[#aa7130] font-raleway font-semibold text-[11px] tracking-[0.22em] uppercase mb-4">
-            The Peace of Mind Journey
-          </p>
+          <div className="inline-flex items-center justify-center gap-3 mb-4">
+            <div className="w-8 h-[2px] bg-triage-lime" />
+            <p className="text-triage-lime font-raleway font-bold text-xs sm:text-sm tracking-[0.22em] uppercase">
+              The Peace of Mind Journey
+            </p>
+            <div className="w-8 h-[2px] bg-triage-lime" />
+          </div>
           <h2
-            className="font-raleway font-light leading-[1.15] mx-auto tracking-tight"
-            style={{ fontSize: "clamp(28px, 3.5vw, 44px)", maxWidth: 520 }}
+            className="font-raleway font-extrabold leading-[1.15] mx-auto tracking-tight text-2xl sm:text-4xl lg:text-5xl"
+            style={{ maxWidth: 640 }}
           >
             <span
               style={{
@@ -92,8 +96,8 @@ export default function Journey() {
         </FadeUp>
 
         <div className="relative">
-          <div className="hidden lg:block absolute left-0 right-0" style={{ top: "27px" }}>
-            <div className="relative h-[2px] w-full overflow-hidden rounded-full bg-white/10">
+          <div className="hidden lg:block absolute left-0 right-0" style={{ top: "30px" }}>
+            <div className="relative h-[2px] w-full overflow-hidden rounded-full bg-white/15">
               <motion.div
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
@@ -105,14 +109,12 @@ export default function Journey() {
               />
             </div>
 
-            {/* a small light keeps travelling the line once the sweep completes,
-                the journey doesn't end at step six, ongoing care does not stop */}
             {lineActive && !reduce && (
               <motion.div
                 initial={{ left: "0%", opacity: 0 }}
                 animate={{ left: "100%", opacity: [0, 1, 1, 0] }}
                 transition={{ delay: LINE_DURATION * 0.4, duration: 3.2, repeat: Infinity, ease: "linear" }}
-                className="absolute top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#00b99d] shadow-[0_0_14px_3px_rgba(0,185,157,0.65)]"
+                className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#00b99d] shadow-[0_0_16px_4px_rgba(0,185,157,0.75)]"
               />
             )}
           </div>
@@ -137,15 +139,15 @@ export default function Journey() {
                           duration: 0.55,
                           ease: EASE,
                         }}
-                        className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full border-2 border-white/15 font-raleway font-semibold text-sm text-white"
+                        className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full border-2 border-white/20 font-raleway font-bold text-base text-white shadow-lg"
                       >
                         {step.number}
                       </motion.div>
                     </div>
-                    <p className="font-raleway font-semibold text-white text-sm mb-2 leading-tight">
+                    <p className="font-raleway font-bold text-white text-base sm:text-lg mb-2 leading-tight">
                       {step.title}
                     </p>
-                    <p className="text-white/45 text-xs leading-relaxed font-nunito">{step.desc}</p>
+                    <p className="text-white/80 text-xs sm:text-sm leading-relaxed font-nunito font-medium">{step.desc}</p>
                   </div>
                 </FadeUp>
               );
