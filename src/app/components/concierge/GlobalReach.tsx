@@ -332,25 +332,7 @@ export default function GlobalReach() {
       const rotX = rotXRef.current;
       const rotY = rotYRef.current;
 
-      // 1. Draw outer atmospheric glow & halo
-      const atmosGrad = ctx.createRadialGradient(
-        centerX,
-        centerY,
-        globeRadius * 0.88,
-        centerX,
-        centerY,
-        globeRadius * 1.25
-      );
-      atmosGrad.addColorStop(0, "rgba(0, 185, 157, 0.25)");
-      atmosGrad.addColorStop(0.35, "rgba(2, 56, 90, 0.28)");
-      atmosGrad.addColorStop(0.7, "rgba(166, 210, 0, 0.1)");
-      atmosGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
-      ctx.fillStyle = atmosGrad;
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, globeRadius * 1.25, 0, Math.PI * 2);
-      ctx.fill();
-
-      // 2. Base 3D Sphere gradient fill (Triage Luxury Navy)
+      // 1. Base 3D Sphere gradient fill (Triage Luxury Navy)
       const sphereGrad = ctx.createRadialGradient(
         centerX - globeRadius * 0.35,
         centerY - globeRadius * 0.35,
@@ -505,7 +487,7 @@ export default function GlobalReach() {
           arcPoints.push(project3D(curLat, curLng, elevation));
         }
 
-        // Draw the glowing 3D arc line
+        // Draw the glowing 3D airway arc line (Two-pass bold airway styling)
         ctx.beginPath();
         let isDrawing = false;
         arcPoints.forEach((p) => {
@@ -522,13 +504,20 @@ export default function GlobalReach() {
         });
 
         const isHovered = hoveredCity === city.name;
-        ctx.strokeStyle = isHovered ? "rgba(201, 226, 101, 0.95)" : "rgba(0, 185, 157, 0.55)";
-        ctx.lineWidth = isHovered ? 2.2 : 1.2;
-        ctx.setLineDash([3, 4]);
+
+        // Pass 1: Soft luminous airway corridor glow
+        ctx.strokeStyle = isHovered ? "rgba(201, 226, 101, 0.45)" : "rgba(0, 185, 157, 0.3)";
+        ctx.lineWidth = isHovered ? 5.5 : 4.2;
+        ctx.stroke();
+
+        // Pass 2: Crisp, bold high-visibility flight track
+        ctx.strokeStyle = isHovered ? "#d9f06e" : "rgba(80, 235, 205, 0.95)";
+        ctx.lineWidth = isHovered ? 3.0 : 2.2;
+        ctx.setLineDash([6, 4]);
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // Animated Traveling Energy Pulse
+        // Animated Traveling Energy Pulse (Flight Beacon)
         const pulseSpeed = 0.45 + (index % 3) * 0.1;
         const pulseT = (time * pulseSpeed + index * 0.22) % 1;
         const pulseIdx = Math.floor(pulseT * (numSteps - 1));
@@ -541,20 +530,21 @@ export default function GlobalReach() {
             0,
             pulsePoint.x,
             pulsePoint.y,
-            8
+            9.5
           );
-          pulseGlow.addColorStop(0, "#c9e265");
-          pulseGlow.addColorStop(0.4, "rgba(0, 185, 157, 0.8)");
+          pulseGlow.addColorStop(0, "#ffffff");
+          pulseGlow.addColorStop(0.3, "#c9e265");
+          pulseGlow.addColorStop(0.7, "rgba(0, 185, 157, 0.85)");
           pulseGlow.addColorStop(1, "rgba(0, 185, 157, 0)");
 
           ctx.fillStyle = pulseGlow;
           ctx.beginPath();
-          ctx.arc(pulsePoint.x, pulsePoint.y, 8, 0, Math.PI * 2);
+          ctx.arc(pulsePoint.x, pulsePoint.y, 9.5, 0, Math.PI * 2);
           ctx.fill();
 
           ctx.fillStyle = "#ffffff";
           ctx.beginPath();
-          ctx.arc(pulsePoint.x, pulsePoint.y, 1.8, 0, Math.PI * 2);
+          ctx.arc(pulsePoint.x, pulsePoint.y, 2.2, 0, Math.PI * 2);
           ctx.fill();
         }
       });
@@ -793,14 +783,12 @@ export default function GlobalReach() {
 
         <FadeIn className="flex flex-col items-center">
           <p className="mb-6 font-nunito text-xs sm:text-sm tracking-wider uppercase text-slate-500 font-semibold flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-triage-teal animate-ping" />
             <span>Interactive 3D Sphere &middot; Drag to rotate &middot; Click any city node</span>
           </p>
 
           {/* 3D Canvas Interactive Globe Container */}
           <div className="relative w-full max-w-[420px] sm:max-w-[520px] aspect-square flex items-center justify-center">
             {/* Outer ambient glow backlight */}
-            <div className="absolute -inset-6 rounded-full bg-gradient-to-tr from-triage-teal/25 via-triage-navy/20 to-triage-lime/25 blur-2xl pointer-events-none" />
 
             <canvas
               ref={canvasRef}
