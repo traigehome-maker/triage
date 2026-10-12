@@ -31,8 +31,22 @@ export const SEGMENTS = [
     headline: "A trusted healthcare partner for your entire household.",
     body: "Your household's health is too important to leave to chance. One partner. One coordinator. Complete oversight for everyone in your care, from annual wellness planning to live-in support.",
     services: ["Multi-member access plans", "Elder care oversight", "Household health records", "Annual wellness planning", "Live-in care coordination"],
-    image: "/images/hero/fam.png",
+    image: "/images/hero/plan.png",
     showCircleBuilder: true,
+  },
+  {
+    tag: "Gift of Peace of Mind",
+    headline: "The Gift of Peace of Mind: Premium healthcare for families & corporate teams.",
+    body: "Whether honoring valued executives, rewarding key personnel, or caring for family members in Lagos, gift structured concierge healthcare and clinical oversight. We coordinate physician and nurse visits, manage prescriptions, provide emergency escalation, and deliver confidential digital reports directly to you or your organisation.",
+    services: [
+      "Executive & corporate health gifting packages",
+      "Dedicated Peace of Mind Representative",
+      "Scheduled in-home & workplace clinical check-ins",
+      "Prescription oversight & diagnostic coordination",
+      "Confidential circle reporting for gifters & employers",
+      "24/7 emergency escalation & priority hospital admission",
+    ],
+    image: "/images/hero/fam.png",
   },
 ];
 

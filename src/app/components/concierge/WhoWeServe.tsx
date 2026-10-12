@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { SEGMENTS } from "./shared/config";
@@ -39,6 +39,12 @@ function buildWhatsAppLink(message: string) {
 function getSegmentCTA(tag: string): { label: string; message: string } {
   const t = tag.toLowerCase();
 
+  if (t.includes("gift")) {
+    return {
+      label: "Gift a Care Package",
+      message: `Hello TriageConcierge, I would like to gift a Peace of Mind healthcare package to a loved one.`,
+    };
+  }
   if (t.includes("hni") || t.includes("family")) {
     return {
       label: "Explore TriageConcierge",
@@ -113,6 +119,40 @@ function SegmentTabs({
  *  the left, so it feels intentional on hover rather than just changing
  *  color. */
 function SegmentCTA({ tag }: { tag: string }) {
+  const isGift = tag.toLowerCase().includes("gift");
+
+  if (isGift) {
+    const corpHref = buildWhatsAppLink(
+      "Hello TriageConcierge, I would like to enquire about Corporate Health Gifting for our executives/workforce."
+    );
+    const familyHref = buildWhatsAppLink(
+      "Hello TriageConcierge, I would like to gift a Peace of Mind healthcare package to a loved one."
+    );
+
+    return (
+      <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+        <a
+          href={corpHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#aa7130] hover:bg-[#8c5c22] text-white font-raleway font-bold text-xs sm:text-sm shadow-md transition-all hover:shadow-lg"
+        >
+          <span>Explore Corporate Gifting</span>
+          <Icons.ArrowRight />
+        </a>
+        <a
+          href={familyHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-slate-300 hover:border-[#02385a] bg-slate-50 hover:bg-white text-[#02385a] font-raleway font-bold text-xs sm:text-sm transition-all"
+        >
+          <span>Gift to Loved Ones</span>
+          <Icons.ArrowRight />
+        </a>
+      </div>
+    );
+  }
+
   const { label, message } = getSegmentCTA(tag);
   const href = buildWhatsAppLink(message);
 
@@ -157,10 +197,30 @@ export default function WhoWeServe() {
     secondary: "Emergency Only",
     additional: "No Access",
   });
+
+  // Automatically activate the "Gift of Peace of Mind" tab if URL has #gift
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const hash = window.location.hash.toLowerCase();
+      if (hash.includes("gift")) {
+        const giftIdx = SEGMENTS.findIndex((s) => s.tag.toLowerCase().includes("gift"));
+        if (giftIdx !== -1) {
+          setActiveSegment(giftIdx);
+          setTimeout(() => {
+            const el = document.getElementById("who-we-serve");
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          }, 200);
+        }
+      }
+    }
+  }, []);
+
   const seg = SEGMENTS[activeSegment];
 
   return (
-    <section className="bg-[#fafafa] border-y border-slate-100 py-20 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8">
+    <section id="who-we-serve" className="relative bg-[#fafafa] border-y border-slate-100 py-20 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8">
+      <div id="gift" className="absolute -top-24 left-0 pointer-events-none" />
+
       <div className="max-w-7xl mx-auto">
         <FadeUp className="mb-12 sm:mb-14">
           <div className="inline-flex items-center gap-3 mb-4">
@@ -198,7 +258,6 @@ export default function WhoWeServe() {
                 >
                   <Image src={seg.image} alt={seg.tag} fill className="object-cover object-center" />
                 </motion.div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-white" />
               </div>
 
               {/* Content */}

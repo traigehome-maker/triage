@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { ChevronDown, ArrowRight } from "lucide-react";
 
 export const servicesList = [
+  { name: "Health Snapshot", href: "/hs" },
   { name: "Elderly Care", href: "/access-plans/elderly-care" },
   { name: "Post-Surgery Care", href: "/access-plans/post-surgery-care" },
   { name: "Chronic Disease Management", href: "/access-plans/chronic-disease-management" },
