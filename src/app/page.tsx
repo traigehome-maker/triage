@@ -15,15 +15,7 @@ import Vid from "./components/home/vids";
 import Trust from "./components/home/trust";
 import Soon from "./components/soon";
 import Plan from "./components/plans";
-
-
-// Global components
-
-
-/* -------------------------------------
-   METADATA SPOTLITE AFRICA AGENCY
-------------------------------------- */
-
+import GiftOfPeaceOfMind from "./components/home/gift-peace-of-mind";
 
 
 
@@ -142,9 +134,7 @@ export const metadata: Metadata = {
     google: "ADD_GOOGLE_SEARCH_CONSOLE_CODE_HERE",
   },
 };
-/* -------------------------------------
-   HOME PAGE
-------------------------------------- */
+
 export default function Home() {
   return (
     <main>
@@ -161,9 +151,10 @@ export default function Home() {
 
       {/* Workforce scope / industries / roles */}
       <Listing />
-       <History />
-        <Trust />
-       <Plan />
+      <History />
+      <Trust />
+      <GiftOfPeaceOfMind />
+      <Plan />
        <Soon />
         <Typess />
         

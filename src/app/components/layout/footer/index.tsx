@@ -82,15 +82,24 @@ export default function Footer() {
             </h4>
 
             <ul className="space-y-3 text-white/70">
+              <li>
+                <Link
+                  href="/hs"
+                  className="hover:text-triage-orange transition font-bold text-white flex items-center gap-1.5"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#c9e265]" />
+                  Health Snapshot
+                </Link>
+              </li>
 
-  <li>
-    <Link
-      href="/access-plans/elderly-care"
-      className="hover:text-triage-orange transition"
-    >
-      Elderly Care
-    </Link>
-  </li>
+              <li>
+                <Link
+                  href="/access-plans/elderly-care"
+                  className="hover:text-triage-orange transition"
+                >
+                  Elderly Care
+                </Link>
+              </li>
 
   <li>
     <Link
