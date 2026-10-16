@@ -91,7 +91,7 @@ export default function SnapshotTeaser() {
                   style={{ transformOrigin: "left" }}
                   className="w-8 h-[2px] bg-[#00b99d]"
                 />
-                <span className="font-raleway font-bold text-xs sm:text-sm tracking-[0.22em] uppercase text-[#00897a]">
+                <span className="font-raleway font-bold text-xs sm:text-sm tracking-[0.22em] text-[#00897a]">
                   TriageSnapshot
                 </span>
               </div>
@@ -184,7 +184,7 @@ export default function SnapshotTeaser() {
                 <div className="px-6 py-4 flex items-center justify-between" style={{ background: "#aa7130" }}>
                   <div>
                     <p className="font-raleway font-bold text-white text-base leading-none">TriageHome</p>
-                    <p className="text-white/80 text-xs mt-1">Health Passport &middot; TriageSnapshot</p>
+                    <p className="text-white/80 text-xs mt-1">Health Snapshot &middot; TriageSnapshot</p>
                   </div>
                   <div className="text-right">
                     <p className="text-white/80 text-xs">
@@ -277,7 +277,7 @@ export default function SnapshotTeaser() {
                   <Icons.Shield />
                 </div>
                 <div>
-                  <p className="font-raleway font-bold text-[#02385a] text-xs">PDF Health Passport</p>
+                  <p className="font-raleway font-bold text-[#02385a] text-xs">PDF Health Snapshot</p>
                   <p className="text-slate-500 text-[11px] font-nunito">Ready to download</p>
                 </div>
               </motion.div>

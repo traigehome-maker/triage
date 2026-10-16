@@ -2,8 +2,19 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { MessageCircle, CalendarCheck, Stethoscope, FileCheck, ArrowRight, PhoneCall } from "lucide-react";
-import { WHATSAPP_LINK, WHATSAPP_NUMBER, WHATSAPP_DISPLAY } from "./shared/config";
+import {
+  MessageCircle,
+  CalendarCheck,
+  Stethoscope,
+  FileCheck,
+  ArrowRight,
+  PhoneCall,
+} from "lucide-react";
+import {
+  WHATSAPP_LINK,
+  WHATSAPP_NUMBER,
+  WHATSAPP_DISPLAY,
+} from "./shared/config";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -43,7 +54,10 @@ const CARD_ANIM = {
 
 export default function BookingProcess() {
   return (
-    <section id="booking-process" className="relative py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#f8fafc] border-b border-slate-100 overflow-hidden">
+    <section
+      id="booking-process"
+      className="relative py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#f8fafc] border-b border-slate-100 overflow-hidden"
+    >
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -60,7 +74,8 @@ export default function BookingProcess() {
             How Your Health Snapshot Works
           </h2>
           <p className="text-slate-600 text-sm sm:text-base font-nunito">
-            Effortless clinical care brought straight to your doorstep—no hospital queues, no waiting rooms.
+            Effortless clinical care brought straight to your doorstep—no
+            hospital queues, no waiting rooms.
           </p>
         </motion.div>
 
@@ -79,7 +94,9 @@ export default function BookingProcess() {
             >
               <div>
                 <div className="flex items-center justify-between mb-5">
-                  <span className="text-xs font-black text-slate-400 font-raleway">STEP {item.step}</span>
+                  <span className="text-xs font-black text-slate-400 font-raleway">
+                    STEP {item.step}
+                  </span>
                   <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center shadow-xs">
                     {item.icon}
                   </div>
@@ -108,10 +125,11 @@ export default function BookingProcess() {
               Ready to Know Your Numbers?
             </span>
             <h3 className="text-2xl sm:text-3xl font-raleway font-bold text-white mb-2">
-              Book a Session with a Certified Nurse
+              Book a Session with a Registered Nurse
             </h3>
             <p className="text-white/80 text-sm font-nunito leading-relaxed">
-              Available across Lagos for individuals, couples, and entire households. Send a direct WhatsApp enquiry to pick your slot.
+              Available across Lagos for individuals, couples, and entire
+              households. Send a direct WhatsApp enquiry to pick your slot.
             </p>
           </div>
 

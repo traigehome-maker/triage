@@ -1,7 +1,7 @@
 export const WHATSAPP_NUMBER = "+2349134664547";
 export const WHATSAPP_DISPLAY = "+234 913 466 4547";
 export const WHATSAPP_LINK = `https://wa.me/2349134664547?text=${encodeURIComponent(
-  "Hello TriageHome, I would like to book a TriageHealth Snapshot session."
+  "Hello TriageHome, I would like to book a TriageSnapshot session."
 )}`;
 
 export const WHATSAPP_WORKFORCE_LINK = `https://wa.me/2349134664547?text=${encodeURIComponent(
