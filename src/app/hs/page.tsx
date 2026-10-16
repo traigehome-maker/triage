@@ -33,25 +33,18 @@ export const metadata: Metadata = {
 export default function HealthSnapshotPage() {
   return (
     <main className="relative overflow-x-hidden font-nunito bg-white text-[#0f172a]">
-      {/* 1. Calm, Human Hero with Authentic Receipt Slip */}
       <SnapshotHero />
 
-      {/* 2. 13 In-Home Clinical Inclusions (Clean Checklist) */}
       <VisitInclusions />
 
-      {/* 3. Simple 3-Step Booking Process (No Public Pricing Displayed) */}
       <BookingProcess />
 
-      {/* 4. Longitudinal Continuity & Workforce Intelligence */}
       <ContinuityJourney />
 
-      {/* 5. Essential FAQs & Clinical Disclaimer */}
       <SnapshotFAQ />
 
-      {/* 6. High-End Final Booking CTA */}
       <FinalBookingCTA />
 
-      {/* 7. Mobile Sticky 1-Tap Booking Trigger */}
       <StickyMobileBooking />
     </main>
   );

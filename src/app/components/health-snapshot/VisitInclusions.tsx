@@ -44,11 +44,11 @@ export default function VisitInclusions() {
             </div>
 
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-raleway font-semibold text-triage-navy tracking-tight leading-[1.15] mb-4">
-              Comprehensive Health Checks Delivered at Home
+              Comprehensive Health Checks Delivered at Your Doorstep
             </h2>
 
             <p className="text-slate-600 text-sm sm:text-base font-nunito leading-relaxed mb-6">
-              A licensed TriageHome Registered Nurse comes directly to you with clinical testing equipment, conducting all 13 health checks in the comfort and privacy of your home.
+              A licensed TriageHome Registered Nurse comes directly to you with clinical testing equipment, conducting all 13 health checks in the comfort and privacy at your Doorstep.
             </p>
 
             <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-600 font-nunito mb-6 space-y-2">

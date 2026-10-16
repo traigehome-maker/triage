@@ -62,7 +62,7 @@ export default function SnapshotHero() {
               className="h-[2px] bg-triage-lime" 
             />
             <p className="font-nunito text-triage-lime uppercase tracking-widest text-sm font-semibold">
-              TriageHealth SnapShot
+              Triage Health Snapshot
             </p>
           </motion.div>
 

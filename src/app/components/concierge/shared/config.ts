@@ -104,8 +104,8 @@ export const PLANS = [
     cta: CTA.privateConsult,
   },
   {
-    key: "passport",
-    name: "Passport",
+    key: "snapshot",
+    name: "Snapshot",
     price: "₦450,000",
     period: "/month",
     tag: "Premium",
@@ -131,17 +131,17 @@ export const PLANS = [
 export const PERSONA_COPY: Record<string, Record<string, { tagline: string; lead: string }>> = {
   myself: {
     assure: { tagline: "Executive wellness oversight and performance tracking.", lead: "Monthly executive wellness oversight" },
-    passport: { tagline: "Full concierge for your schedule. Complete coordination.", lead: "Everything in Assure, tuned to your calendar" },
+    snapshot: { tagline: "Full concierge for your schedule. Complete coordination.", lead: "Everything in Assure, tuned to your calendar" },
     postop: { tagline: "Structured recovery support after your procedure.", lead: "Post-surgery home nursing" },
   },
   household: {
     assure: { tagline: "Monthly oversight for your household's peace of mind.", lead: "Monthly wellness oversight, household wide" },
-    passport: { tagline: "Full concierge for every member of your household.", lead: "Everything in Assure, for the whole household" },
+    snapshot: { tagline: "Full concierge for every member of your household.", lead: "Everything in Assure, for the whole household" },
     postop: { tagline: "Structured recovery support for anyone in your household.", lead: "Post-surgery home nursing" },
   },
   someone: {
     assure: { tagline: "Monthly oversight for the person you are supporting.", lead: "Monthly wellness oversight, on your behalf" },
-    passport: { tagline: "Full concierge care for the person who matters to you.", lead: "Everything in Assure, coordinated remotely" },
+    snapshot: { tagline: "Full concierge care for the person who matters to you.", lead: "Everything in Assure, coordinated remotely" },
     postop: { tagline: "Structured recovery support you can oversee from anywhere.", lead: "Post-surgery home nursing" },
   },
 };

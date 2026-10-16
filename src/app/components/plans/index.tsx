@@ -37,7 +37,7 @@ const plans = [
     ],
   },
   {
-    title: "TriagePassport",
+    title: "TriageSnapshot",
     price: "₦450,000",
     duration: "/month",
     description:

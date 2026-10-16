@@ -321,7 +321,10 @@ export default function AccessPlans() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {PLANS.map((plan, i) => {
-            const override = PERSONA_COPY[persona][plan.key];
+            const override = PERSONA_COPY[persona]?.[plan.key] || {
+              tagline: plan.tagline,
+              lead: plan.features[0] || plan.tagline,
+            };
             return (
               <FadeUp key={plan.key} delay={i * 0.1}>
                 <PlanCard
