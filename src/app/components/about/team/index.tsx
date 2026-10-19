@@ -24,8 +24,8 @@ const team = [
     bg: "bg-triage-purple/5",
   },
   {
-    name: "Babatunde Oduola-Owoo",
-    title: "Medical Advisor",
+    name: "Babatunde Oduola Owoo",
+    title: "COO",
     degree: "M.D.",
     image: "images/blog/tunde.webp",
     linkedin:
