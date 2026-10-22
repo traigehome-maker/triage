@@ -17,21 +17,21 @@ export const SEGMENTS = [
     headline: "Trusted oversight for the people who matter to you.",
     body: "You live abroad. Someone important to you is here in Lagos. A phone call is not enough. You need a verified team, regular health updates, and a representative who escalates when it matters.",
     services: ["Regular health snapshots", "Emergency escalation", "Verified provider visits", "Reporting to your approved contacts", "Care coordination from anywhere"],
-    image: "/images/hero/ss.png",
+    image: "/images/hero/ss.webp",
   },
   {
     tag: "Executives & Professionals",
     headline: "Healthcare that works around your schedule.",
     body: "Your diary is full. Your health should not suffer for it. A dedicated coordinator arranges everything: diagnostics, specialist referrals, travel health, post-op recovery, without interrupting your day.",
     services: ["Personal healthcare coordinator", "Home diagnostics", "Priority specialist referrals", "Travel health support", "Medication management"],
-    image: "/images/hero/man.png",
+    image: "/images/hero/man.webp",
   },
   {
     tag: "Family Offices & HNIs",
     headline: "A trusted healthcare partner for your entire household.",
     body: "Your household's health is too important to leave to chance. One partner. One coordinator. Complete oversight for everyone in your care, from annual wellness planning to live-in support.",
     services: ["Multi-member access plans", "Elder care oversight", "Household health records", "Annual wellness planning", "Live-in care coordination"],
-    image: "/images/hero/plan.png",
+    image: "/images/hero/plan.webp",
     showCircleBuilder: true,
   },
   {
@@ -46,7 +46,7 @@ export const SEGMENTS = [
       "Confidential circle reporting for gifters & employers",
       "24/7 emergency escalation & priority hospital admission",
     ],
-    image: "/images/hero/fam.png",
+    image: "/images/hero/fam.webp",
   },
 ];
 
@@ -106,7 +106,7 @@ export const PLANS = [
   {
     key: "snapshot",
     name: "Snapshot",
-    price: "₦450,000",
+    price: "₦100,000",
     period: "/month",
     tag: "Premium",
     tagline: "Full concierge. Complete coordination.",

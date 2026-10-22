@@ -105,13 +105,6 @@ export default function PrivateClientProtocol() {
         style={{ background: hexToRgba(ACCENTS[2], 0.14) }}
       />
 
-      <svg className="absolute inset-0 h-full w-full opacity-[0.035] mix-blend-overlay pointer-events-none" aria-hidden="true">
-        <filter id="protocolGrain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
-        </filter>
-        <rect width="100%" height="100%" filter="url(#protocolGrain)" />
-      </svg>
-
       <div className="relative max-w-7xl mx-auto">
         <FadeUp className="text-center mb-14 sm:mb-16">
           <p className="text-[#aa7130] font-raleway font-bold text-xs sm:text-sm tracking-[0.22em] uppercase mb-4">

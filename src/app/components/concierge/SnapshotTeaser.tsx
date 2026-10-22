@@ -70,14 +70,9 @@ export default function SnapshotTeaser() {
         <motion.div
           animate={reduce ? undefined : { x: [0, -16, 0], y: [0, 14, 0] }}
           transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
+          style={{ willChange: "transform" }}
           className="absolute left-[-6%] bottom-[-6%] h-72 w-72 rounded-full bg-[#aa7130]/[0.06] blur-[120px]"
         />
-        <svg className="absolute inset-0 h-full w-full opacity-[0.02] mix-blend-multiply pointer-events-none" aria-hidden="true">
-          <filter id="snapshotGrain">
-            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#snapshotGrain)" />
-        </svg>
 
         <div className="relative max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>

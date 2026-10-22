@@ -126,14 +126,9 @@ export default function WhyConcierge() {
       <motion.div
         animate={reduce ? undefined : { x: [0, 24, 0] }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+        style={{ willChange: "transform" }}
         className="absolute left-[8%] top-[12%] h-64 w-64 rounded-full bg-[#aa7130]/[0.12] blur-[110px]"
       />
-      <svg className="absolute inset-0 h-full w-full opacity-[0.035] mix-blend-overlay pointer-events-none" aria-hidden="true">
-        <filter id="whyGrain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
-        </filter>
-        <rect width="100%" height="100%" filter="url(#whyGrain)" />
-      </svg>
 
       <div className="relative max-w-7xl mx-auto">
         <FadeUp className="mb-14 sm:mb-16 text-center">

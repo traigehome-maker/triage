@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     siteName: "TriageHome Healthcare",
     images: [
       {
-        url: "/images/hero/snap-hero.JPG",
+        url: "/images/hero/snap-hero.webp",
         width: 1200,
         height: 630,
         alt: "TriageHealth SnapShot Screening",

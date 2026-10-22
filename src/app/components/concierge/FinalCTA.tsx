@@ -127,13 +127,6 @@ export default function FinalCTA() {
           }}
         />
 
-        <svg className="absolute inset-0 h-full w-full opacity-[0.035] mix-blend-overlay pointer-events-none" aria-hidden="true">
-          <filter id="finalCtaGrain">
-            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#finalCtaGrain)" />
-        </svg>
-
         <div className="hidden lg:block absolute bottom-6 right-6 bg-black/40 backdrop-blur-sm rounded-lg px-3 py-1.5">
           
         </div>

@@ -340,11 +340,13 @@ export default function Hero({
           <motion.div
             animate={reduce ? undefined : { rotate: 360 }}
             transition={{ duration: 140, repeat: Infinity, ease: "linear" }}
+            style={{ willChange: "transform" }}
             className="w-[420px] h-[420px] sm:w-[600px] sm:h-[600px] rounded-full border border-white/20"
           />
           <motion.div
             animate={reduce ? undefined : { rotate: -360 }}
             transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
+            style={{ willChange: "transform" }}
             className="absolute w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] rounded-full border border-white/10"
           />
         </div>
@@ -366,28 +368,20 @@ export default function Hero({
           />
         </svg>
 
-        {/* fine film grain */}
-        <svg className="absolute inset-0 w-full h-full opacity-[0.035] mix-blend-overlay" aria-hidden="true">
-          <filter id="heroGrain">
-            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#heroGrain)" />
-        </svg>
-
         <div className="absolute inset-0 bg-gradient-to-r from-[#02385a]/95 via-[#02385a]/75 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#02385a]/85 via-transparent to-transparent" />
       </motion.div>
 
       {/* background photo */}
       <Image
-        src="/images/hero/tpm.png"
+        src="/images/hero/tpm.webp"
         alt="TriageConcierge"
         fill
         className="object-cover object-center lg:hidden"
         priority
       />
       <Image
-        src="/images/hero/pom.png"
+        src="/images/hero/pom.webp"
         alt="TriageConcierge"
         fill
         className="hidden object-cover object-center lg:block"

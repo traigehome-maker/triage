@@ -60,13 +60,6 @@ export default function Journey() {
         style={{ background: "linear-gradient(135deg, #b745d8, #a6d200)" }}
       />
 
-      <svg className="absolute inset-0 h-full w-full opacity-[0.035] mix-blend-overlay pointer-events-none" aria-hidden="true">
-        <filter id="journeyGrain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
-        </filter>
-        <rect width="100%" height="100%" filter="url(#journeyGrain)" />
-      </svg>
-
       <div className="relative max-w-7xl mx-auto">
         <FadeUp className="text-center mb-16 sm:mb-20">
           <div className="inline-flex items-center justify-center gap-3 mb-4">

@@ -281,14 +281,9 @@ export default function AccessPlans() {
       <motion.div
         animate={reduce ? undefined : { x: [0, -18, 0], y: [0, 16, 0] }}
         transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
+        style={{ willChange: "transform" }}
         className="absolute left-[-6%] bottom-[-4%] h-72 w-72 rounded-full bg-[#02385a]/[0.05] blur-[120px]"
       />
-      <svg className="absolute inset-0 h-full w-full opacity-[0.02] mix-blend-multiply pointer-events-none" aria-hidden="true">
-        <filter id="plansGrain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
-        </filter>
-        <rect width="100%" height="100%" filter="url(#plansGrain)" />
-      </svg>
 
       <div className="relative max-w-7xl mx-auto">
         <FadeUp className="text-center mb-10 sm:mb-12">

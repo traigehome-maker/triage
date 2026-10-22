@@ -211,9 +211,15 @@ function pointInPolygon(lat: number, lng: number, poly: [number, number][]): boo
   return inside;
 }
 
-// Generates geographically precise point-matrix continent mesh
-function generateContinentPoints(): [number, number][] {
-  const points: [number, number][] = [];
+interface ContinentPoint {
+  cosPhi: number;
+  sinPhi: number;
+  lngRad: number;
+}
+
+// Generates geographically precise point-matrix continent mesh with precomputed angles
+function generateContinentPoints(): ContinentPoint[] {
+  const points: ContinentPoint[] = [];
   const allPolygons = [
     { poly: AFRICA_POLY, step: 1.4 }, // Dense step for distinct African contours
     { poly: MADAGASCAR_POLY, step: 1.3 },
@@ -244,7 +250,12 @@ function generateContinentPoints(): [number, number][] {
     for (let lat = minLat; lat <= maxLat; lat += step) {
       for (let lng = minLng; lng <= maxLng; lng += step) {
         if (pointInPolygon(lat, lng, poly)) {
-          points.push([lat, lng]);
+          const phi = (lat * Math.PI) / 180;
+          points.push({
+            cosPhi: Math.cos(phi),
+            sinPhi: Math.sin(phi),
+            lngRad: (lng * Math.PI) / 180,
+          });
         }
       }
     }
@@ -253,11 +264,72 @@ function generateContinentPoints(): [number, number][] {
   return points;
 }
 
+interface GlobalNetworkRoute {
+  startLat: number;
+  startLng: number;
+  endLat: number;
+  endLng: number;
+  arcAlt?: number;
+  color?: string;
+  glowColor?: string;
+}
+
+const GLOBAL_NETWORK_ROUTES: GlobalNetworkRoute[] = [
+  // Transatlantic & Intercontinental Diaspora Corridors
+  { startLat: 51.5074, startLng: -0.1278, endLat: 6.5244, endLng: 3.3792, arcAlt: 0.24, color: "#00e5ff", glowColor: "rgba(0, 229, 255, 0.4)" }, // London <-> Lagos
+  { startLat: 29.7604, startLng: -95.3698, endLat: 6.5244, endLng: 3.3792, arcAlt: 0.35, color: "#38bdf8", glowColor: "rgba(56, 189, 248, 0.4)" }, // Houston <-> Lagos
+  { startLat: 33.749, startLng: -84.388, endLat: 6.5244, endLng: 3.3792, arcAlt: 0.32, color: "#00b99d", glowColor: "rgba(0, 185, 157, 0.4)" }, // Atlanta <-> Lagos
+  { startLat: 43.6532, startLng: -79.3832, endLat: 51.5074, endLng: -0.1278, arcAlt: 0.25, color: "#38bdf8", glowColor: "rgba(56, 189, 248, 0.4)" }, // Toronto <-> London
+  { startLat: 51.5074, startLng: -0.1278, endLat: 25.2048, endLng: 55.2708, arcAlt: 0.28, color: "#c9e265", glowColor: "rgba(201, 226, 101, 0.4)" }, // London <-> Dubai
+  { startLat: 25.2048, startLng: 55.2708, endLat: 28.6139, endLng: 77.209, arcAlt: 0.2, color: "#00b99d", glowColor: "rgba(0, 185, 157, 0.4)" }, // Dubai <-> New Delhi
+  { startLat: 25.2048, startLng: 55.2708, endLat: 25.2854, endLng: 51.531, arcAlt: 0.12, color: "#38bdf8", glowColor: "rgba(56, 189, 248, 0.4)" }, // Dubai <-> Doha
+  { startLat: 6.5244, startLng: 3.3792, endLat: 9.0765, endLng: 7.3986, arcAlt: 0.12, color: "#c9e265", glowColor: "rgba(201, 226, 101, 0.4)" }, // Lagos <-> Abuja
+  { startLat: 6.5244, startLng: 3.3792, endLat: -26.2041, endLng: 28.0473, arcAlt: 0.26, color: "#06b6d4", glowColor: "rgba(6, 182, 212, 0.4)" }, // Lagos <-> Johannesburg
+
+  // Worldwide Multi-Point Connections (Aceternity Globe Inspo)
+  { startLat: 51.5072, startLng: -0.1276, endLat: 48.8566, endLng: 2.3522, arcAlt: 0.12, color: "#38bdf8", glowColor: "rgba(56, 189, 248, 0.4)" }, // London <-> Paris
+  { startLat: 48.8566, startLng: 2.3522, endLat: 52.52, endLng: 13.405, arcAlt: 0.14, color: "#00b99d", glowColor: "rgba(0, 185, 157, 0.4)" }, // Paris <-> Berlin
+  { startLat: 21.3099, startLng: -157.8581, endLat: 40.7128, endLng: -74.006, arcAlt: 0.35, color: "#6366f1", glowColor: "rgba(99, 102, 241, 0.4)" }, // Honolulu <-> New York
+  { startLat: 40.7128, startLng: -74.006, endLat: 51.5074, endLng: -0.1278, arcAlt: 0.28, color: "#00e5ff", glowColor: "rgba(0, 229, 255, 0.4)" }, // New York <-> London
+  { startLat: 34.0522, startLng: -118.2437, endLat: 40.7128, endLng: -74.006, arcAlt: 0.22, color: "#38bdf8", glowColor: "rgba(56, 189, 248, 0.4)" }, // Los Angeles <-> New York
+  { startLat: -19.885592, startLng: -43.951191, endLat: -1.303396, endLng: 36.852443, arcAlt: 0.42, color: "#c9e265", glowColor: "rgba(201, 226, 101, 0.4)" }, // Brazil <-> Kenya
+  { startLat: -1.303396, startLng: 36.852443, endLat: 25.2048, endLng: 55.2708, arcAlt: 0.26, color: "#00b99d", glowColor: "rgba(0, 185, 157, 0.4)" }, // Nairobi <-> Dubai
+  { startLat: 1.3521, startLng: 103.8198, endLat: 35.6762, endLng: 139.6503, arcAlt: 0.25, color: "#06b6d4", glowColor: "rgba(6, 182, 212, 0.4)" }, // Singapore <-> Tokyo
+  { startLat: 28.6139, startLng: 77.209, endLat: 1.3521, endLng: 103.8198, arcAlt: 0.24, color: "#38bdf8", glowColor: "rgba(56, 189, 248, 0.4)" }, // New Delhi <-> Singapore
+  { startLat: 35.6762, startLng: 139.6503, endLat: 22.3193, endLng: 114.1694, arcAlt: 0.18, color: "#c9e265", glowColor: "rgba(201, 226, 101, 0.4)" }, // Tokyo <-> Hong Kong
+  { startLat: 22.3193, startLng: 114.1694, endLat: -33.8688, endLng: 151.2093, arcAlt: 0.32, color: "#00b99d", glowColor: "rgba(0, 185, 157, 0.4)" }, // Hong Kong <-> Sydney
+  { startLat: -33.8688, startLng: 151.2093, endLat: 1.3521, endLng: 103.8198, arcAlt: 0.28, color: "#6366f1", glowColor: "rgba(99, 102, 241, 0.4)" }, // Sydney <-> Singapore
+  { startLat: 34.0522, startLng: -118.2437, endLat: 35.6762, endLng: 139.6503, arcAlt: 0.38, color: "#00e5ff", glowColor: "rgba(0, 229, 255, 0.4)" }, // Los Angeles <-> Tokyo
+  { startLat: -34.6037, startLng: -58.3816, endLat: -22.9068, endLng: -43.1729, arcAlt: 0.16, color: "#38bdf8", glowColor: "rgba(56, 189, 248, 0.4)" }, // Buenos Aires <-> Rio de Janeiro
+  { startLat: -22.9068, startLng: -43.1729, endLat: 6.5244, endLng: 3.3792, arcAlt: 0.36, color: "#00b99d", glowColor: "rgba(0, 185, 157, 0.4)" }, // Rio de Janeiro <-> Lagos
+  { startLat: -8.833221, startLng: 13.264837, endLat: -33.936138, endLng: 18.436529, arcAlt: 0.22, color: "#c9e265", glowColor: "rgba(201, 226, 101, 0.4)" }, // Luanda <-> Cape Town
+  { startLat: 49.2827, startLng: -123.1207, endLat: 52.3676, endLng: 4.9041, arcAlt: 0.32, color: "#06b6d4", glowColor: "rgba(6, 182, 212, 0.4)" }, // Vancouver <-> Amsterdam
+  { startLat: 52.3676, startLng: 4.9041, endLat: 25.2048, endLng: 55.2708, arcAlt: 0.26, color: "#38bdf8", glowColor: "rgba(56, 189, 248, 0.4)" }, // Amsterdam <-> Dubai
+  { startLat: 37.5665, startLng: 126.978, endLat: 35.6762, endLng: 139.6503, arcAlt: 0.14, color: "#00b99d", glowColor: "rgba(0, 185, 157, 0.4)" }, // Seoul <-> Tokyo
+  { startLat: 31.2304, startLng: 121.4737, endLat: 34.0522, endLng: -118.2437, arcAlt: 0.38, color: "#6366f1", glowColor: "rgba(99, 102, 241, 0.4)" }, // Shanghai <-> Los Angeles
+];
+
 export default function GlobalReach() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const reduce = !!useReducedMotion();
   const [modalCity, setModalCity] = useState<string | null>(null);
   const [hoveredCity, setHoveredCity] = useState<string | null>(null);
+
+  const hoveredCityRef = useRef<string | null>(null);
+  const modalCityRef = useRef<string | null>(null);
+  const reduceRef = useRef(reduce);
+
+  useEffect(() => {
+    hoveredCityRef.current = hoveredCity;
+  }, [hoveredCity]);
+
+  useEffect(() => {
+    modalCityRef.current = modalCity;
+  }, [modalCity]);
+
+  useEffect(() => {
+    reduceRef.current = reduce;
+  }, [reduce]);
 
   // Globe rotation state (centered on Nigeria / Atlantic hemisphere initially)
   const rotXRef = useRef(-0.1);
@@ -267,11 +339,53 @@ export default function GlobalReach() {
   const isDraggingRef = useRef(false);
   const isHoveredRef = useRef(false);
   const lastPointerRef = useRef({ x: 0, y: 0 });
-  const velocityRef = useRef({ x: 0.0016, y: 0 });
+  const AUTO_ROTATE_SPEED = 0.0072;
+  const velocityRef = useRef({ x: AUTO_ROTATE_SPEED, y: 0 });
 
   const continentPoints = useMemo(() => generateContinentPoints(), []);
-  const lagosCity = GLOBE_CITIES.find((c) => c.primary)!;
-  const destinationCities = useMemo(() => GLOBE_CITIES.filter((c) => !c.primary), []);
+
+  // Precompute static Great-Circle 3D geographic tracks connecting all over the globe
+  const precomputedArcs = useMemo(() => {
+    const numSteps = 36;
+
+    return GLOBAL_NETWORK_ROUTES.map((route) => {
+      const lat1 = (route.startLat * Math.PI) / 180;
+      const lng1 = (route.startLng * Math.PI) / 180;
+      const lat2 = (route.endLat * Math.PI) / 180;
+      const lng2 = (route.endLng * Math.PI) / 180;
+
+      const dLng = lng2 - lng1;
+      const angularDist = Math.acos(
+        Math.max(-1, Math.min(1, Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(dLng)))
+      );
+      const maxElevation = route.arcAlt ?? (0.18 + Math.min(0.22, angularDist * 0.12));
+      const steps: { lat: number; lng: number; elevation: number }[] = [];
+
+      for (let s = 0; s <= numSteps; s++) {
+        const t = s / numSteps;
+        const sinDist = Math.sin(angularDist) || 0.0001;
+        const A = Math.sin((1 - t) * angularDist) / sinDist;
+        const B = Math.sin(t * angularDist) / sinDist;
+
+        const xSph = A * Math.cos(lat1) * Math.cos(lng1) + B * Math.cos(lat2) * Math.cos(lng2);
+        const ySph = A * Math.cos(lat1) * Math.sin(lng1) + B * Math.cos(lat2) * Math.sin(lng2);
+        const zSph = A * Math.sin(lat1) + B * Math.sin(lat2);
+
+        const curLat = (Math.atan2(zSph, Math.sqrt(xSph * xSph + ySph * ySph)) * 180) / Math.PI;
+        const curLng = (Math.atan2(ySph, xSph) * 180) / Math.PI;
+        const elevation = 1 + maxElevation * Math.sin(Math.PI * t);
+
+        steps.push({ lat: curLat, lng: curLng, elevation });
+      }
+
+      return {
+        steps,
+        numSteps,
+        color: route.color ?? "#00b99d",
+        glowColor: route.glowColor ?? "rgba(0, 185, 157, 0.4)",
+      };
+    });
+  }, []);
 
   // Smoothly center the globe on a selected city
   const focusOnCity = useCallback((cityName: string) => {
@@ -291,7 +405,7 @@ export default function GlobalReach() {
     let time = 0;
 
     const resize = () => {
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       const rect = canvas.getBoundingClientRect();
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
@@ -300,7 +414,10 @@ export default function GlobalReach() {
     resize();
     window.addEventListener("resize", resize);
 
+    let isVisible = false;
+
     const render = () => {
+      if (!isVisible) return;
       time += 0.016;
       const rect = canvas.getBoundingClientRect();
       const width = rect.width;
@@ -324,13 +441,15 @@ export default function GlobalReach() {
           targetRotYRef.current = null;
         }
       } else if (!isDraggingRef.current) {
-        if (!isHoveredRef.current && !modalCity && !reduce) {
-          rotXRef.current += velocityRef.current.x;
+        if (!modalCityRef.current && !reduceRef.current) {
+          rotXRef.current += AUTO_ROTATE_SPEED;
         }
       }
 
       const rotX = rotXRef.current;
       const rotY = rotYRef.current;
+      const cosY = Math.cos(rotY);
+      const sinY = Math.sin(rotY);
 
       // 1. Base 3D Sphere gradient fill (Triage Luxury Navy)
       const sphereGrad = ctx.createRadialGradient(
@@ -371,9 +490,7 @@ export default function GlobalReach() {
         const y0 = -r * Math.sin(phi);
         const z0 = r * Math.cos(phi) * Math.cos(theta);
 
-        // Pitch tilt around X axis
-        const cosY = Math.cos(rotY);
-        const sinY = Math.sin(rotY);
+        // Pitch tilt around X axis (uses hoisted cosY and sinY)
         const x = x0;
         const y = y0 * cosY - z0 * sinY;
         const z = y0 * sinY + z0 * cosY;
@@ -428,66 +545,54 @@ export default function GlobalReach() {
         ctx.stroke();
       }
 
-      // 4. Render 3D High-Definition Continent Point Mesh
+      // 4. Render 3D High-Definition Continent Point Mesh (Single-pass fast projection)
+      const highlightPoints: { x: number; y: number; size: number }[] = [];
+      ctx.beginPath();
+      ctx.fillStyle = "rgba(0, 185, 157, 0.85)";
       for (let i = 0; i < continentPoints.length; i++) {
-        const [lat, lng] = continentPoints[i];
-        const pt = project3D(lat, lng);
-        if (pt.z > 0) {
-          const alpha = Math.min(1, Math.max(0.12, Math.pow(pt.z, 1.3)));
-          const size = 1.15 + pt.z * 1.35;
+        const cp = continentPoints[i];
+        const theta = cp.lngRad + rotX;
+        const cosTheta = Math.cos(theta);
+        const sinTheta = Math.sin(theta);
 
-          ctx.fillStyle = `rgba(0, 185, 157, ${alpha * 0.9})`;
-          ctx.beginPath();
-          ctx.arc(pt.x, pt.y, size, 0, Math.PI * 2);
-          ctx.fill();
+        const x0 = globeRadius * cp.cosPhi * sinTheta;
+        const y0 = -globeRadius * cp.sinPhi;
+        const z0 = globeRadius * cp.cosPhi * cosTheta;
 
-          // Highlight core for front-facing points
-          if (pt.z > 0.45) {
-            ctx.fillStyle = `rgba(166, 210, 0, ${pt.z * 0.65})`;
-            ctx.beginPath();
-            ctx.arc(pt.x, pt.y, size * 0.5, 0, Math.PI * 2);
-            ctx.fill();
+        const y = y0 * cosY - z0 * sinY;
+        const z = y0 * sinY + z0 * cosY;
+        const zNorm = z / globeRadius;
+
+        if (zNorm > 0) {
+          const px = centerX + x0;
+          const py = centerY + y;
+          const size = 1.15 + zNorm * 1.35;
+          ctx.moveTo(px + size, py);
+          ctx.arc(px, py, size, 0, Math.PI * 2);
+
+          if (zNorm > 0.45) {
+            highlightPoints.push({ x: px, y: py, size: size * 0.5 });
           }
         }
       }
+      ctx.fill();
 
-      // 5. Draw 3D Great-Circle Flight & Coordination Arcs
-      const lagosPt = project3D(lagosCity.lat, lagosCity.lng);
-
-      destinationCities.forEach((city, index) => {
-        const numSteps = 36;
-        const arcPoints: { x: number; y: number; z: number; visible: boolean }[] = [];
-
-        // Great circle angle between Lagos and destination
-        const lat1 = (lagosCity.lat * Math.PI) / 180;
-        const lng1 = (lagosCity.lng * Math.PI) / 180;
-        const lat2 = (city.lat * Math.PI) / 180;
-        const lng2 = (city.lng * Math.PI) / 180;
-
-        const dLng = lng2 - lng1;
-        const angularDist = Math.acos(
-          Math.max(-1, Math.min(1, Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(dLng)))
-        );
-
-        const maxElevation = 0.18 + Math.min(0.22, angularDist * 0.12);
-
-        for (let s = 0; s <= numSteps; s++) {
-          const t = s / numSteps;
-          const A = Math.sin((1 - t) * angularDist) / Math.sin(angularDist);
-          const B = Math.sin(t * angularDist) / Math.sin(angularDist);
-
-          const xSph = A * Math.cos(lat1) * Math.cos(lng1) + B * Math.cos(lat2) * Math.cos(lng2);
-          const ySph = A * Math.cos(lat1) * Math.sin(lng1) + B * Math.cos(lat2) * Math.sin(lng2);
-          const zSph = A * Math.sin(lat1) + B * Math.sin(lat2);
-
-          const curLat = (Math.atan2(zSph, Math.sqrt(xSph * xSph + ySph * ySph)) * 180) / Math.PI;
-          const curLng = (Math.atan2(ySph, xSph) * 180) / Math.PI;
-
-          const elevation = 1 + maxElevation * Math.sin(Math.PI * t);
-          arcPoints.push(project3D(curLat, curLng, elevation));
+      if (highlightPoints.length > 0) {
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(166, 210, 0, 0.65)";
+        for (let i = 0; i < highlightPoints.length; i++) {
+          const hp = highlightPoints[i];
+          ctx.moveTo(hp.x + hp.size, hp.y);
+          ctx.arc(hp.x, hp.y, hp.size, 0, Math.PI * 2);
         }
+        ctx.fill();
+      }
 
-        // Draw the glowing 3D airway arc line (Two-pass bold airway styling)
+      // 5. Draw 3D Great-Circle Flight & Coordination Arcs (Connecting All Around the Globe)
+      precomputedArcs.forEach(({ steps, numSteps, color, glowColor }, index) => {
+        const arcPoints = steps.map((s) => project3D(s.lat, s.lng, s.elevation));
+
+        // Draw the glowing 3D airway arc line
         ctx.beginPath();
         let isDrawing = false;
         arcPoints.forEach((p) => {
@@ -503,23 +608,19 @@ export default function GlobalReach() {
           }
         });
 
-        const isHovered = hoveredCity === city.name;
-
-        // Pass 1: Soft luminous airway corridor glow
-        ctx.strokeStyle = isHovered ? "rgba(201, 226, 101, 0.45)" : "rgba(0, 185, 157, 0.3)";
-        ctx.lineWidth = isHovered ? 5.5 : 4.2;
+        // Pass 1: Delicate luminous airway corridor glow
+        ctx.strokeStyle = glowColor;
+        ctx.lineWidth = 2.2;
         ctx.stroke();
 
-        // Pass 2: Crisp, bold high-visibility flight track
-        ctx.strokeStyle = isHovered ? "#d9f06e" : "rgba(80, 235, 205, 0.95)";
-        ctx.lineWidth = isHovered ? 3.0 : 2.2;
-        ctx.setLineDash([6, 4]);
+        // Pass 2: Crisp, thin continuous solid flight track
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.0;
         ctx.stroke();
-        ctx.setLineDash([]);
 
         // Animated Traveling Energy Pulse (Flight Beacon)
-        const pulseSpeed = 0.45 + (index % 3) * 0.1;
-        const pulseT = (time * pulseSpeed + index * 0.22) % 1;
+        const pulseSpeed = 0.65 + (index % 4) * 0.12;
+        const pulseT = (time * pulseSpeed + index * 0.18) % 1;
         const pulseIdx = Math.floor(pulseT * (numSteps - 1));
         const pulsePoint = arcPoints[pulseIdx];
 
@@ -530,83 +631,68 @@ export default function GlobalReach() {
             0,
             pulsePoint.x,
             pulsePoint.y,
-            9.5
+            5.5
           );
           pulseGlow.addColorStop(0, "#ffffff");
-          pulseGlow.addColorStop(0.3, "#c9e265");
-          pulseGlow.addColorStop(0.7, "rgba(0, 185, 157, 0.85)");
-          pulseGlow.addColorStop(1, "rgba(0, 185, 157, 0)");
+          pulseGlow.addColorStop(0.4, color);
+          pulseGlow.addColorStop(1, "rgba(0, 0, 0, 0)");
 
           ctx.fillStyle = pulseGlow;
           ctx.beginPath();
-          ctx.arc(pulsePoint.x, pulsePoint.y, 9.5, 0, Math.PI * 2);
+          ctx.arc(pulsePoint.x, pulsePoint.y, 5.5, 0, Math.PI * 2);
           ctx.fill();
 
           ctx.fillStyle = "#ffffff";
           ctx.beginPath();
-          ctx.arc(pulsePoint.x, pulsePoint.y, 2.2, 0, Math.PI * 2);
+          ctx.arc(pulsePoint.x, pulsePoint.y, 1.3, 0, Math.PI * 2);
           ctx.fill();
         }
       });
 
-      // 6. Draw Lagos Radar Concentric Beacon Rings
-      if (lagosPt.z > 0) {
-        const radarPhase = (time * 1.5) % 1;
-        const radarRadius = 6 + radarPhase * 18;
-        const radarAlpha = (1 - radarPhase) * lagosPt.z;
-
-        ctx.strokeStyle = `rgba(201, 226, 101, ${radarAlpha * 0.9})`;
-        ctx.lineWidth = 1.8;
-        ctx.beginPath();
-        ctx.arc(lagosPt.x, lagosPt.y, radarRadius, 0, Math.PI * 2);
-        ctx.stroke();
-
-        ctx.strokeStyle = `rgba(0, 185, 157, ${radarAlpha * 0.6})`;
-        ctx.lineWidth = 1.2;
-        ctx.beginPath();
-        ctx.arc(lagosPt.x, lagosPt.y, radarRadius * 0.6, 0, Math.PI * 2);
-        ctx.stroke();
-
-        // Lagos Core Pin
-        ctx.fillStyle = "#c9e265";
-        ctx.beginPath();
-        ctx.arc(lagosPt.x, lagosPt.y, 4.2, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.strokeStyle = "#ffffff";
-        ctx.lineWidth = 1.6;
-        ctx.stroke();
-      }
-
-      // 7. Draw Global City Nodes & Badges
-      destinationCities.forEach((city) => {
+      // 6. Draw Global City Nodes, Radar Rings & Interactive Badges
+      GLOBE_CITIES.forEach((city, cityIdx) => {
         const pt = project3D(city.lat, city.lng);
         if (pt.z > 0.05) {
-          const isHovered = hoveredCity === city.name;
+          const isHovered = hoveredCityRef.current === city.name;
+          const isSelected = modalCityRef.current === city.name;
           const alpha = Math.min(1, pt.z * 1.4);
 
-          // Outer beacon ring
-          ctx.strokeStyle = isHovered ? "#c9e265" : `rgba(0, 185, 157, ${alpha * 0.8})`;
+          // Pulsing radar ring on active city nodes
+          const pulsePhase = (time * 1.6 + cityIdx * 0.22) % 1;
+          const pulseRadius = (isHovered ? 6 : 4) + pulsePhase * 14;
+          const ringAlpha = (1 - pulsePhase) * pt.z * (isHovered ? 0.95 : 0.6);
+
+          ctx.strokeStyle = isHovered
+            ? `rgba(201, 226, 101, ${ringAlpha})`
+            : `rgba(0, 185, 157, ${ringAlpha})`;
           ctx.lineWidth = isHovered ? 1.8 : 1.2;
           ctx.beginPath();
-          ctx.arc(pt.x, pt.y, isHovered ? 5.5 : 3.5, 0, Math.PI * 2);
+          ctx.arc(pt.x, pt.y, pulseRadius, 0, Math.PI * 2);
           ctx.stroke();
 
-          // Core node
-          ctx.fillStyle = isHovered ? "#ffffff" : `rgba(255, 255, 255, ${alpha})`;
+          // Static outer node ring
+          ctx.strokeStyle = isHovered ? "#c9e265" : `rgba(0, 185, 157, ${alpha * 0.9})`;
+          ctx.lineWidth = isHovered ? 2 : 1.4;
           ctx.beginPath();
-          ctx.arc(pt.x, pt.y, isHovered ? 3.0 : 2.0, 0, Math.PI * 2);
+          ctx.arc(pt.x, pt.y, isHovered ? 5.5 : 3.8, 0, Math.PI * 2);
+          ctx.stroke();
+
+          // Core bright node center
+          ctx.fillStyle = isHovered ? "#ffffff" : isSelected ? "#c9e265" : `rgba(255, 255, 255, ${alpha})`;
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, isHovered ? 3.2 : 2.2, 0, Math.PI * 2);
           ctx.fill();
 
           // City Label Badge
-          if (pt.z > 0.2) {
+          if (pt.z > 0.22 || isHovered) {
             ctx.font = `700 ${isHovered ? 12 : 11}px Raleway, sans-serif`;
             const text = city.name;
             const textWidth = ctx.measureText(text).width;
             const pillX = pt.x + 8;
             const pillY = pt.y - 8;
 
-            ctx.fillStyle = isHovered ? "rgba(2, 56, 90, 0.95)" : "rgba(1, 38, 68, 0.85)";
-            ctx.strokeStyle = isHovered ? "#c9e265" : "rgba(0, 185, 157, 0.45)";
+            ctx.fillStyle = isHovered ? "rgba(2, 56, 90, 0.95)" : "rgba(1, 38, 68, 0.88)";
+            ctx.strokeStyle = isHovered ? "#c9e265" : "rgba(0, 185, 157, 0.5)";
             ctx.lineWidth = 1;
 
             ctx.beginPath();
@@ -619,27 +705,6 @@ export default function GlobalReach() {
           }
         }
       });
-
-      // Lagos Label Pill (Always prominent when facing front)
-      if (lagosPt.z > 0.15) {
-        ctx.font = "800 12px Raleway, sans-serif";
-        const text = "Lagos";
-        const textWidth = ctx.measureText(text).width;
-        const pillX = lagosPt.x + 10;
-        const pillY = lagosPt.y - 10;
-
-        ctx.fillStyle = "rgba(2, 56, 90, 0.96)";
-        ctx.strokeStyle = "#c9e265";
-        ctx.lineWidth = 1.4;
-
-        ctx.beginPath();
-        ctx.roundRect(pillX - 5, pillY - 12, textWidth + 10, 18, 5);
-        ctx.fill();
-        ctx.stroke();
-
-        ctx.fillStyle = "#c9e265";
-        ctx.fillText(text, pillX, pillY + 2);
-      }
 
       ctx.restore();
 
@@ -670,13 +735,28 @@ export default function GlobalReach() {
       animationFrameId = requestAnimationFrame(render);
     };
 
-    render();
+    // Pause 100% of render loop when canvas is scrolled off-screen
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const wasVisible = isVisible;
+        isVisible = entry.isIntersecting;
+        if (isVisible && !wasVisible) {
+          render();
+        } else if (!isVisible && animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+        }
+      },
+      { rootMargin: "150px" }
+    );
+
+    observer.observe(canvas);
 
     return () => {
+      observer.disconnect();
       window.removeEventListener("resize", resize);
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
-  }, [continentPoints, destinationCities, hoveredCity, lagosCity, modalCity, reduce]);
+  }, [continentPoints, precomputedArcs]);
 
   // Pointer drag event handlers for full 3D orbital control
   const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -720,7 +800,10 @@ export default function GlobalReach() {
           }
         }
       }
-      setHoveredCity(found);
+      if (found !== hoveredCityRef.current) {
+        hoveredCityRef.current = found;
+        setHoveredCity(found);
+      }
       return;
     }
 
@@ -738,9 +821,10 @@ export default function GlobalReach() {
   };
 
   const handleCanvasClick = () => {
-    if (hoveredCity) {
-      setModalCity(hoveredCity);
-      focusOnCity(hoveredCity);
+    const target = hoveredCityRef.current || hoveredCity;
+    if (target) {
+      setModalCity(target);
+      focusOnCity(target);
     }
   };
 
@@ -753,11 +837,13 @@ export default function GlobalReach() {
       <motion.div
         animate={reduce ? undefined : { x: [0, 22, 0], y: [0, -18, 0] }}
         transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
+        style={{ willChange: "transform" }}
         className="absolute right-[-8%] top-[6%] h-80 w-80 rounded-full bg-[#02385a]/[0.06] blur-[120px]"
       />
       <motion.div
         animate={reduce ? undefined : { x: [0, -18, 0], y: [0, 18, 0] }}
         transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
+        style={{ willChange: "transform" }}
         className="absolute left-[-6%] bottom-[-8%] h-80 w-80 rounded-full bg-[#00b99d]/[0.08] blur-[120px]"
       />
 
@@ -821,8 +907,14 @@ export default function GlobalReach() {
                     setModalCity(city.name);
                     focusOnCity(city.name);
                   }}
-                  onMouseEnter={() => setHoveredCity(city.name)}
-                  onMouseLeave={() => setHoveredCity(null)}
+                  onMouseEnter={() => {
+                    hoveredCityRef.current = city.name;
+                    setHoveredCity(city.name);
+                  }}
+                  onMouseLeave={() => {
+                    hoveredCityRef.current = null;
+                    setHoveredCity(null);
+                  }}
                   className={`group flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full border transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-triage-teal ${
                     city.primary
                       ? "bg-triage-navy text-white border-triage-navy shadow-md"

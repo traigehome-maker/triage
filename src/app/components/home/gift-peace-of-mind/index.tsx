@@ -157,7 +157,7 @@ export default function GiftOfPeaceOfMind() {
           >
             <div className="relative aspect-[4/3] sm:aspect-[5/4] lg:aspect-[4/5] rounded-3xl overflow-hidden border border-slate-200/90 shadow-2xl bg-slate-100">
               <Image
-                src="/images/hero/fam.png"
+                src="/images/hero/fam.webp"
                 alt="The Gift of Peace of Mind - Healthcare Gifting"
                 fill
                 className="object-cover object-center"

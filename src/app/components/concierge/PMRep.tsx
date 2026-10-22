@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { PM_REP_DUTIES_KEYS } from "./shared/config";
 import { Icons, IconKey } from "./shared/icons";
@@ -37,20 +38,15 @@ export default function PMRep() {
         <motion.div
           animate={reduce ? undefined : { x: [0, 20, 0], y: [0, 24, 0] }}
           transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
+          style={{ willChange: "transform" }}
           className="absolute -top-24 right-[-8%] h-[420px] w-[420px] rounded-full bg-[#02385a]/[0.06] blur-[120px]"
         />
         <motion.div
           animate={reduce ? undefined : { x: [0, -18, 0], y: [0, -20, 0] }}
           transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
+          style={{ willChange: "transform" }}
           className="absolute bottom-[-18%] left-[-10%] h-[460px] w-[460px] rounded-full bg-[#aa7130]/[0.09] blur-[130px]"
         />
-        {/* fine grain, tuned for a light surface */}
-        <svg className="absolute inset-0 h-full w-full opacity-[0.025] mix-blend-multiply" aria-hidden="true">
-          <filter id="pmRepGrain">
-            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#pmRepGrain)" />
-        </svg>
       </div>
 
       <div className="relative max-w-7xl mx-auto rounded-3xl border border-slate-200/80 bg-white/90 backdrop-blur-sm shadow-sm overflow-hidden grid lg:grid-cols-2 min-h-[640px]">
@@ -116,17 +112,16 @@ export default function PMRep() {
         </div>
 
         <FadeIn className="relative min-h-[320px] sm:min-h-[420px] lg:min-h-full">
-          {/* Silent looping PM Rep avatar. */}
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            poster="/images/hero/pmx.png"
-            className="absolute inset-0 w-full h-full object-cover"
-          >
-            <source src="/videos/pm-rep-loop.mp4" type="video/mp4" />
-          </video>
+          {/* Dedicated Peace of Mind Representative visual presentation */}
+          <div className="absolute inset-0 w-full h-full overflow-hidden">
+            <Image
+              src="/images/hero/pm.webp"
+              alt="Dedicated Peace of Mind Representative"
+              fill
+              className="object-cover object-top"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+          </div>
 
           {/* blends the video into the light panel */}
           <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-transparent lg:block hidden" />
