@@ -12,7 +12,6 @@
   "dependencies": {
     "@iconify/icons-ion": "^1.2.10",
     "@iconify/react": "^5.0.1",
-    "@types/three": "^0.186.0",
     "aos": "^2.3.4",
     "axios": "^1.7.2",
     "date-fns": "^3.4.0",
@@ -30,9 +29,7 @@
     "react-slick": "^0.30.2",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
-    "slick-carousel": "^1.8.1",
-    "three": "^0.186.1",
-    "three-globe": "^2.45.6"
+    "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
     "@types/aos": "^3.0.7",
