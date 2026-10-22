@@ -162,24 +162,15 @@ export default function AbsoluteDiscretion() {
           <div className="absolute inset-0 bg-gradient-to-br from-[#012644] via-[#02385a] to-[#012644]" />
         </div>
 
-        {/* fine grain */}
-        <svg className="absolute inset-0 w-full h-full opacity-[0.035] mix-blend-overlay" aria-hidden="true">
-          <filter id="discretionGrain">
-            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#discretionGrain)" />
-        </svg>
-
         <div className="relative max-w-7xl mx-auto grid lg:grid-cols-[0.95fr,1.05fr] gap-12 lg:gap-16 items-center">
           <FadeIn className="flex justify-center lg:justify-start w-full">
             <div className="relative w-full max-w-lg aspect-[4/3] rounded-3xl overflow-hidden border border-white/15 shadow-2xl">
               <Image
-                src="/images/hero/discretion.JPG"
+                src="/images/hero/discretion.webp"
                 alt="TriageConcierge private clinical consultation"
                 fill
                 className="object-cover object-center"
                 sizes="(max-width: 1024px) 100vw, 520px"
-                priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-triage-navy/50 via-transparent to-transparent" />
             </div>

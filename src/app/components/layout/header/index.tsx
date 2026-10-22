@@ -8,14 +8,14 @@ import { usePathname } from "next/navigation";
 import { ChevronDown, ArrowRight } from "lucide-react";
 
 export const servicesList = [
-  { name: "Health Snapshot", href: "/hs" },
-  { name: "Elderly Care", href: "/access-plans/elderly-care" },
-  { name: "Post-Surgery Care", href: "/access-plans/post-surgery-care" },
-  { name: "Chronic Disease Management", href: "/access-plans/chronic-disease-management" },
-  { name: "IV Therapy", href: "/access-plans/iv-therapy" },
-  { name: "Wellness Check", href: "/access-plans/wellness-check" },
-  { name: "Health Screenings", href: "/access-plans/health-screening" },
-  { name: "Wound Care", href: "/access-plans/wound-care" },
+  { name: "Health Snapshot", href: "/hs", icon: "/icons/health-check.png" },
+  { name: "Elderly Care", href: "/access-plans/elderly-care", icon: "/icons/old.png" },
+  { name: "Post-Surgery Care", href: "/access-plans/post-surgery-care", icon: "/icons/surgery.png" },
+  { name: "Chronic Disease Management", href: "/access-plans/chronic-disease-management", icon: "/icons/chronic-disease.png" },
+  { name: "IV Therapy", href: "/access-plans/iv-therapy", icon: "/icons/iv.png" },
+  { name: "Wellness Check", href: "/access-plans/wellness-check", icon: "/icons/heart.png" },
+  { name: "Health Screenings", href: "/access-plans/health-screening", icon: "/icons/diagnose.png" },
+  { name: "Wound Care", href: "/access-plans/wound-care", icon: "/icons/plaster-bandage.png" },
 ];
 
 const navItems = [
@@ -156,10 +156,10 @@ export default function PremiumNavbar() {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 8, scale: 0.98 }}
                           transition={{ duration: 0.22, ease: "easeOut" }}
-                          className="absolute top-full left-1/2 -translate-x-1/2 w-64 pt-2 z-50"
+                          className="absolute top-full left-1/2 -translate-x-1/2 w-72 pt-2 z-50"
                         >
                           <div
-                            className={`rounded-2xl p-2.5 shadow-2xl border backdrop-blur-2xl transition-all ${
+                            className={`rounded-2xl p-2 shadow-2xl border backdrop-blur-2xl transition-all ${
                               scrolled
                                 ? "bg-white/95 border-slate-200/80 text-triage-navy"
                                 : "bg-[#022842]/95 border-white/15 text-white shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
@@ -177,7 +177,7 @@ export default function PremiumNavbar() {
                                     key={sIndex}
                                     href={service.href}
                                     onClick={() => setServicesOpen(false)}
-                                    className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs sm:text-[13px] font-medium transition-all duration-200 group/link ${
+                                    className={`flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-medium transition-all duration-200 group/link ${
                                       scrolled
                                         ? isServiceActive
                                           ? "bg-slate-100 text-triage-orange font-semibold"
@@ -187,10 +187,31 @@ export default function PremiumNavbar() {
                                         : "text-white/85 hover:bg-white/10 hover:text-white"
                                     }`}
                                   >
-                                    <span>{service.name}</span>
+                                    <div className="flex items-center gap-2.5 min-w-0">
+                                      <div
+                                        className={`w-7 h-7 rounded-lg flex items-center justify-center p-1 flex-shrink-0 transition-transform duration-200 group-hover/link:scale-110 ${
+                                          scrolled
+                                            ? "bg-slate-100/90 border border-slate-200/60"
+                                            : "bg-white/10 border border-white/15"
+                                        }`}
+                                      >
+                                        <Image
+                                          src={service.icon}
+                                          alt={service.name}
+                                          width={18}
+                                          height={18}
+                                          className="w-[18px] h-[18px] object-contain transition-all duration-200 group-hover/link:opacity-100"
+                                          style={{
+                                            filter: scrolled ? "none" : "invert(1)",
+                                            opacity: scrolled ? 0.75 : 0.95,
+                                          }}
+                                        />
+                                      </div>
+                                      <span className="truncate">{service.name}</span>
+                                    </div>
                                     <ArrowRight
                                       size={12}
-                                      className={`transition-all text-triage-orange ${
+                                      className={`transition-all text-triage-orange flex-shrink-0 ml-1.5 ${
                                         isServiceActive
                                           ? "opacity-100 translate-x-0"
                                           : "opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0"
@@ -314,13 +335,22 @@ export default function PremiumNavbar() {
                                   key={sIndex}
                                   href={service.href}
                                   onClick={() => setMobileOpen(false)}
-                                  className={`block text-sm font-medium transition py-1 ${
+                                  className={`flex items-center gap-2.5 text-sm font-medium transition py-1.5 ${
                                     isServiceActive
                                       ? "text-triage-orange font-semibold"
                                       : "text-slate-600 hover:text-triage-orange"
                                   }`}
                                 >
-                                  {service.name}
+                                  <div className="w-6 h-6 rounded-md bg-slate-100 p-0.5 flex items-center justify-center flex-shrink-0">
+                                    <Image
+                                      src={service.icon}
+                                      alt=""
+                                      width={16}
+                                      height={16}
+                                      className="w-4 h-4 object-contain"
+                                    />
+                                  </div>
+                                  <span>{service.name}</span>
                                 </Link>
                               );
                             })}

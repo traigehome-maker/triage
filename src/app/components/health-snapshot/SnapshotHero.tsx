@@ -33,7 +33,7 @@ export default function SnapshotHero() {
       {/* Background authentic hero photo & brand overlay */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/hero/snap-hero.JPG"
+          src="/images/hero/snap-hero.webp"
           alt="TriageHome Registered Nurse conducting health snapshot screening"
           fill
           priority

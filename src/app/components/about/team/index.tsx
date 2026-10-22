@@ -25,7 +25,7 @@ const team = [
   },
   {
     name: "Babatunde Oduola Owoo",
-    title: "COO",
+    title: "Chief Operating Officer",
     degree: "M.D.",
     image: "images/blog/tunde.webp",
     linkedin:

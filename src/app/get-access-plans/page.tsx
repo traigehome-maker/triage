@@ -131,7 +131,7 @@ export default function AccessPlansPage() {
 
         <div className="relative overflow-hidden rounded-[40px] border border-white/10 bg-white/5 p-4 shadow-[0_30px_90px_rgba(0,0,0,0.35)] backdrop-blur-3xl lg:p-5">
           <img
-            src="/images/hero/plan.png"
+            src="/images/hero/plan.webp"
             alt="Healthcare support"
             className="h-auto w-full rounded-[28px] object-cover"
           />
