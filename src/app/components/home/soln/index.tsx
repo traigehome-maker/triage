@@ -2,27 +2,29 @@
 
 import { motion } from "framer-motion";
 
+import Link from "next/link";
+
 const solutions = [
   {
     title: "TriageApp",
     desc: "Connect clients with verified nurses, health assistants, and community health workers, delivering reliable, on-demand care right at home.",
     tag: "Available Soon",
-    image:
-      "images/blog/12.webp",
+    href: "/triage-app",
+    image: "images/blog/12.webp",
   },
   {
     title: "TriagePods",
     desc: "Prefab care units designed to reach the last mile, bringing structured, accessible healthcare services closer to underserved communities.",
-    tag: "Coming Soon",
-     image:
-      "images/blog/13.webp",
+    tag: "Available Now",
+    href: "/triage-pods",
+    image: "images/blog/13.webp",
   },
   {
     title: "TriageLiving",
     desc: "A 24/7 assisted-living model blending clinical care, wellness, and hospitality, creating a new standard for long-term living.",
     tag: "Coming Soon",
-     image:
-      "images/blog/3.webp",
+    href: "/triage-living",
+    image: "images/blog/3.webp",
   },
 ];
 
@@ -65,37 +67,48 @@ export default function SolutionsSection() {
               >
 
                 {/* CARD */}
-                <div className="group relative rounded-[28px] overflow-hidden bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_20px_60px_rgba(0,0,0,0.06)]">
+                <div className="group relative rounded-[28px] overflow-hidden bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_20px_60px_rgba(0,0,0,0.06)] flex flex-col h-full">
 
                   {/* IMAGE */}
                   <div className="relative h-52 overflow-hidden">
                     <img
                       src={item.image}
                       alt={item.title}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover transition duration-[1000ms] group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                   </div>
 
                   {/* CONTENT */}
-                  <div className="p-6">
+                  <div className="p-6 flex flex-col flex-1 justify-between">
 
-                    <div className="inline-block text-xs px-3 py-1 rounded-full bg-gray-100 text-gray-600 mb-4 font-nunito font-semibold">
-                      {item.tag}
+                    <div>
+                      <div
+                        className={`inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full mb-4 font-nunito font-semibold `}
+                      >
+                        <span>{item.tag}</span>
+                      </div>
+
+                      <h3 className="text-xl text-black/70 font-semibold text-gray-900 font-raleway">
+                        {item.title}
+                      </h3>
+
+                      <p className="mt-3 text-gray-600 text-sm leading-relaxed font-nunito">
+                        {item.desc}
+                      </p>
                     </div>
 
-                    <h3 className="text-xl text-black/70 font-semibold text-gray-900 font-raleway">
-                      {item.title}
-                    </h3>
-
-                    <p className="mt-3 text-gray-600 text-sm leading-relaxed font-nunito">
-                      {item.desc}
-                    </p>
-
                     {/* CTA */}
-                    <div className="mt-5 flex items-center gap-2 text-teal-600 text-sm font-medium group cursor-pointer">
-                     
-                      
+                    <div className="mt-6">
+                      <Link
+                        href={item.href}
+                        className="inline-flex items-center gap-1.5 text-triage-teal hover:text-triage-orange text-sm font-semibold transition duration-200 font-nunito"
+                      >
+                        <span>Learn more</span>
+                        <span>→</span>
+                      </Link>
                     </div>
 
                   </div>

@@ -11,7 +11,7 @@ const plans = [
     description:
       "Premium in-home wellness support designed to provide peace of mind, proactive monitoring, and compassionate care.",
     tag: "Most Popular",
-    image: "/images/hero/assureplan.JPG",
+    image: "/images/plans/assure.webp",
     features: [
       "Routine wellness checks",
       "Medication reminders",
@@ -27,7 +27,7 @@ const plans = [
     description:
       "Post-surgical recovery support built around safe healing, professional monitoring, and personalized assistance.",
     tag: "Recovery Care",
-    image: "/images/hero/postopp.jpg",
+    image: "/images/plans/postop.webp",
     features: [
       "Post-operative monitoring",
       "Medication assistance",
@@ -37,13 +37,13 @@ const plans = [
     ],
   },
   {
-    title: "TriageSnapshot",
+    title: "TriagePassport",
     price: "₦450,000",
     duration: "/month",
     description:
       "A premium concierge-style healthcare access plan delivering elevated support, coordination, and comfort.",
     tag: "Premium Access",
-    image: "/images/hero/triagepassport.jpg",
+    image: "/images/plans/passport.webp",
     features: [
       "Priority care coordination",
       "Premium home visits",
@@ -128,6 +128,8 @@ export default function AccessPlansSection() {
                   <img
                     src={plan.image}
                     alt={plan.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-auto object-contain transition duration-[1400ms] group-hover:scale-[1.02]"
                   />
 

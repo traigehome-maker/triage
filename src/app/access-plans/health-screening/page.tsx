@@ -214,8 +214,10 @@ export default function HealthScreeningPage() {
             <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-white/5 shadow-2xl">
 
               <img
-                src="/images/blog/hs.png"
+                src="/images/blog/hs.webp"
                 alt="Professional health screenings services"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-[600px] object-cover object-center"
               />
 

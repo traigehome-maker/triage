@@ -5,23 +5,35 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, ArrowRight } from "lucide-react";
+import {
+  ChevronDown,
+  ArrowRight,
+  Activity,
+  HandHeart,
+  ShieldCheck,
+  HeartPulse,
+  Droplets,
+  Heart,
+  ScanLine,
+  Bandage,
+} from "lucide-react";
 
 export const servicesList = [
-  { name: "Health Snapshot", href: "/hs", icon: "/icons/health-check.png" },
-  { name: "Elderly Care", href: "/access-plans/elderly-care", icon: "/icons/old.png" },
-  { name: "Post-Surgery Care", href: "/access-plans/post-surgery-care", icon: "/icons/surgery.png" },
-  { name: "Chronic Disease Management", href: "/access-plans/chronic-disease-management", icon: "/icons/chronic-disease.png" },
-  { name: "IV Therapy", href: "/access-plans/iv-therapy", icon: "/icons/iv.png" },
-  { name: "Wellness Check", href: "/access-plans/wellness-check", icon: "/icons/heart.png" },
-  { name: "Health Screenings", href: "/access-plans/health-screening", icon: "/icons/diagnose.png" },
-  { name: "Wound Care", href: "/access-plans/wound-care", icon: "/icons/plaster-bandage.png" },
+  { name: "Health Snapshot", href: "/hs", icon: Activity },
+  { name: "Elderly Care", href: "/access-plans/elderly-care", icon: HandHeart },
+  { name: "Post-Surgery Care", href: "/access-plans/post-surgery-care", icon: ShieldCheck },
+  { name: "Chronic Disease Management", href: "/access-plans/chronic-disease-management", icon: HeartPulse },
+  { name: "IV Therapy", href: "/access-plans/iv-therapy", icon: Droplets },
+  { name: "Wellness Check", href: "/access-plans/wellness-check", icon: Heart },
+  { name: "Health Screenings", href: "/access-plans/health-screening", icon: ScanLine },
+  { name: "Wound Care", href: "/access-plans/wound-care", icon: Bandage },
 ];
 
 const navItems = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Access Plans", href: "/access-plans" },
+  { name: "TriagePods", href: "/triage-pods" },
   { name: "TriageApp", href: "/triage-app" },
   { name: "Services", href: "/access-plans", isDropdown: true },
   { name: "TriageConcierge", href: "/triage-concierge" },
@@ -38,8 +50,8 @@ export default function PremiumNavbar() {
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 25);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -71,21 +83,21 @@ export default function PremiumNavbar() {
 
   return (
     <>
-      {/* NAVBAR */}
+      {/* GLASSMORPHIC NAVBAR */}
       <motion.header
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
           scrolled
-            ? "bg-white/95 backdrop-blur-xl shadow-sm"
-            : "bg-transparent"
+            ? "bg-white/80 backdrop-blur-2xl border-b border-slate-200/70 shadow-[0_10px_35px_-10px_rgba(2,56,90,0.08),0_1px_1px_0_rgba(0,0,0,0.04)] py-3 sm:py-3.5"
+            : "bg-[#022842]/45 backdrop-blur-xl border-b border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.25)] py-4 sm:py-5"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
 
           {/* LOGO */}
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex items-center flex-shrink-0">
             <Image
               src="/images/logo/th.svg"
               alt="TriageHome Logo"
@@ -95,14 +107,13 @@ export default function PremiumNavbar() {
               className={`transition-all duration-500 ${
                 scrolled
                   ? "filter-none opacity-100"
-                  : "brightness-0 invert opacity-90"
+                  : "brightness-0 invert opacity-95"
               }`}
             />
           </Link>
 
-          {/* NAV ITEMS */}
-          <div className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-7">
-
+          {/* DESKTOP NAV ITEMS (SHIFTED TO RIGHT WITH ELEGANT UNDERLINES) */}
+          <nav className="hidden lg:flex items-center gap-5 lg:gap-6 xl:gap-7 ml-auto" aria-label="Main Navigation">
             {navItems.map((item, i) => {
               const isActive = checkIsActive(item);
 
@@ -117,30 +128,30 @@ export default function PremiumNavbar() {
                     <button
                       type="button"
                       onClick={() => setServicesOpen(!servicesOpen)}
-                      className={`font-nunito flex items-center gap-1 text-[13px] lg:text-sm font-medium transition py-2 relative group focus:outline-none cursor-pointer ${
+                      className={`relative py-1.5 font-nunito text-[13.5px] xl:text-[14px] transition-colors duration-200 flex items-center gap-1 cursor-pointer focus:outline-none group ${
                         scrolled
                           ? isActive
-                            ? "text-triage-orange font-semibold"
-                            : "text-triage-navy"
+                            ? "text-triage-orange font-bold"
+                            : "text-slate-700 hover:text-triage-navy"
                           : isActive
-                          ? "text-white font-semibold"
-                          : "text-white"
+                          ? "text-white font-bold"
+                          : "text-white/85 hover:text-white"
                       }`}
                     >
                       <span>{item.name}</span>
 
-                      {/* Animated dropdown chevron */}
+                      {/* Dropdown Chevron */}
                       <motion.span
                         animate={{ rotate: servicesOpen ? 180 : 0 }}
                         transition={{ duration: 0.2 }}
                         className="inline-flex items-center"
                       >
-                        <ChevronDown size={13} className="opacity-80" />
+                        <ChevronDown size={13} className="opacity-75" />
                       </motion.span>
 
-                      {/* underline on hover / active */}
+                      {/* Underline Indicator */}
                       <span
-                        className={`absolute bottom-[2px] h-[2px] bg-triage-orange transition-all duration-300 ${
+                        className={`absolute -bottom-1 h-[2px] bg-triage-orange transition-all duration-300 ${
                           isActive
                             ? "w-full left-0"
                             : "w-0 left-1/2 group-hover:w-full group-hover:left-0"
@@ -148,39 +159,43 @@ export default function PremiumNavbar() {
                       />
                     </button>
 
-                    {/* SERVICES DROPDOWN DRAWER */}
+                    {/* SERVICES GLASSMORPHIC DROPDOWN */}
                     <AnimatePresence>
                       {servicesOpen && (
                         <motion.div
                           initial={{ opacity: 0, y: 10, scale: 0.98 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 8, scale: 0.98 }}
-                          transition={{ duration: 0.22, ease: "easeOut" }}
-                          className="absolute top-full left-1/2 -translate-x-1/2 w-72 pt-2 z-50"
+                          transition={{ duration: 0.2, ease: "easeOut" }}
+                          className="absolute top-full right-0 w-80 pt-3 z-50"
                         >
                           <div
-                            className={`rounded-2xl p-2 shadow-2xl border backdrop-blur-2xl transition-all ${
+                            className={`rounded-3xl p-3 shadow-2xl border backdrop-blur-3xl transition-all ${
                               scrolled
-                                ? "bg-white/95 border-slate-200/80 text-triage-navy"
-                                : "bg-[#022842]/95 border-white/15 text-white shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+                                ? "bg-white/90 border-white/80 ring-1 ring-slate-200/80 text-triage-navy shadow-[0_20px_50px_rgba(2,56,90,0.14)]"
+                                : "bg-[#022842]/90 border-white/15 text-white ring-1 ring-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.55)]"
                             }`}
                           >
-                            <div className="px-3 py-2 text-[11px] font-bold uppercase tracking-wider font-raleway opacity-60 border-b border-white/10 mb-1">
-                              Healthcare Services
+                            <div className={`px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider font-raleway border-b mb-1.5 flex items-center justify-between ${
+                              scrolled ? "border-slate-200/60 text-slate-400" : "border-white/10 text-white/50"
+                            }`}>
+                              <span>Healthcare Services</span>
+                              <span className="text-[10px] text-triage-teal font-semibold">Verified Clinical</span>
                             </div>
 
                             <div className="space-y-0.5">
                               {servicesList.map((service, sIndex) => {
                                 const isServiceActive = pathname === service.href;
+                                const Icon = service.icon;
                                 return (
                                   <Link
                                     key={sIndex}
                                     href={service.href}
                                     onClick={() => setServicesOpen(false)}
-                                    className={`flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-medium transition-all duration-200 group/link ${
+                                    className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs sm:text-[13px] font-medium transition-all duration-200 group/link ${
                                       scrolled
                                         ? isServiceActive
-                                          ? "bg-slate-100 text-triage-orange font-semibold"
+                                          ? "bg-triage-orange/10 text-triage-orange font-semibold"
                                           : "text-slate-700 hover:bg-slate-100 hover:text-triage-navy"
                                         : isServiceActive
                                         ? "bg-white/15 text-triage-lime font-semibold"
@@ -189,23 +204,17 @@ export default function PremiumNavbar() {
                                   >
                                     <div className="flex items-center gap-2.5 min-w-0">
                                       <div
-                                        className={`w-7 h-7 rounded-lg flex items-center justify-center p-1 flex-shrink-0 transition-transform duration-200 group-hover/link:scale-110 ${
+                                        className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover/link:scale-110 ${
                                           scrolled
-                                            ? "bg-slate-100/90 border border-slate-200/60"
-                                            : "bg-white/10 border border-white/15"
+                                            ? isServiceActive
+                                              ? "bg-triage-orange/15 text-triage-orange"
+                                              : "bg-slate-100 text-slate-700 group-hover/link:bg-triage-orange/10 group-hover/link:text-triage-orange"
+                                            : isServiceActive
+                                            ? "bg-triage-lime/20 text-triage-lime"
+                                            : "bg-white/10 text-white/90 group-hover/link:bg-white/20 group-hover/link:text-white"
                                         }`}
                                       >
-                                        <Image
-                                          src={service.icon}
-                                          alt={service.name}
-                                          width={18}
-                                          height={18}
-                                          className="w-[18px] h-[18px] object-contain transition-all duration-200 group-hover/link:opacity-100"
-                                          style={{
-                                            filter: scrolled ? "none" : "invert(1)",
-                                            opacity: scrolled ? 0.75 : 0.95,
-                                          }}
-                                        />
+                                        <Icon size={14} strokeWidth={2.2} />
                                       </div>
                                       <span className="truncate">{service.name}</span>
                                     </div>
@@ -230,24 +239,24 @@ export default function PremiumNavbar() {
               }
 
               return (
-                <Link key={i} href={item.href} className="relative group py-2">
-                  <div
-                    className={`font-nunito text-[13px] lg:text-sm font-medium transition ${
-                      scrolled
-                        ? isActive
-                          ? "text-triage-orange font-semibold"
-                          : "text-triage-navy"
-                        : isActive
-                        ? "text-white font-semibold"
-                        : "text-white"
-                    }`}
-                  >
-                    {item.name}
-                  </div>
+                <Link
+                  key={i}
+                  href={item.href}
+                  className={`relative py-1.5 font-nunito text-[13.5px] xl:text-[14px] transition-colors duration-200 flex items-center group ${
+                    scrolled
+                      ? isActive
+                        ? "text-triage-orange font-bold"
+                        : "text-slate-700 hover:text-triage-navy"
+                      : isActive
+                      ? "text-white font-bold"
+                      : "text-white/85 hover:text-white"
+                  }`}
+                >
+                  <span>{item.name}</span>
 
-                  {/* underline */}
+                  {/* Underline Indicator */}
                   <span
-                    className={`absolute bottom-[2px] h-[2px] bg-triage-orange transition-all duration-300 ${
+                    className={`absolute -bottom-1 h-[2px] bg-triage-orange transition-all duration-300 ${
                       isActive
                         ? "w-full left-0"
                         : "w-0 left-1/2 group-hover:w-full group-hover:left-0"
@@ -256,26 +265,25 @@ export default function PremiumNavbar() {
                 </Link>
               );
             })}
+          </nav>
 
-          </div>
-
-          {/* MOBILE BUTTON */}
+          {/* MOBILE HAMBURGER BUTTON */}
           <div
-            className="md:hidden cursor-pointer p-2"
+            className={`lg:hidden cursor-pointer p-2.5 rounded-xl transition-colors backdrop-blur-md ${
+              scrolled
+                ? "bg-slate-100/80 text-triage-navy hover:bg-slate-200"
+                : "bg-white/10 text-white hover:bg-white/20"
+            }`}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle navigation menu"
           >
             <div className="flex flex-col gap-1.5">
-              <span className={`w-6 h-[2px] transition-colors ${scrolled ? "bg-black" : "bg-white"}`} />
-              <span className={`w-6 h-[2px] transition-colors ${scrolled ? "bg-black" : "bg-white"}`} />
+              <span className={`w-5 h-[2px] rounded-full transition-colors ${scrolled ? "bg-triage-navy" : "bg-white"}`} />
+              <span className={`w-5 h-[2px] rounded-full transition-colors ${scrolled ? "bg-triage-navy" : "bg-white"}`} />
             </div>
           </div>
 
         </div>
-
-        {/* CLEAN BORDER (NO GRADIENT) */}
-        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white/10" />
-
       </motion.header>
 
       {/* MOBILE MENU */}
@@ -286,7 +294,7 @@ export default function PremiumNavbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -30 }}
             transition={{ duration: 0.35 }}
-            className="fixed top-0 left-0 w-full h-screen bg-white z-50 flex flex-col justify-start px-8 pt-24 pb-12 overflow-y-auto"
+            className="fixed top-0 left-0 w-full h-screen bg-white/95 backdrop-blur-2xl z-50 flex flex-col justify-start px-8 pt-24 pb-12 overflow-y-auto"
           >
 
             <div className="w-full max-w-sm mx-auto flex flex-col gap-5">
@@ -330,6 +338,7 @@ export default function PremiumNavbar() {
                           >
                             {servicesList.map((service, sIndex) => {
                               const isServiceActive = pathname === service.href;
+                              const Icon = service.icon;
                               return (
                                 <Link
                                   key={sIndex}
@@ -341,14 +350,8 @@ export default function PremiumNavbar() {
                                       : "text-slate-600 hover:text-triage-orange"
                                   }`}
                                 >
-                                  <div className="w-6 h-6 rounded-md bg-slate-100 p-0.5 flex items-center justify-center flex-shrink-0">
-                                    <Image
-                                      src={service.icon}
-                                      alt=""
-                                      width={16}
-                                      height={16}
-                                      className="w-4 h-4 object-contain"
-                                    />
+                                  <div className="w-6 h-6 rounded-md bg-slate-100 text-slate-700 p-0.5 flex items-center justify-center flex-shrink-0">
+                                    <Icon size={14} strokeWidth={2.2} />
                                   </div>
                                   <span>{service.name}</span>
                                 </Link>
@@ -381,6 +384,18 @@ export default function PremiumNavbar() {
                   </motion.div>
                 );
               })}
+
+              {/* Mobile CTA */}
+              <div className="pt-4">
+                <Link
+                  href="/access-plans"
+                  onClick={() => setMobileOpen(false)}
+                  className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-2xl bg-triage-orange hover:bg-[#e04e10] text-white font-raleway font-bold text-base shadow-lg shadow-triage-orange/25 transition"
+                >
+                  <span>Book Care Plan</span>
+                  <ArrowRight size={16} />
+                </Link>
+              </div>
             </div>
 
             {/* CLOSE BUTTON */}

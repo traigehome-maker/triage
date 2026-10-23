@@ -8,21 +8,24 @@ const slides = [
     title: "Healthcare, at your doorstep",
     desc: "Experience intelligent, on-demand care delivered to your home.",
     cta: "Get Care Now",
-    image: "/images/hero/bg1.webp",
+    image: "/images/hero/team1.webp",
+    position: "center 4%",
     link: "https://wa.me/2349134664547?text=Hi%20Triage%2C%20I%20need%20care%20immediately.%20Please%20send%20a%20healthcare%20professional%20to%20my%20location.",
   },
   {
     title: "Care for the people you love",
     desc: "Trusted professionals for your family, whenever it matters most.",
     cta: "Book Care",
-    image: "/images/hero/bg2.webp",
+    image: "/images/hero/team2.webp",
+    position: "center 7%",
     link: "https://wa.me/2349134664547?text=Hello%20Triage%2C%20I%E2%80%99m%20looking%20for%20care%20for%20a%20loved%20one.%20Please%20guide%20me.",
   },
   {
     title: "Smarter healthcare for businesses",
     desc: "Elevate employee wellbeing with seamless medical access.",
     cta: "Partner With Us",
-    image: "/images/hero/bg3.webp",
+    image: "/images/hero/team3.webp",
+    position: "center 6%",
     link: "https://wa.me/2349134664547?text=Hi%2C%20I%E2%80%99d%20like%20to%20discuss%20healthcare%20solutions%20for%20my%20company.",
   },
 ];
@@ -73,7 +76,7 @@ export default function HeroSlider() {
     <section className="relative h-screen w-full overflow-hidden text-white">
 
       {/* BACKGROUND */}
-      <div className=" inset-0 z-0">
+      <div className="absolute inset-0 z-0">
         {slides.map((slide, i) => (
           <motion.div
             key={slide.image}
@@ -82,9 +85,14 @@ export default function HeroSlider() {
               scale: i === index ? 1 : 1.05,
             }}
             transition={{ duration: 1.2 }}
-            className="absolute inset-0"
+            className="absolute inset-0 origin-top"
           >
-            <img src={slide.image} className="w-full h-full object-cover" />
+            <img
+              src={slide.image}
+              alt={slide.title}
+              style={{ objectPosition: slide.position || "center 5%" }}
+              className="w-full h-full object-cover"
+            />
 
             {/* 🔥 NAVY OVERLAY (PRIMARY BRAND) */}
             <div className="absolute inset-0 bg-triage-navy/70" />

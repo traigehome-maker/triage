@@ -30,7 +30,7 @@ const services = [
     title: "IV Therapy",
     slug: "iv-therapy",
     desc: "Safe administration of prescribed IV fluids, vitamins, and medications in the comfort of your home, delivered by trained healthcare professionals.",
-    image: "/images/blog/iv.png",
+    image: "/images/blog/iv.webp",
     color: "bg-triage-orange",
   },
   {
@@ -44,7 +44,7 @@ const services = [
     title: "Health Screenings",
     slug: "health-screening",
     desc: "Quick and reliable on-the-spot tests including malaria, typhoid, HIV, blood pressure, glucose, and BMI, giving you clarity and peace of mind instantly.",
-    image: "/images/blog/hs.png",
+    image: "/images/blog/hs.webp",
     color: "bg-[#ffbf00]",
   },
   {
@@ -182,6 +182,8 @@ export default function WhatWeDoTabs() {
                 <img
                   src={services[active].image}
                   alt={services[active].title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-[320px] md:h-[380px] object-cover"
                 />
 

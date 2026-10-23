@@ -1,33 +1,33 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
-import WaitlistModal from "../../waitlist"; // adjust path if needed
+import Link from "next/link";
 
 const offers = [
   {
     title: "Standard Care",
     desc: "Book a qualified nurse instantly through our app. Get reliable, professional care at home, with transparent pricing and seamless management.",
-    cta: "Join the waitlist",
+    cta: "Explore Care Plans",
+    href: "/access-plans",
     image: "images/blog/3.webp",
   },
   {
     title: "TriageConcierge",
     desc: "Your personal health expert manages everything. Enjoy discreet, priority care with dedicated coordination wherever you are.",
-    cta: "Join the waitlist",
+    cta: "Explore TriageConcierge",
+    href: "/triage-concierge",
     image: "images/blog/10.webp",
   },
   {
     title: "Partnerships",
     desc: "We support hospitals with on-demand clinical staff and help organizations deliver better healthcare experiences to their people.",
-    cta: "Join the waitlist",
+    cta: "Partner With Us",
+    href: "/partnerships",
     image: "images/blog/9.webp",
   },
 ];
 
 export default function WhatWeOffer() {
-  const [open, setOpen] = useState(false); // ✅ moved state here
-
   return (
     <section className="relative py-36 px-6 overflow-hidden text-white bg-triage-navy">
       {/* 🌌 BACKGROUND */}
@@ -73,6 +73,8 @@ export default function WhatWeOffer() {
                     <img
                       src={item.image}
                       alt={item.title}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-[420px] object-cover"
                     />
                   </div>
@@ -98,10 +100,10 @@ export default function WhatWeOffer() {
                       {item.desc}
                     </p>
 
-                    {/* ✅ CTA FIXED */}
-                    <div
-                      onClick={() => setOpen(true)}
-                      className="mt-8 inline-flex items-center gap-2 font-medium text-triage-orange cursor-pointer group font-nunito"
+                    {/* ✅ DIRECT NAVIGATION LINK */}
+                    <Link
+                      href={item.href}
+                      className="mt-8 inline-flex items-center gap-2 font-medium text-triage-orange hover:text-white transition group font-nunito"
                     >
                       <span>{item.cta}</span>
 
@@ -113,7 +115,7 @@ export default function WhatWeOffer() {
                           →
                         </span>
                       </span>
-                    </div>
+                    </Link>
                   </div>
                 </motion.div>
               </div>
@@ -121,9 +123,6 @@ export default function WhatWeOffer() {
           })}
         </div>
       </div>
-
-      {/* ✅ MODAL (global, clean) */}
-      <WaitlistModal isOpen={open} onClose={() => setOpen(false)} />
     </section>
   );
 }

@@ -215,8 +215,10 @@ export default function IVTherapyPage() {
             <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-white/5 shadow-2xl">
 
               <img
-                src="/images/blog/iv.png"
+                src="/images/blog/iv.webp"
                 alt="Professional IV therapy services"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-[600px] object-cover object-center"
               />
 
