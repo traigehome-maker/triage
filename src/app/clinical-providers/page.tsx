@@ -378,28 +378,27 @@ function VerifiedLabel() {
 
 function ProviderAvatar({
   provider,
-  size,
+  size = "sm",
 }: {
   provider: Provider;
-  size: "sm" | "lg";
+  size?: "sm" | "lg";
 }) {
   const [imgError, setImgError] = useState(false);
-  const sizeClass = size === "lg" ? "w-24 h-24" : "w-16 h-16";
-  const textClass = size === "lg" ? "text-2xl" : "text-lg";
-  const px = size === "lg" ? 96 : 64;
-  const badgeSize = size === "lg" ? "w-6 h-6" : "w-5 h-5";
+  const isLg = size === "lg";
+  const sizeClass = isLg ? "w-24 h-24" : "w-16 h-16";
+  const px = isLg ? 96 : 64;
 
   const inner = imgError ? (
     <div
-      className="w-full h-full rounded-full flex items-center justify-center"
+      className="w-full h-full rounded-2xl flex items-center justify-center"
       style={{ background: getGradient(provider.id) }}
     >
-      <span className={`${textClass} font-bold tracking-wide text-white font-raleway`}>
+      <span className={`${isLg ? "text-2xl" : "text-lg"} font-bold tracking-wide text-white font-raleway`}>
         {provider.initials}
       </span>
     </div>
   ) : (
-    <div className="w-full h-full rounded-full overflow-hidden relative">
+    <div className="w-full h-full rounded-2xl overflow-hidden relative bg-slate-100">
       <Image
         src={`/images/providers/${provider.imageSlug}.jpg`}
         alt={`${provider.displayName} headshot`}
@@ -412,20 +411,17 @@ function ProviderAvatar({
   );
 
   return (
-    <div className={`relative ${sizeClass} flex-shrink-0`}>
+    <div className={`relative ${sizeClass} flex-shrink-0 group-hover:scale-105 transition-transform duration-300`}>
       <div
-        className="w-full h-full rounded-full overflow-hidden relative"
+        className="w-full h-full rounded-2xl p-[2px] shadow-md"
         style={{
-          padding: "2px",
           background: "linear-gradient(135deg, #02385a, #00b99d, #aa7130)",
-          boxShadow: "0 4px 12px rgba(2,56,90,0.2)",
         }}
       >
         {inner}
       </div>
-      {/* TriageVerified badge, bottom-right of every avatar, card and modal alike */}
-      <span className={`absolute -bottom-0.5 -right-0.5 ${badgeSize}`}>
-        <VerifiedBadge size={size === "lg" ? "md" : "sm"} />
+      <span className="absolute -bottom-1 -right-1">
+        <VerifiedBadge size={isLg ? "md" : "sm"} />
       </span>
     </div>
   );
@@ -458,10 +454,12 @@ function DetailCard({
 
 function FilterPill({
   label,
+  count,
   active,
   onClick,
 }: {
   label: string;
+  count?: number;
   active: boolean;
   onClick: () => void;
 }) {
@@ -469,13 +467,22 @@ function FilterPill({
     <button
       type="button"
       onClick={onClick}
-      className={`whitespace-nowrap text-[13px] font-semibold font-raleway px-4 py-2 rounded-full border transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#aa7130] ${
+      className={`inline-flex items-center gap-2 whitespace-nowrap text-[13px] font-semibold font-raleway px-4 py-2 rounded-xl transition-all duration-200 focus:outline-none ${
         active
-          ? "bg-[#02385a] border-[#02385a] text-white"
-          : "bg-white border-slate-200 text-slate-500 hover:border-[#02385a] hover:text-[#02385a]"
+          ? "bg-[#02385a] text-white shadow-md shadow-[#02385a]/20 scale-[1.02]"
+          : "bg-white border border-slate-200 text-slate-600 hover:border-slate-300 hover:text-[#02385a]"
       }`}
     >
-      {label}
+      <span>{label}</span>
+      {count !== undefined && (
+        <span
+          className={`text-[11px] px-2 py-0.5 rounded-full font-bold transition-colors ${
+            active ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
+          }`}
+        >
+          {count}
+        </span>
+      )}
     </button>
   );
 }
@@ -490,39 +497,79 @@ function ProviderCard({
   onClick: () => void;
 }) {
   const credentials = getCredentials(provider);
+  const isNurse = !isHealthAssistant(provider);
 
   return (
     <button
       type="button"
       onClick={onClick}
-      className="group text-left w-full bg-white rounded-2xl border border-slate-200 hover:border-[#aa7130] shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden flex flex-col focus:outline-none focus-visible:ring-2 focus-visible:ring-[#aa7130]"
+      className="group text-left w-full bg-white rounded-3xl border border-slate-200/90 hover:border-[#aa7130]/60 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_40px_rgba(2,56,90,0.09)] transition-all duration-300 hover:-translate-y-1.5 overflow-hidden flex flex-col focus:outline-none focus-visible:ring-2 focus-visible:ring-[#aa7130]"
     >
-      {/* Top accent bar */}
-      <div className="h-[3px] w-full bg-gradient-to-r from-[#02385a] to-[#00b99d] group-hover:from-[#aa7130] group-hover:to-[#00b99d] transition-all duration-300" />
+      {/* Top Banner with Location & Code */}
+      <div className="relative h-20 w-full bg-gradient-to-r from-[#02385a]/10 via-[#00b99d]/10 to-[#aa7130]/10 p-4 flex items-start justify-between overflow-hidden">
+        <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-white/40 blur-xl pointer-events-none" />
+        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-500 font-nunito bg-white/80 backdrop-blur-sm px-2.5 py-1 rounded-full border border-slate-200/60 shadow-xs">
+          <svg className="w-3 h-3 text-[#aa7130]" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12 21s-6-5.333-6-10a6 6 0 0112 0c0 4.667-6 10-6 10z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <circle cx="12" cy="11" r="2" stroke="currentColor" strokeWidth="2" />
+          </svg>
+          {provider.state}
+        </span>
 
-      <div className="p-6 flex flex-col flex-1">
-        {/* Avatar + Identity */}
-        <div className="flex items-center gap-4 mb-3">
+        <span className="text-[10px] font-mono tracking-wider text-slate-400 bg-white/70 px-2 py-0.5 rounded-md border border-slate-200/50">
+          {provider.employeeNumber}
+        </span>
+      </div>
+
+      {/* Main Body */}
+      <div className="p-6 pt-0 flex flex-col flex-1">
+        {/* Avatar positioned over the header boundary */}
+        <div className="-mt-10 mb-3.5 flex items-end justify-between">
           <ProviderAvatar provider={provider} size="sm" />
-          <div className="flex-1 min-w-0">
-            <p className="font-raleway font-bold text-[#02385a] text-sm leading-snug mb-1.5 truncate">
-              {provider.displayName}
-            </p>
-            <TitleBadge title={provider.title} />
+          <TitleBadge title={provider.title} />
+        </div>
+
+        {/* Identity & Verified Status */}
+        <div className="mb-3">
+          <h3 className="font-raleway font-extrabold text-[#02385a] text-lg leading-snug group-hover:text-[#aa7130] transition-colors">
+            {provider.displayName}
+          </h3>
+
+          <div className="mt-1 flex items-center gap-1.5 text-[11.5px] font-semibold text-emerald-700 font-nunito">
+            <svg className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="m9 12 2 2 4-4"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span className="truncate">
+              {isNurse ? `NMCN Verified • ${provider.licenseNumber}` : "Triage Certified Health Assistant"}
+            </span>
           </div>
         </div>
 
-        <div className="mb-4">
-          <VerifiedLabel />
-        </div>
-
-        {/* Credentials: visible here on the card, not only inside the modal */}
+        {/* Qualifications Badges */}
         {credentials.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mb-4">
+          <div className="flex flex-wrap gap-1.5 mb-3.5">
             {credentials.map((q) => (
               <span
                 key={q}
-                className="bg-slate-50 border border-slate-200 text-[#02385a] font-bold text-[11px] px-2.5 py-1 rounded-full font-nunito"
+                className="bg-slate-50 border border-slate-200/80 text-[#02385a] font-bold text-[10.5px] px-2.5 py-0.5 rounded-lg font-nunito"
               >
                 {q}
               </span>
@@ -530,50 +577,40 @@ function ProviderCard({
           </div>
         )}
 
-        {/* Bio preview */}
-        <p className="font-nunito text-[13.5px] text-slate-500 leading-relaxed line-clamp-3 flex-1 mb-5">
+        {/* Bio Preview */}
+        <p className="font-nunito text-[13px] text-slate-600 leading-relaxed line-clamp-3 flex-1 mb-4">
           {provider.bio}
         </p>
 
-        {/* Footer — experience text only, no pips */}
-        <div className="border-t border-slate-100 pt-4 flex flex-col gap-2">
-          <div className="flex items-center gap-2">
-            <svg
-              className="w-3.5 h-3.5 text-[#aa7130] flex-shrink-0"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="2" />
-              <path
-                d="M4 20c0-4 3.6-7 8-7s8 3 8 7"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-            <span className="text-[12px] font-semibold text-slate-500 font-nunito">
-              {provider.experience}
+        {/* Experience & Languages */}
+        <div className="border-t border-slate-100 pt-3.5 flex flex-col gap-2">
+          <div className="flex items-center justify-between text-[11.5px] font-nunito text-slate-500">
+            <div className="flex items-center gap-1.5">
+              <svg className="w-3.5 h-3.5 text-[#aa7130]" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+                <path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+              <span className="font-semibold text-slate-700">{provider.experience}</span>
+            </div>
+
+            <span className="text-[11px] truncate max-w-[140px] text-slate-400">
+              {provider.languages.join(", ")}
             </span>
           </div>
-          <span className="text-[12px] font-semibold text-slate-400 font-nunito">
-            {provider.state}
-          </span>
         </div>
 
-        {/* View profile hover cue */}
-        <div className="mt-4 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-200">
-          <span className="text-[11px] font-bold tracking-widest uppercase text-[#aa7130] font-raleway">
-            View Profile
-          </span>
+        {/* Action Cue */}
+        <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[#aa7130] font-raleway font-bold text-xs tracking-wider uppercase">
+          <span>View Clinical Profile</span>
           <svg
-            className="w-3.5 h-3.5 text-[#aa7130]"
+            className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-200"
             viewBox="0 0 24 24"
             fill="none"
           >
             <path
               d="M5 12h14M12 5l7 7-7 7"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
@@ -840,73 +877,76 @@ export default function ClinicalProvidersPage() {
   const [search, setSearch] = useState("");
 
   const filtered = PROVIDERS.filter((p) => {
-    const matchesTitle = activeTitle === "All" || p.title === activeTitle;
-    const q = search.toLowerCase();
+    const matchesTitle =
+      activeTitle === "All"
+        ? true
+        : activeTitle === "RN"
+        ? !isHealthAssistant(p)
+        : isHealthAssistant(p);
+
+    const q = search.trim().toLowerCase();
     const matchesSearch =
-      !q ||
+      q === "" ||
+      p.fullName.toLowerCase().includes(q) ||
       p.displayName.toLowerCase().includes(q) ||
       p.title.toLowerCase().includes(q) ||
+      p.qualifications.toLowerCase().includes(q) ||
       p.state.toLowerCase().includes(q) ||
+      p.licenseNumber.toLowerCase().includes(q) ||
       p.languages.some((l) => l.toLowerCase().includes(q));
+
     return matchesTitle && matchesSearch;
   });
 
+  const rnCount = PROVIDERS.filter((p) => !isHealthAssistant(p)).length;
+  const haCount = PROVIDERS.filter((p) => isHealthAssistant(p)).length;
+
   return (
     <>
-      <div className="min-h-screen bg-slate-50 font-nunito">
+      <div className="min-h-screen bg-[#fcfdfd] font-nunito text-slate-800 selection:bg-[#aa7130]/20 selection:text-[#aa7130]">
 
-        {/* Hero, now a looping background video behind the existing gradient
-            and decorative blobs, rather than gradient alone.
-            Replace poster + source with real footage: a clinical provider
-            arriving at a client's home, taking vitals, or a warm handoff
-            moment between provider and client. Silent, 6 to 10 second loop. */}
-        <section className="relative px-6 pt-20 pb-16 overflow-hidden">
-          <div className="absolute inset-0 z-0">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              poster="/images/providers/hero-poster.jpg"
-              className="absolute inset-0 w-full h-full object-cover"
-            >
-              <source src="/images/hero/cp.mov" type="video/mp4" />
-            </video>
-            {/* dark wash so the white hero text stays legible over any footage */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#02385a]/95 via-[#024a78]/90 to-[#013055]/95" />
-            <div className="absolute -top-16 -right-16 w-80 h-80 rounded-full bg-[#00b99d]/[0.1] pointer-events-none" />
-            <div className="absolute bottom-[-80px] left-[8%] w-56 h-56 rounded-full bg-[#aa7130]/[0.08] pointer-events-none" />
-            <div className="absolute top-1/4 left-[58%] w-32 h-32 rounded-full bg-white/[0.04] pointer-events-none" />
-          </div>
+        {/* 🌟 LUXURY HERO SECTION */}
+        <section className="relative px-6 pt-28 pb-20 overflow-hidden bg-gradient-to-b from-[#011e33] via-[#022c4a] to-[#02385a] text-white">
+          {/* Ambient Lighting Orbs */}
+          <div className="absolute top-0 right-1/4 w-[480px] h-[480px] rounded-full bg-[#00b99d]/10 blur-[130px] pointer-events-none" />
+          <div className="absolute -bottom-20 left-10 w-[420px] h-[420px] rounded-full bg-[#aa7130]/15 blur-[120px] pointer-events-none" />
+          <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(0deg,white_1px,transparent_1px),linear-gradient(90deg,white_1px,transparent_1px)] bg-[size:50px_50px]" />
 
-          <div className="max-w-4xl mx-auto relative z-10 py-20">
-            <div className="inline-flex items-center gap-2 bg-[#aa7130]/20 border border-[#aa7130]/40 rounded-full px-4 py-1.5 mb-5">
+          <div className="max-w-6xl mx-auto relative z-10">
+            {/* Top Badge */}
+            <div className="inline-flex items-center gap-2.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-6 shadow-sm">
               <VerifiedBadge size="sm" />
-              <span className="font-raleway font-bold text-[11px] tracking-[0.12em] uppercase text-amber-300">
-                TriageVerified Clinical Providers
+              <span className="font-raleway font-bold text-xs tracking-[0.14em] uppercase text-amber-300">
+                TriageVerified™ Clinical Directory
               </span>
             </div>
 
-            <h1 className="font-raleway font-extrabold text-white leading-[1.15] mb-4 text-[clamp(28px,5vw,48px)] max-w-2xl">
-              The professionals behind your peace of mind.
+            {/* Title & Narrative */}
+            <h1 className="font-raleway font-extrabold text-white leading-[1.12] mb-6 text-4xl sm:text-5xl lg:text-6xl max-w-3xl tracking-tight">
+              The Clinicians Behind Your Peace of Mind.
             </h1>
-            <p className="font-nunito text-white/70 text-[17px] leading-[1.75] mb-10 max-w-xl">
-              Every TriageHome clinical provider is carefully vetted, trained, and
-              committed to delivering trusted care at home, wherever home is.
+
+            <p className="font-nunito text-white/80 text-lg sm:text-xl leading-relaxed mb-12 max-w-2xl font-normal">
+              Every TriageHome clinical provider is individually licensed by the Nursing and Midwifery Council of Nigeria (NMCN), background-vetted, and committed to hospital-grade care right in your living room.
             </p>
 
-            <div className="flex gap-10 flex-wrap">
+            {/* Quick Metrics Ribbon */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-5 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 max-w-4xl">
               {[
-                { value: `${PROVIDERS.length}+`, label: "Active Providers" },
-                { value: "100%", label: "TriageVerified" },
-                { value: "Lagos & Beyond", label: "Coverage Area" },
+                { value: `${PROVIDERS.length}+`, label: "Vetted Clinicians", sub: "RNs & Specialists" },
+                { value: "100%", label: "NMCN Verified", sub: "Direct License Registry" },
+                { value: "Lagos & Beyond", label: "Coverage Reach", sub: "Direct Home Dispatch" },
+                { value: "5.0 ★", label: "Family Trust", sub: "Bedside Score" },
               ].map((s) => (
-                <div key={s.label}>
-                  <p className="font-raleway font-extrabold text-white text-3xl leading-none mb-1">
+                <div key={s.label} className="p-3">
+                  <p className="font-raleway font-extrabold text-white text-2xl sm:text-3xl leading-none mb-1 text-amber-200">
                     {s.value}
                   </p>
-                  <p className="font-nunito font-semibold text-white/50 text-[13px]">
+                  <p className="font-raleway font-bold text-white text-xs tracking-wide">
                     {s.label}
+                  </p>
+                  <p className="font-nunito text-white/50 text-[11px] mt-0.5">
+                    {s.sub}
                   </p>
                 </div>
               ))}
@@ -914,20 +954,21 @@ export default function ClinicalProvidersPage() {
           </div>
         </section>
 
-        {/* Sticky Filter Bar */}
-        <div className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm px-6 py-4">
-          <div className="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-start sm:items-center gap-4 justify-between">
-            <div className="relative w-full sm:w-auto">
+        {/* 🔍 STICKY FILTER & SEARCH BAR */}
+        <div className="sticky top-0 z-30 bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] px-6 py-4">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            {/* Search Input */}
+            <div className="relative w-full md:w-96">
               <svg
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"
                 viewBox="0 0 24 24"
                 fill="none"
               >
-                <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
+                <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2.5" />
                 <path
                   d="m21 21-4.35-4.35"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
                 />
               </svg>
@@ -935,73 +976,212 @@ export default function ClinicalProvidersPage() {
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by name, title or state…"
-                className="w-full sm:w-80 pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm text-[#02385a] font-nunito placeholder:text-slate-400 focus:outline-none focus:border-[#aa7130] focus:ring-2 focus:ring-[#aa7130]/20 transition-all"
+                placeholder="Search by name, qualification, or language…"
+                className="w-full pl-11 pr-10 py-2.5 bg-slate-50/80 border border-slate-200 rounded-xl text-sm text-[#02385a] font-nunito placeholder:text-slate-400 focus:outline-none focus:border-[#aa7130] focus:bg-white focus:ring-3 focus:ring-[#aa7130]/15 transition-all"
               />
+              {search && (
+                <button
+                  type="button"
+                  onClick={() => setSearch("")}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"
+                >
+                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M18 6L6 18M6 6l12 12"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </button>
+              )}
             </div>
 
-            <div className="flex gap-2 flex-wrap">
-              {TITLES.map((t) => (
-                <FilterPill
-                  key={t}
-                  label={t === "All" ? `All (${PROVIDERS.length})` : t}
-                  active={activeTitle === t}
-                  onClick={() => setActiveTitle(t)}
-                />
-              ))}
+            {/* Category Filter Pills */}
+            <div className="flex items-center gap-2.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 no-scrollbar">
+              <FilterPill
+                label="All Providers"
+                count={PROVIDERS.length}
+                active={activeTitle === "All"}
+                onClick={() => setActiveTitle("All")}
+              />
+              <FilterPill
+                label="Registered Nurses (RN)"
+                count={rnCount}
+                active={activeTitle === "RN"}
+                onClick={() => setActiveTitle("RN")}
+              />
+              <FilterPill
+                label="Health Assistants"
+                count={haCount}
+                active={activeTitle === "Health Assistant"}
+                onClick={() => setActiveTitle("Health Assistant")}
+              />
             </div>
           </div>
         </div>
 
-        {/* Grid */}
-        <div className="max-w-[1200px] mx-auto px-6 pt-10 pb-20">
-          <p className="font-raleway font-bold text-[12px] tracking-[0.06em] uppercase text-slate-400 mb-6">
-            {filtered.length} provider{filtered.length !== 1 ? "s" : ""} found
-          </p>
+        {/* 🗂️ PROVIDERS GRID */}
+        <div className="max-w-6xl mx-auto px-6 pt-10 pb-24">
+          <div className="flex items-center justify-between mb-8">
+            <p className="font-raleway font-bold text-xs tracking-wider uppercase text-slate-400">
+              Showing {filtered.length} of {PROVIDERS.length} Verified Clinicians
+            </p>
+            {search && (
+              <button
+                type="button"
+                onClick={() => setSearch("")}
+                className="text-xs text-[#aa7130] hover:underline font-semibold font-nunito"
+              >
+                Clear search filter
+              </button>
+            )}
+          </div>
 
           {filtered.length === 0 ? (
-            <div className="text-center py-24 text-slate-400">
-              <p className="text-4xl mb-4">🔍</p>
-              <p className="font-nunito text-base">
-                No providers match your search. Try a different term or title.
+            <div className="text-center py-24 bg-white rounded-3xl border border-slate-200/80 p-8 shadow-sm">
+              <div className="w-16 h-16 rounded-2xl bg-amber-50 text-[#aa7130] flex items-center justify-center mx-auto mb-4 text-2xl">
+                🔍
+              </div>
+              <h3 className="font-raleway font-bold text-xl text-[#02385a] mb-2">
+                No matching providers found
+              </h3>
+              <p className="font-nunito text-slate-500 text-sm max-w-md mx-auto mb-6">
+                We couldn't find any clinical providers matching "{search}". Try searching by another name, credential, or specialty.
               </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setSearch("");
+                  setActiveTitle("All");
+                }}
+                className="px-6 py-2.5 bg-[#02385a] text-white rounded-xl text-sm font-semibold hover:bg-[#aa7130] transition-colors"
+              >
+                Reset All Filters
+              </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map((provider, i) => (
-                <div
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+              {filtered.map((provider) => (
+                <ProviderCard
                   key={provider.id}
-                  className="animate-cardIn"
-                  style={{ animationDelay: `${i * 0.05}s` }}
-                >
-                  <ProviderCard
-                    provider={provider}
-                    onClick={() => setSelected(provider)}
-                  />
-                </div>
+                  provider={provider}
+                  onClick={() => setSelected(provider)}
+                />
               ))}
             </div>
           )}
         </div>
 
-        {/* Join CTA */}
-        <section className="bg-gradient-to-r from-[#aa7130] to-[#8c5c22] px-6 py-16">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="font-raleway font-extrabold text-white text-[clamp(22px,3vw,32px)] mb-3">
-              Are you a clinical professional?
+        {/* 🛡️ 4-PILLAR CLINICAL STANDARDS */}
+        <section className="bg-slate-100/70 border-t border-slate-200/80 py-24 px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <p className="text-[#aa7130] font-raleway font-bold text-xs tracking-widest uppercase mb-3">
+                The Triage Standard
+              </p>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#02385a] font-raleway">
+                Why Families Trust Our Clinical Network
+              </h2>
+              <p className="mt-4 text-slate-600 font-nunito text-base leading-relaxed">
+                Inviting a healthcare professional into your home requires complete confidence. Here is how we safeguard every interaction.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                {
+                  title: "NMCN Direct Verification",
+                  desc: "Every nurse and midwife's license is authenticated directly with the Nursing and Midwifery Council of Nigeria.",
+                  icon: (
+                    <svg className="w-6 h-6 text-[#02385a]" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                    </svg>
+                  ),
+                },
+                {
+                  title: "Background & Identity Vetted",
+                  desc: "Multi-point criminal background verification, guarantor confirmation, and residence checks prior to client dispatch.",
+                  icon: (
+                    <svg className="w-6 h-6 text-[#00b99d]" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="2" />
+                      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" strokeWidth="2" />
+                    </svg>
+                  ),
+                },
+                {
+                  title: "BLS & Emergency Trained",
+                  desc: "Certified in Basic Life Support (BLS), vitals monitoring, infection control, and rapid emergency escalation.",
+                  icon: (
+                    <svg className="w-6 h-6 text-[#aa7130]" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M22 12h-4l-3 9L9 3l-3 9H2"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  ),
+                },
+                {
+                  title: "Empathetic Bedside Manner",
+                  desc: "Selected not just for technical skill, but for kindness, patience, and profound respect for your family's dignity.",
+                  icon: (
+                    <svg className="w-6 h-6 text-pink-600" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                    </svg>
+                  ),
+                },
+              ].map((p, i) => (
+                <div
+                  key={i}
+                  className="bg-white p-7 rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-shadow"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center mb-5 border border-slate-100">
+                    {p.icon}
+                  </div>
+                  <h3 className="font-raleway font-bold text-[#02385a] text-lg mb-2">
+                    {p.title}
+                  </h3>
+                  <p className="font-nunito text-slate-500 text-sm leading-relaxed">
+                    {p.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 💼 CLINICAL RECRUITMENT BANNER */}
+        <section className="bg-gradient-to-r from-[#02385a] via-[#024a78] to-[#aa7130] px-6 py-20 text-white relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
+          <div className="max-w-3xl mx-auto text-center relative z-10">
+            <span className="inline-block px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-amber-200 font-raleway font-bold text-xs uppercase tracking-widest mb-5">
+              Healthcare Providers
+            </span>
+            <h2 className="font-raleway font-extrabold text-white text-3xl sm:text-4xl mb-4 leading-tight">
+              Are you a licensed healthcare professional?
             </h2>
-            <p className="font-nunito text-white/75 text-base leading-[1.75] mb-8">
-              Join our growing network of verified providers and deliver trusted home
-              healthcare to clients across Lagos and beyond.
+            <p className="font-nunito text-white/80 text-base sm:text-lg leading-relaxed mb-10 max-w-xl mx-auto">
+              Join our growing network of verified Registered Nurses, Midwives, and Health Assistants delivering trusted, dignified care to families across Nigeria.
             </p>
             <a
               href="https://wa.me/2349134664547?text=Hello%2C%20I%20am%20interested%20in%20joining%20Triage%20as%20a%20healthcare%20provider.%20Please%20share%20the%20application%20process."
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 bg-white text-[#02385a] font-raleway font-extrabold text-sm tracking-wide px-7 py-4 rounded-xl hover:scale-[1.03] transition-transform"
+              className="inline-flex items-center gap-3 bg-white text-[#02385a] hover:bg-amber-50 font-raleway font-extrabold text-sm tracking-wide px-8 py-4 rounded-2xl shadow-xl transition-all duration-300 hover:scale-105"
             >
-              Apply to Join Our Network
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+              <span>Apply to Join Our Clinical Network</span>
+              <svg className="w-4 h-4 text-[#aa7130]" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M5 12h14M12 5l7 7-7 7"
                   stroke="currentColor"
@@ -1013,6 +1193,7 @@ export default function ClinicalProvidersPage() {
             </a>
           </div>
         </section>
+
       </div>
 
       {selected !== null && (

@@ -166,10 +166,10 @@ export default function AbsoluteDiscretion() {
           <FadeIn className="flex justify-center lg:justify-start w-full">
             <div className="relative w-full max-w-lg aspect-[4/3] rounded-3xl overflow-hidden border border-white/15 shadow-2xl">
               <Image
-                src="/images/hero/discretion.webp"
+                src="/images/hero/female.webp"
                 alt="TriageConcierge private clinical consultation"
                 fill
-                className="object-cover object-center"
+                className="object-cover object-top"
                 sizes="(max-width: 1024px) 100vw, 520px"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-triage-navy/50 via-transparent to-transparent" />
