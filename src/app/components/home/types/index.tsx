@@ -20,7 +20,7 @@ const offers = [
   },
   {
     title: "Partnerships",
-    desc: "We support hospitals with on-demand clinical staff and help organizations deliver better healthcare experiences to their people.",
+    desc: "TriageHome partners with organisations, healthcare providers and institutions to expand access to quality healthcare. Through our network of certified RNs, coordinated clinical services and technology-supported operations, we complement existing healthcare structures to deliver care across workplaces, homes, programmes and communities. We welcome collaborations that create meaningful value, improve healthcare access and support continuity of care.",
     cta: "Partner With Us",
     href: "/partnerships",
     image: "images/blog/9.webp",
@@ -45,7 +45,8 @@ export default function WhatWeOffer() {
           </h2>
 
           <p className="mt-4 text-white/70 text-lg font-nunito">
-            Designed to meet you wherever you are, from everyday care to elite support.
+            Designed to meet you wherever you are, from everyday care to elite
+            support.
           </p>
         </div>
 

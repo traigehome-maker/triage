@@ -18,7 +18,9 @@ export default function PrivacyGovernance() {
                 Personal Records. Responsible Reporting.
               </h3>
               <p className="text-slate-600 text-xs sm:text-sm font-nunito leading-relaxed">
-                Individual Health Snapshots support personal care and clinical continuity. Organisational reporting focuses strictly on aggregated insights, with rigorous privacy safeguards.
+                Individual Health Snapshots support personal care and clinical
+                continuity. Organisational reporting focuses strictly on
+                aggregated insights, with rigorous privacy safeguards.
               </p>
             </div>
 
@@ -30,7 +32,8 @@ export default function PrivacyGovernance() {
                   Individual Confidentiality
                 </h4>
                 <p className="text-xs text-slate-600 font-nunito leading-relaxed">
-                  Your personal health data is shared solely with you and the care providers you explicitly authorize.
+                  Your personal health data is shared solely with you and the
+                  care providers you explicitly authorize.
                 </p>
               </div>
 
@@ -40,7 +43,8 @@ export default function PrivacyGovernance() {
                   Anonymized Group Insights
                 </h4>
                 <p className="text-xs text-slate-600 font-nunito leading-relaxed">
-                  Corporate reports suppress small cell sizes (&lt;5) to prevent accidental identification within small teams.
+                  Corporate reports suppress small cell sizes (&lt;5) to prevent
+                  accidental identification within small teams.
                 </p>
               </div>
 
@@ -50,7 +54,8 @@ export default function PrivacyGovernance() {
                   Consent-First Protocols
                 </h4>
                 <p className="text-xs text-slate-600 font-nunito leading-relaxed">
-                  Every test—including optional exams like breast checks—is conducted with explicit, informed client consent.
+                  Every testincluding optional exams like breast checksis
+                  conducted with explicit, informed client consent.
                 </p>
               </div>
             </div>

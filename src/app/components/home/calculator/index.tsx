@@ -2,12 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import {
-  Briefcase,
-  Users,
-  TrendingUp,
-  Globe,
-} from "lucide-react";
+import { Briefcase, Users, TrendingUp, Globe } from "lucide-react";
 
 /* -------------------------------------
    COUNTER HOOK
@@ -78,8 +73,8 @@ export default function Impact() {
           </h2>
 
           <p className="mt-8 text-lg text-black/70 leading-relaxed">
-            We focus on outcomes, not activity. Every project, partnership,
-            and engagement contributes to long-term growth and measurable
+            We focus on outcomes, not activity. Every project, partnership, and
+            engagement contributes to long term growth and measurable
             performance.
           </p>
         </div>

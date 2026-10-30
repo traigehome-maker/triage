@@ -15,13 +15,12 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.triage-home.com"),
 
   title: {
-    default:
-      "TriageHome | Home Healthcare Services in Lagos & Nigeria",
+    default: "TriageHome | Home Healthcare Services in Lagos & Nigeria",
     template: "%s | TriageHome",
   },
 
   description:
-    "TriageHome provides trusted on-demand home healthcare services in Lagos and across Nigeria. Book verified nurses, providers, and healthcare professionals for elderly care, post-surgery care, wellness checks, chronic disease management, IV therapy, and in-home medical support.",
+    "TriageHome provides trusted on demand home healthcare services in Lagos and across Nigeria. Book verified nurses, providers, and healthcare professionals for elderly care, post-surgery care, wellness checks, chronic disease management, IV therapy, and in-home medical support.",
 
   keywords: [
     "home healthcare Nigeria",
@@ -53,8 +52,7 @@ export const metadata: Metadata = {
   publisher: "TriageHome",
 
   openGraph: {
-    title:
-      "TriageHome | Trusted Home Healthcare Services in Nigeria",
+    title: "TriageHome | Trusted Home Healthcare Services in Nigeria",
 
     description:
       "Professional healthcare delivered to your home. Book verified nurses, providers, wellness checks, elderly care, post-surgery care, IV therapy, and more with TriageHome.",
@@ -79,8 +77,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
 
-    title:
-      "TriageHome | On-Demand Home Healthcare Services",
+    title: "TriageHome | on demand Home Healthcare Services",
 
     description:
       "Book trusted nurses, providers, and healthcare professionals directly to your home in Lagos and across Nigeria.",
@@ -115,16 +112,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={dmsans.className}>
-        
         {/* ⚡ FAST CONTENT */}
         <Header />
 
-        <ClientProviders>
-          {children}
-        </ClientProviders>
+        <ClientProviders>{children}</ClientProviders>
 
         <Footer />
-
       </body>
     </html>
   );

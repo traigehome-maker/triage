@@ -47,7 +47,7 @@ export default function FinalCTA() {
 
             <p className="text-sm text-white/60 max-w-sm">
               We work with serious founders, professionals, and businesses ready
-              to invest in long-term growth.
+              to invest in long term growth.
             </p>
           </div>
         </motion.div>

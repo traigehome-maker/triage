@@ -38,11 +38,11 @@ export default function TriageVideoSection() {
               >
                 {/* Thumbnail image */}
                 <img
-                  src="/images/hero/bg1.webp"
+                  src="/images/hero/team4.webp"
                   alt="See how TriageHome works"
                   loading="lazy"
                   decoding="async"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
 
                 {/* overlay */}

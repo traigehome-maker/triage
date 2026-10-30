@@ -75,7 +75,7 @@ export default function SnapshotHero() {
 
           {/* Description */}
           <motion.p variants={ITEM} className="text-base md:text-xl font-nunito text-white/80 leading-relaxed mb-8 max-w-xl">
-            A certified Registered Nurse visits your home for 13 essential clinical screenings, blood glucose, and vitals leaving you with a personalized physical receipt and 24-hour Digital Health Snapshot.
+            A certified Registered Nurse visits your home for 13 essential clinical screenings, blood glucose, and vitals, leaving you with a personalized physical receipt and 24-hour Digital Health Snapshot.
           </motion.p>
 
           {/* Primary & Secondary Action CTAs */}

@@ -74,8 +74,8 @@ export default function BookingProcess() {
             How Your Health Snapshot Works
           </h2>
           <p className="text-slate-600 text-sm sm:text-base font-nunito">
-            Effortless clinical care brought straight to your doorstep—no
-            hospital queues, no waiting rooms.
+            Effortless clinical care brought straight to your doorstep, with no
+            hospital queues and no waiting rooms.
           </p>
         </motion.div>
 

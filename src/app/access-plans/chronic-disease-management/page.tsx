@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     "Chronic Disease Management in Lagos & Nigeria | Home Healthcare | TriageHome",
 
   description:
-    "TriageHome provides professional chronic disease management services in Lagos and across Nigeria. Get personalized home healthcare support for diabetes, hypertension, heart conditions, medication monitoring, wellness tracking, and long-term care management from trusted healthcare professionals.",
+    "TriageHome provides professional chronic disease management services in Lagos and across Nigeria. Get personalized home healthcare support for diabetes, hypertension, heart conditions, medication monitoring, wellness tracking, and long term care management from trusted healthcare professionals.",
 
   keywords: [
     "chronic disease management Lagos",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
       "Chronic Disease Management | TriageHome",
 
     description:
-      "Personalized chronic disease management and home healthcare support for diabetes, hypertension, and long-term conditions delivered directly to your home.",
+      "Personalized chronic disease management and home healthcare support for diabetes, hypertension, and long term conditions delivered directly to your home.",
 
     url: "https://www.triage-home.com/access-plans/chronic-disease-management",
 
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
       "Chronic Disease Management At Home | TriageHome",
 
     description:
-      "Professional home healthcare support for diabetes, hypertension, medication monitoring, and long-term care.",
+      "Professional home healthcare support for diabetes, hypertension, medication monitoring, and long term care.",
 
     images: ["https://www.triage-home.com/images/banner.jpg"],
   },
@@ -103,11 +103,11 @@ const services = [
   {
     icon: "/icons/health-care.png",
     title: "Home Healthcare Support",
-    desc: "Professional healthcare support tailored to long-term conditions.",
+    desc: "Professional healthcare support tailored to long term conditions.",
   },
 ];
 const benefits = [
-  "Personalized long-term care",
+  "Personalized long term care",
   "Professional healthcare monitoring",
   "Comfortable home-based support",
   "Reduced hospital visits",
@@ -142,7 +142,7 @@ export default function ChronicDiseaseManagementPage() {
 
             <h1 className="mt-8 text-white text-5xl lg:text-7xl font-semibold leading-tight tracking-tight font-raleway">
 
-              Long-Term
+              long term
               <span className="block text-[#aa7130]">
                 Healthcare
               </span>
@@ -154,7 +154,7 @@ export default function ChronicDiseaseManagementPage() {
             <p className="mt-8 max-w-xl text-lg leading-relaxed text-white/75 font-nunito">
 
               Professional chronic disease management and home healthcare
-              support designed to help clients manage long-term conditions
+              support designed to help clients manage long term conditions
               safely, comfortably, and consistently from home.
 
             </p>
@@ -371,7 +371,7 @@ export default function ChronicDiseaseManagementPage() {
               <p>
                 TriageHome provides professional chronic disease
                 management services in Lagos and across Nigeria,
-                helping clients manage long-term conditions
+                helping clients manage long term conditions
                 safely and comfortably from home.
               </p>
 
@@ -386,7 +386,7 @@ export default function ChronicDiseaseManagementPage() {
                 Through consistent home healthcare support,
                 TriageHome helps improve client comfort,
                 reduce unnecessary hospital visits,
-                and encourage healthier long-term outcomes.
+                and encourage healthier long term outcomes.
               </p>
 
             </div>
@@ -416,7 +416,7 @@ export default function ChronicDiseaseManagementPage() {
 
                 <h2 className="mt-4 text-white text-4xl lg:text-5xl font-semibold tracking-tight leading-tight font-raleway">
 
-                  Better Long-Term Healthcare Starts At Home
+                  Better long term Healthcare Starts At Home
 
                 </h2>
 

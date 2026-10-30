@@ -25,14 +25,12 @@ const faqs = [
       "Payments are handled securely through our platform with full transparency. You’ll always see pricing upfront before confirming any service.",
   },
   {
-    question:
-      "Can you help with long-term care for an elderly family member?",
+    question: "Can you help with long term care for an elderly family member?",
     answer:
-      "Absolutely. We provide ongoing care plans tailored to long-term needs, ensuring consistent monitoring, companionship, and medical support at home.",
+      "Absolutely. We provide ongoing care plans tailored to long term needs, ensuring consistent monitoring, companionship, and medical support at home.",
   },
   {
-    question:
-      "How does TriageHome ensure client and provider safety?",
+    question: "How does TriageHome ensure client and provider safety?",
     answer:
       "We maintain strict safety protocols, identity verification, and continuous monitoring to ensure a safe and trusted environment for both clients and providers.",
   },
@@ -40,7 +38,7 @@ const faqs = [
     question:
       "What partnerships are available for hospitals and corporate wellness?",
     answer:
-      "We partner with hospitals and organizations to provide on-demand clinical staff and structured healthcare support for teams and clients.",
+      "We partner with hospitals and organizations to provide on demand clinical staff and structured healthcare support for teams and clients.",
   },
   {
     question: "Is TriageHome a full-time salaried job?",
@@ -73,7 +71,6 @@ export default function FAQSection() {
 
   return (
     <section className="relative py-32 px-6 overflow-hidden">
-
       {/* 🌈 BACKGROUND */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#F9FFFE] via-[#F0FDFA] to-[#ECFEFF]" />
 
@@ -82,41 +79,34 @@ export default function FAQSection() {
 
       {/* CONTENT */}
       <div className="relative z-10 max-w-7xl mx-auto">
-
         <div className="grid lg:grid-cols-2 gap-16 items-start">
-
           {/* LEFT SIDE (INTRO) */}
           <div>
-
             <h2 className="font-raleway text-4xl md:text-5xl font-semibold text-gray-900">
               Frequently Asked Questions
             </h2>
 
             <p className="font-nunito mt-6 text-gray-600 text-lg max-w-md leading-relaxed">
-              Confused about how TriageHome works or need clarity on something?  
+              Confused about how TriageHome works or need clarity on something?
               Here are answers to the most common questions.
             </p>
 
             {/* subtle accent */}
             <div className="mt-8 w-20 h-[2px] bg-gradient-to-r from-teal-500 to-cyan-500" />
-
           </div>
 
           {/* RIGHT SIDE (FAQ LIST) */}
           <div className="space-y-4">
-
             {faqs.map((faq, i) => (
               <div
                 key={i}
                 className="bg-white/70 backdrop-blur-md border border-black/5 rounded-2xl overflow-hidden shadow-sm"
               >
-
                 {/* QUESTION */}
                 <button
                   onClick={() => toggle(i)}
                   className="w-full flex items-center justify-between p-6 text-left"
                 >
-
                   <span className="font-raleway text-lg font-semibold text-gray-900">
                     {faq.question}
                   </span>
@@ -128,7 +118,6 @@ export default function FAQSection() {
                   >
                     +
                   </motion.span>
-
                 </button>
 
                 {/* ANSWER */}
@@ -141,22 +130,17 @@ export default function FAQSection() {
                       transition={{ duration: 0.4 }}
                       className="overflow-hidden"
                     >
-                     <div className="font-nunito px-6 pb-6 text-gray-600 leading-relaxed whitespace-pre-line">
-  {faq.answer}
-</div>
+                      <div className="font-nunito px-6 pb-6 text-gray-600 leading-relaxed whitespace-pre-line">
+                        {faq.answer}
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
-
               </div>
             ))}
-
           </div>
-
         </div>
-
       </div>
-
     </section>
   );
 }
