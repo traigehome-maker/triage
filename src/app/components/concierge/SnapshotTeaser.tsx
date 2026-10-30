@@ -192,9 +192,9 @@ export default function SnapshotTeaser() {
                 <div className="px-6 py-5 flex flex-col gap-4">
                   <div className="flex items-center justify-between bg-white/[0.08] rounded-xl px-4 py-3.5">
                     <div>
-                      <p className="text-white/60 text-xs uppercase tracking-wider mb-0.5">Client</p>
-                      <p className="text-white font-raleway font-bold text-base">Adebayo Tunde</p>
-                      <p className="text-white/70 text-xs">Male &middot; 42 yrs</p>
+                      <p className="text-white/60 text-xs uppercase tracking-wider mb-0.5">Member Record</p>
+                      <p className="text-white font-raleway font-bold text-base">Member #TH-****82</p>
+                      {/* <p className="text-white/70 text-xs">Private Client &middot; Lagos</p> */}
                     </div>
                     <div className="w-10 h-10 rounded-full bg-[#aa7130]/25 flex items-center justify-center">
                       <div className="w-5 h-5 text-[#ffc870]">

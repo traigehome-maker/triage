@@ -7,21 +7,21 @@ import Link from "next/link";
 const solutions = [
   {
     title: "TriageApp",
-    desc: "Connect clients with verified nurses, health assistants, and community health workers, delivering reliable, on-demand care right at home.",
+    desc: "Connect clients with verified nurses, health assistants, and community health workers, delivering reliable, on demand care right at home.",
     tag: "Available Soon",
     href: "/triage-app",
     image: "images/blog/12.webp",
   },
   {
     title: "TriagePods",
-    desc: "Prefab care units designed to reach the last mile, bringing structured, accessible healthcare services closer to underserved communities.",
+    desc: "TriagePod brings professional healthcare services directly to workplaces, residential estates, conferences and community gatherings",
     tag: "Available Now",
     href: "/triage-pods",
     image: "images/blog/13.webp",
   },
   {
     title: "TriageLiving",
-    desc: "A 24/7 assisted-living model blending clinical care, wellness, and hospitality, creating a new standard for long-term living.",
+    desc: "A 24/7 assisted-living model blending clinical care, wellness, and hospitality, creating a new standard for long term living.",
     tag: "Coming Soon",
     href: "/triage-living",
     image: "images/blog/3.webp",
@@ -31,7 +31,6 @@ const solutions = [
 export default function SolutionsSection() {
   return (
     <section className="relative py-32 overflow-hidden bg-[#F9FFFE]">
-
       {/* 🌈 BACKGROUND */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-[#F9FFFE] via-[#F0FDFA] to-[#ECFEFF]" />
@@ -40,7 +39,6 @@ export default function SolutionsSection() {
       </div>
 
       <div className="relative z-10">
-
         {/* HEADER */}
         <div className="max-w-6xl mx-auto px-6 mb-20">
           <h2 className="text-5xl md:text-6xl font-semibold tracking-tight text-gray-900 font-raleway">
@@ -55,9 +53,7 @@ export default function SolutionsSection() {
 
         {/* 🧠 HORIZONTAL SCROLL (FIXED WIDTH) */}
         <div className="overflow-x-auto no-scrollbar">
-
           <div className="flex gap-8 px-6 md:px-12">
-
             {solutions.map((item, i) => (
               <motion.div
                 key={i}
@@ -65,10 +61,8 @@ export default function SolutionsSection() {
                 transition={{ type: "spring", stiffness: 120 }}
                 className="flex-shrink-0 w-[320px] md:w-[380px] lg:w-[420px]"
               >
-
                 {/* CARD */}
                 <div className="group relative rounded-[28px] overflow-hidden bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_20px_60px_rgba(0,0,0,0.06)] flex flex-col h-full">
-
                   {/* IMAGE */}
                   <div className="relative h-52 overflow-hidden">
                     <img
@@ -83,7 +77,6 @@ export default function SolutionsSection() {
 
                   {/* CONTENT */}
                   <div className="p-6 flex flex-col flex-1 justify-between">
-
                     <div>
                       <div
                         className={`inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full mb-4 font-nunito font-semibold `}
@@ -110,18 +103,12 @@ export default function SolutionsSection() {
                         <span>→</span>
                       </Link>
                     </div>
-
                   </div>
-
                 </div>
-
               </motion.div>
             ))}
-
           </div>
-
         </div>
-
       </div>
     </section>
   );

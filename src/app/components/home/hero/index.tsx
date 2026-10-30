@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 const slides = [
   {
     title: "Healthcare, at your doorstep",
-    desc: "Experience intelligent, on-demand care delivered to your home.",
+    desc: "Experience intelligent, on demand care delivered to your home.",
     cta: "Get Care Now",
     image: "/images/hero/team1.webp",
     position: "center 4%",

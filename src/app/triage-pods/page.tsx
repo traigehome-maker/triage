@@ -29,9 +29,7 @@ import {
   Check,
 } from "lucide-react";
 
-// ==========================================
-// DATA: WHERE WE DEPLOY (4 CORE SETTINGS)
-// ==========================================
+
 const DEPLOYMENT_SETTINGS = [
   {
     id: "workplaces",
@@ -39,7 +37,7 @@ const DEPLOYMENT_SETTINGS = [
     subtitle: "Corporate & Enterprise",
     description:
       "Structured workplace wellness programmes, executive medical checkups, and occupational health screenings delivered directly to corporate offices and business hubs.",
-    image: "/images/pod/pod2.webp",
+    image: "/images/pod/pod14.webp",
     features: [
       "Executive and employee vitals screening",
       "Ergonomic & occupational health advisory",
@@ -93,14 +91,14 @@ const DEPLOYMENT_SETTINGS = [
 const ACTIVATIONS = [
   {
     id: "atlantic-view",
-    name: "Atlantic View Estate",
+    name: "Estates Residence",
     category: "Residential Estate Activation",
     location: "Lekki, Lagos",
     summary:
       "Comprehensive onsite health screenings, vital monitoring, and clinical consultations delivered directly to estate residents and families.",
     images: [
       "/images/pod/pod6.webp",
-      "/images/pod/pod7.webp",
+      "/images/hero/gym.webp",
       "/images/pod/pod8.webp",
       "/images/pod/pod9.webp",
       "/images/pod/pod10.webp",
@@ -113,7 +111,7 @@ const ACTIVATIONS = [
     category: "Institutional & Personnel Care",
     location: "Command Headquarters",
     summary:
-      "Specialised cardiovascular wellness assessments, biometric screenings, and medical profiling for FRSC officers and command personnel.",
+      "Onsite health checks, vitals monitoring, and clinical consultations for FRSC officers and command personnel.",
     images: [
       "/images/pod/pod13.webp",
       "/images/pod/pod14.webp",
@@ -133,7 +131,7 @@ const ACTIVATIONS = [
     summary:
       "Executive delegate health post providing rapid vitals assessment, clinical support, and wellness advisory for energy sector leadership.",
     images: [
-      "/images/pod/podJ.webp",
+      // "/images/pod/podJ.webp",
       "/images/pod/podK.webp",
       "/images/pod/podL.webp",
     ],
@@ -156,11 +154,11 @@ const ACTIVATIONS = [
   },
   {
     id: "community-gatherings",
-    name: "Sura MarketDays & Community Gatherings",
+    name: "Triage MarketDays & Community Gatherings",
     category: "Community & Market Outreach",
     location: "Lagos Island & Mainland",
     summary:
-      "High-impact preventive health screenings, chronic risk checks, and medical guidance for marketplace traders and community congregations.",
+      "High impact preventive health screenings, chronic risk checks, and medical guidance for marketplace traders and community congregations.",
     images: [
       "/images/pod/podM.webp",
       // "/images/pod/podH.webp",
@@ -191,7 +189,7 @@ const HOW_IT_WORKS_STEPS = [
     step: "03",
     name: "Deploy",
     icon: Stethoscope,
-    description: "Verified doctors, nurses, and diagnostics technicians arrive with certified medical equipment.",
+    description: "verified RNs and health assistant or MDs  arrive at the assigned location with medical kit containing  over 150+ equipments and consumables.",
   },
   {
     step: "04",
@@ -216,7 +214,7 @@ const TESTIMONIALS = [
     role: "Client",
     quote:
       "Excellent service delivery. Appreciate the support and response of the attendants and particularly Nurse, Kemisola.",
-    context: "Atlantic View Estate Activation",
+    context: "Estates Activation",
   },
   {
     author: "Wellness Operations Command",

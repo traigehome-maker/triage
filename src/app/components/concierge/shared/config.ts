@@ -147,8 +147,8 @@ export const PERSONA_COPY: Record<string, Record<string, { tagline: string; lead
 };
 
 export const PERSONAS = [
-  { key: "myself", label: "Myself" },
   { key: "household", label: "My Household" },
+  { key: "myself", label: "Myself" },
   { key: "someone", label: "Someone I Support" },
 ];
 

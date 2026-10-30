@@ -350,7 +350,7 @@ export default function PrivacyPolicyPage() {
           />
           <p>
             <strong className="text-amber-900">Non-Emergency Notice:</strong>{" "}
-            TriageHome coordinates scheduled and on-demand home healthcare
+            TriageHome coordinates scheduled and on demand home healthcare
             access but <em>does not replace emergency medical services</em>. If
             you are experiencing a life-threatening emergency, please contact
             emergency response or proceed immediately to the nearest hospital.
