@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
 
 type Provider = {
   id: number;
@@ -36,8 +35,7 @@ function buildProviders(raw: RawProvider[]): Provider[] {
   });
 }
 
-/** Shared everywhere a credential list is rendered, so the card grid and
- *  the modal always parse "RN, RM" style strings identically. */
+
 function getCredentials(provider: Provider): string[] {
   return provider.qualifications
     .split(",")
@@ -133,32 +131,6 @@ const PROVIDERS: Provider[] = buildProviders([
     state: "Lagos",
   },
   {
-    fullName: "Afolakemi Olusemo",
-    firstName: "Afolakemi",
-    imageSlug: "olusemo",
-    title: "RN",
-    qualifications: "RN",
-    employeeNumber: "CPN-26-007",
-    licenseNumber: "RN267820",
-    bio: "A graduate of Sacred Heart College of Nursing Sciences, Afolakemi currently practises at Reddington Hospital. Known for bringing calm energy, compassion, and professionalism into every client interaction, she believes great care is about making people feel safe, respected, and genuinely looked after. Whether supporting recovery, offering reassurance, or simply listening, Afolakemi approaches nursing not as a job, but as a calling.",
-    languages: ["English"],
-    experience: "Less than 1 year",
-    state: "Lagos",
-  },
-  // {
-  //   fullName: "Albert Nduaguba",
-  //   firstName: "Albert",
-  //   imageSlug: "nduaguba",
-  //   title: "RN",
-  //   qualifications: "RN, RCTN",
-  //   employeeNumber: "CPN-26-008",
-  //   licenseNumber: "RCTN641",
-  //   bio: "Meet Albert, a Lagos-based provider with a passion for helping people better understand their bodies. With experience in cardiothoracic care and hypertension management, he combines strong clinical knowledge with a personality that makes healthcare feel less intimidating. Whether caring for clients or sharing practical wellness tips, Albert believes health education should be simple, relatable, and engaging. Warm, adaptable, and community-driven, he is committed to helping everyday Nigerians make informed health decisions, one conversation at a time.",
-  //   languages: ["English", "Igbo", "French"],
-  //   experience: "4 – 7 years",
-  //   state: "Lagos",
-  // },
-  {
     fullName: "Oluwaseun Adebajo",
     firstName: "Oluwaseun",
     imageSlug: "adebajo",
@@ -223,32 +195,6 @@ const PROVIDERS: Provider[] = buildProviders([
     experience: "1 – 3 years",
     state: "Lagos",
   },
-  {
-    fullName: "Olufunto Akinlade",
-    firstName: "Olufunto",
-    imageSlug: "olufunto",
-    title: "RN",
-    qualifications: "RN",
-    employeeNumber: "CPN-26-014",
-    licenseNumber: "RN224417",
-    bio: "The first thing most people notice about Olufunto is how calm she is. In moments where clients feel anxious or overwhelmed, she has a way of slowing things down, listening carefully, asking the right questions, and making clients feel heard before anything else. She pays attention to the little details others may miss: a worried glance, discomfort hidden behind a smile, the need for reassurance before treatment begins. Thoughtful, steady, and deeply attentive, she believes great care is not only about clinical skill but about how clients feel in your presence long after you leave.",
-    languages: ["English", "Yoruba"],
-    experience: "1 – 3 years",
-    state: "Lagos",
-  },
-  // {
-  //   fullName: "Blessing Alagha",
-  //   firstName: "Blessing",
-  //   imageSlug: "alagha",
-  //   title: "RN",
-  //   qualifications: "RN, RPHN",
-  //   employeeNumber: "CPN-26-015",
-  //   licenseNumber: "RN220149",
-  //   bio: "For Blessing, nursing is far more than a profession; it is a calling built on patience, listening, and healing the whole person, not just the symptoms. She believes true care follows you beyond hospital walls. That is why you will find her at community health outreaches, meeting people where they are. Quietly watching how technology can bring healthcare to the last mile, because for Blessing, no one should be too far to be cared for.",
-  //   languages: ["English", "Yoruba"],
-  //   experience: "1 – 3 years",
-  //   state: "Lagos",
-  // },
   {
     fullName: "Yetunde Akande",
     firstName: "Yetunde",
@@ -375,6 +321,7 @@ function VerifiedLabel() {
 
 // ─── Avatar ───────────────────────────────────────────────────────────────────
 // object-top + scale-[1.8] + translate-y-[10%] zooms into the face/headshot area
+const AVATAR_EXTENSIONS = [".jpg", ".png", ".webp", ".jpeg"];
 
 function ProviderAvatar({
   provider,
@@ -383,10 +330,29 @@ function ProviderAvatar({
   provider: Provider;
   size?: "sm" | "lg";
 }) {
+  const [extIndex, setExtIndex] = useState(0);
   const [imgError, setImgError] = useState(false);
   const isLg = size === "lg";
   const sizeClass = isLg ? "w-24 h-24" : "w-16 h-16";
   const px = isLg ? 96 : 64;
+
+  useEffect(() => {
+    setExtIndex(0);
+    setImgError(false);
+  }, [provider.imageSlug]);
+
+  const hasExt = /\.(jpg|jpeg|png|webp)$/i.test(provider.imageSlug);
+  const imageSrc = hasExt
+    ? `/images/providers/${provider.imageSlug}`
+    : `/images/providers/${provider.imageSlug}${AVATAR_EXTENSIONS[extIndex]}`;
+
+  const handleImgError = () => {
+    if (!hasExt && extIndex < AVATAR_EXTENSIONS.length - 1) {
+      setExtIndex((prev) => prev + 1);
+    } else {
+      setImgError(true);
+    }
+  };
 
   const inner = imgError ? (
     <div
@@ -402,12 +368,13 @@ function ProviderAvatar({
   ) : (
     <div className="w-full h-full rounded-2xl overflow-hidden relative bg-slate-100">
       <Image
-        src={`/images/providers/${provider.imageSlug}.jpg`}
+        key={imageSrc}
+        src={imageSrc}
         alt={`${provider.displayName} headshot`}
         fill
-        className="object-cover"
+        className="object-top"
         sizes={`${px}px`}
-        onError={() => setImgError(true)}
+        onError={handleImgError}
       />
     </div>
   );
@@ -963,7 +930,6 @@ export default function ClinicalProvidersPage() {
           <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(0deg,white_1px,transparent_1px),linear-gradient(90deg,white_1px,transparent_1px)] bg-[size:50px_50px]" />
 
           <div className="max-w-6xl mx-auto relative z-10">
-            {/* Top Badge */}
             <div className="inline-flex items-center gap-2.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-6 shadow-sm">
               <VerifiedBadge size="sm" />
               <span className="font-raleway font-bold text-xs tracking-[0.14em] uppercase text-amber-300">
@@ -971,7 +937,6 @@ export default function ClinicalProvidersPage() {
               </span>
             </div>
 
-            {/* Title & Narrative */}
             <h1 className="font-raleway font-extrabold text-white leading-[1.12] mb-6 text-4xl sm:text-5xl lg:text-6xl max-w-3xl tracking-tight">
               The Clinicians Behind Your Peace of Mind.
             </h1>
@@ -983,7 +948,6 @@ export default function ClinicalProvidersPage() {
               your living room.
             </p>
 
-            {/* Quick Metrics Ribbon */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-5 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 max-w-4xl">
               {[
                 {
@@ -1019,7 +983,6 @@ export default function ClinicalProvidersPage() {
           </div>
         </section>
 
-        {/* 🔍 STICKY FILTER & SEARCH BAR */}
         <div className="sticky top-0 z-30 bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] px-6 py-4">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             {/* Search Input */}

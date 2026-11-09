@@ -19,16 +19,16 @@ export default function AboutHero({
         <div className="fixed inset-0 -z-10">
           <img
           //  src="https://images.unsplash.com/photo-1584515933487-779824d29309?q=80&w=2000"
-            src="/images/hero/pmx.png"
+            src="/images/hero/team1.webp"
             alt="Healthcare"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
           />
 
           {/* 🔷 NAVY OVERLAY */}
           <div className="absolute inset-0 bg-triage-navy/70" />
 
           {/* subtle lime radial */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(166,210,0,0.08),transparent_60%)]" />
+          
         </div>
 
         {/* 🌊 FLOATING ELEMENTS (SUBTLE BRAND ONLY) */}
@@ -82,7 +82,6 @@ export default function AboutHero({
             </p>
           </motion.div>
 
-          {/* ⬇️ SCROLL INDICATOR */}
           <motion.div
             animate={{ y: [0, 12, 0] }}
             transition={{ repeat: Infinity, duration: 1.6 }}
