@@ -193,21 +193,29 @@ Message: ${message}`;
 
         <div className="relative z-10 max-w-3xl mx-auto">
 
-          <h2 className="text-3xl md:text-4xl font-semibold text-white">
-            Need care urgently?
+          <h2 className="text-3xl md:text-4xl font-semibold text-white tracking-tight">
+            Need Care or Health Support?
           </h2>
 
-          <p className="mt-4 text-white/80">
-            Our concierge is available 24/7 on WhatsApp.
+          <p className="mt-4 text-white/90 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+            Our team is available on WhatsApp to help you access the right TriageHome service.
+          </p>
+
+          <p className="mt-3 text-white/80 text-sm sm:text-base font-medium">
+            Operating Hours: 7 AM – 9 PM daily.
+          </p>
+
+          <p className="mt-2 text-xs sm:text-sm text-white/60">
+            For medical emergencies, please proceed to your nearest hospital.
           </p>
 
           <a
-            href="https://wa.me/2349134664547"
+            href="https://wa.me/2349134664547?text=Hello%20TriageHome%2C%20I%20need%20care%20or%20health%20support."
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block mt-6 px-8 py-4 rounded-full bg-triage-orange text-white font-medium"
+            className="inline-block mt-8 px-8 py-4 rounded-full bg-triage-orange hover:bg-[#8c5c27] text-white font-medium transition shadow-lg"
           >
-            Talk to Concierge
+            Send A Message
           </a>
 
         </div>
