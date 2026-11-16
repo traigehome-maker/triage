@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 
 type Provider = {
@@ -22,8 +23,6 @@ type Provider = {
 };
 
 type RawProvider = Omit<Provider, "id" | "displayName" | "initials">;
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function buildProviders(raw: RawProvider[]): Provider[] {
   return raw.map((p, i) => {
@@ -78,19 +77,7 @@ const PROVIDERS: Provider[] = buildProviders([
     experience: "1 – 3 years",
     state: "Lagos",
   },
-  // {
-  //   fullName: "Blessing Afuape",
-  //   firstName: "Blessing",
-  //   imageSlug: "afuape",
-  //   title: "RN",
-  //   qualifications: "BSC, RM",
-  //   employeeNumber: "CPN-26-003",
-  //   licenseNumber: "RM151963",
-  //   bio: "You know that feeling when you're pregnant and every little thing scares you? That's where Blessing shines. She's a registered midwife who actually listens, with no rushing and no judgment. From antenatal checkups to delivery day and those messy, beautiful weeks after, she's got your back. Trained in BLS, ACLS, newborn resuscitation, and family planning, her background in Microbiology adds an extra layer of care. But more than her credentials, she offers something simple: kindness, patience, and the reassurance that you're never alone.",
-  //   languages: ["English", "Yoruba"],
-  //   experience: "1 – 3 years",
-  //   state: "Lagos",
-  // },
+
   {
     fullName: "Taiwo Alayo",
     firstName: "Taiwo",
@@ -247,8 +234,59 @@ const PROVIDERS: Provider[] = buildProviders([
     experience: "1 – 3 years",
     state: "Lagos",
   },
+  {
+    fullName: "Chiamaka Josiah",
+    firstName: "Chiamaka",
+    imageSlug: "chiamaka",
+    title: "Health Assistant",
+    qualifications: "Health Assistant",
+    employeeNumber: "HA-26-005",
+    licenseNumber: "N/A",
+    bio: "Warm, attentive, and deeply empathetic, Chiamaka believes that high-quality home care begins with genuine human connection. With a keen eye for patient comfort, daily living assistance, and proactive wellness monitoring, she brings reassurance into every home, making care routines smooth, dignified, and stress-free for clients and their families.",
+    languages: ["English"],
+    experience: "1 – 3 years",
+    state: "Lagos",
+  },
+  {
+    fullName: "Mofoluwake Olugboji",
+    firstName: "Mofoluwake",
+    imageSlug: "mofoluwake",
+    title: "Health Assistant",
+    qualifications: "Health Assistant",
+    employeeNumber: "HA-26-006",
+    licenseNumber: "N/A",
+    bio: "Mofoluwake combines steady dedication with an exceptionally gentle bedside manner. She takes pride in turning daily health routines into moments of comfort, relief, and confidence for clients, ensuring care instructions are followed diligently while creating a calm, safe environment in the home.",
+    languages: ["English"],
+    experience: "1 – 3 years",
+    state: "Lagos",
+  },
+  {
+    fullName: "Destiny Sunday",
+    firstName: "Destiny",
+    imageSlug: "sunday",
+    title: "Health Assistant",
+    qualifications: "Health Assistant",
+    employeeNumber: "HA-26-007",
+    licenseNumber: "N/A",
+    bio: "Destiny approaches caregiving with unwavering patience, high reliability, and a calm presence that immediately puts patients at ease. Dedicated to thorough health tracking, mobility support, and attentive companionship, he ensures families always feel supported and well-informed.",
+    languages: ["English"],
+    experience: "1 – 3 years",
+    state: "Lagos",
+  },
+  {
+    fullName: "Chima Success",
+    firstName: "Chima",
+    imageSlug: "chima",
+    title: "Health Assistant",
+    qualifications: "Health Assistant",
+    employeeNumber: "HA-26-008",
+    licenseNumber: "N/A",
+    bio: "Driven by genuine compassion and calm precision, Chima is dedicated to making every client feel comfortable and thoroughly cared for. Whether assisting with routine wellness activities or providing supportive bedside care, he listens attentively and brings uplifting, reliable energy into every home.",
+    languages: ["English"],
+    experience: "1 – 3 years",
+    state: "Lagos",
+  },
 ]);
-// ─── Constants ────────────────────────────────────────────────────────────────
 
 const TITLES = ["All", "RN", "Health Assistant"];
 
@@ -268,7 +306,6 @@ function getGradient(id: number): string {
   return `linear-gradient(135deg, ${pair[0]} 0%, ${pair[1]} 100%)`;
 }
 
-// ─── Title Badge ──────────────────────────────────────────────────────────────
 
 function TitleBadge({ title }: { title: string }) {
   const cls =
@@ -283,11 +320,6 @@ function TitleBadge({ title }: { title: string }) {
     </span>
   );
 }
-
-// ─── TriageVerified Badge ─────────────────────────────────────────────────────
-// The trust signal requested for every provider, card and modal alike: a
-// small filled checkmark badge, the same visual language as a verified
-// social profile, not a generic outline check.
 
 function VerifiedBadge({ size = "md" }: { size?: "sm" | "md" }) {
   const px = size === "sm" ? "w-4 h-4" : "w-5 h-5";
@@ -319,8 +351,6 @@ function VerifiedLabel() {
   );
 }
 
-// ─── Avatar ───────────────────────────────────────────────────────────────────
-// object-top + scale-[1.8] + translate-y-[10%] zooms into the face/headshot area
 const AVATAR_EXTENSIONS = [".jpg", ".png", ".webp", ".jpeg"];
 
 function ProviderAvatar({
@@ -381,7 +411,7 @@ function ProviderAvatar({
 
   return (
     <div
-      className={`relative ${sizeClass} flex-shrink-0 group-hover:scale-105 transition-transform duration-300`}
+      className={`relative ${sizeClass} flex-shrink-0`}
     >
       <div
         className="w-full h-full rounded-2xl p-[2px] shadow-md"
@@ -397,7 +427,6 @@ function ProviderAvatar({
     </div>
   );
 }
-// ─── Detail Card ──────────────────────────────────────────────────────────────
 
 function DetailCard({
   icon,
@@ -422,8 +451,6 @@ function DetailCard({
     </div>
   );
 }
-
-// ─── Filter Pill ──────────────────────────────────────────────────────────────
 
 function FilterPill({
   label,
@@ -460,8 +487,6 @@ function FilterPill({
   );
 }
 
-// ─── Provider Card ────────────────────────────────────────────────────────────
-
 function ProviderCard({
   provider,
   onClick,
@@ -476,9 +501,8 @@ function ProviderCard({
     <button
       type="button"
       onClick={onClick}
-      className="group text-left w-full bg-white rounded-3xl border border-slate-200/90 hover:border-[#aa7130]/60 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_40px_rgba(2,56,90,0.09)] transition-all duration-300 hover:-translate-y-1.5 overflow-hidden flex flex-col focus:outline-none focus-visible:ring-2 focus-visible:ring-[#aa7130]"
+      className="group text-left w-full bg-white rounded-3xl border border-slate-200/90 hover:border-[#aa7130]/50 shadow-xs hover:shadow-md transition-shadow transition-colors duration-200 overflow-hidden flex flex-col focus:outline-none focus-visible:ring-2 focus-visible:ring-[#aa7130]"
     >
-      {/* Top Banner with Location & Code */}
       <div className="relative h-20 w-full bg-gradient-to-r from-[#02385a]/10 via-[#00b99d]/10 to-[#aa7130]/10 p-4 flex items-start justify-between overflow-hidden">
         <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-white/40 blur-xl pointer-events-none" />
         <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-500 font-nunito bg-white/80 backdrop-blur-sm px-2.5 py-1 rounded-full border border-slate-200/60 shadow-xs">
@@ -517,7 +541,6 @@ function ProviderCard({
           <TitleBadge title={provider.title} />
         </div>
 
-        {/* Identity & Verified Status */}
         <div className="mb-3">
           <h3 className="font-raleway font-extrabold text-[#02385a] text-lg leading-snug group-hover:text-[#aa7130] transition-colors">
             {provider.displayName}
@@ -552,7 +575,6 @@ function ProviderCard({
           </div>
         </div>
 
-        {/* Qualifications Badges */}
         {credentials.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mb-3.5">
             {credentials.map((q) => (
@@ -566,17 +588,14 @@ function ProviderCard({
           </div>
         )}
 
-        {/* Bio Preview */}
         <p className="font-nunito text-[13px] text-slate-600 leading-relaxed line-clamp-3 flex-1 mb-4">
           {provider.bio}
         </p>
-
-        {/* Experience & Languages */}
         <div className="border-t border-slate-100 pt-3.5 flex flex-col gap-2">
           <div className="flex items-center justify-between text-[11.5px] font-nunito text-slate-500">
             <div className="flex items-center gap-1.5">
               <svg
-                className="w-3.5 h-3.5 text-[#aa7130]"
+                className="w-3.5 h-3.5 text-[#aa7130] flex-shrink-0"
                 viewBox="0 0 24 24"
                 fill="none"
               >
@@ -605,11 +624,10 @@ function ProviderCard({
           </div>
         </div>
 
-        {/* Action Cue */}
         <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[#aa7130] font-raleway font-bold text-xs tracking-wider uppercase">
           <span>View Clinical Profile</span>
           <svg
-            className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-200"
+            className="w-4 h-4 flex-shrink-0 transform group-hover:translate-x-0.5 transition-transform duration-200"
             viewBox="0 0 24 24"
             fill="none"
           >
@@ -626,8 +644,6 @@ function ProviderCard({
     </button>
   );
 }
-
-// ─── Modal ────────────────────────────────────────────────────────────────────
 
 function ProviderModal({
   provider,
@@ -657,9 +673,6 @@ function ProviderModal({
 
   const credentials = getCredentials(provider);
 
-  // Health Assistants are support staff, not individually bookable the way
-  // a licensed RN is: the CTA books the service through TriageHome rather
-  // than requesting that specific person by name.
   const ctaHeading = assistant
     ? "Book a home health assistant visit"
     : `Book an appointment with ${provider.firstName}`;
@@ -679,7 +692,6 @@ function ProviderModal({
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#021c2e]/75 backdrop-blur-sm"
     >
       <div className="bg-white rounded-2xl overflow-hidden w-full max-w-2xl max-h-[92vh] flex flex-col shadow-2xl">
-        {/* Header */}
         <div className="bg-[#02385a] px-8 pt-8 pb-7 relative overflow-hidden flex-shrink-0">
           <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-white/[0.04] pointer-events-none" />
           <div className="absolute -bottom-12 right-10 w-28 h-28 rounded-full bg-[#00b99d]/10 pointer-events-none" />
@@ -717,9 +729,7 @@ function ProviderModal({
           </div>
         </div>
 
-        {/* Body */}
         <div className="overflow-y-auto flex-1 px-8 py-7 flex flex-col gap-6">
-          {/* About */}
           <div>
             <p className="text-[11px] font-bold tracking-[0.1em] uppercase text-[#aa7130] font-raleway mb-2.5">
               About
@@ -729,7 +739,6 @@ function ProviderModal({
             </p>
           </div>
 
-          {/* Details grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <DetailCard
               icon={
@@ -817,7 +826,6 @@ function ProviderModal({
             />
           </div>
 
-          {/* Professional Credentials */}
           <div>
             <p className="text-[11px] font-bold tracking-[0.1em] uppercase text-[#aa7130] font-raleway mb-2.5">
               Professional Credentials
@@ -834,7 +842,6 @@ function ProviderModal({
             </div>
           </div>
 
-          {/* Languages */}
           <div>
             <p className="text-[11px] font-bold tracking-[0.1em] uppercase text-[#aa7130] font-raleway mb-2.5">
               Languages
@@ -851,9 +858,6 @@ function ProviderModal({
             </div>
           </div>
 
-          {/* CTA: tailored so a Health Assistant visit books through
-              TriageHome generally, never as a named, individually
-              requested provider the way an RN can be */}
           <div className="bg-gradient-to-r from-[#02385a] to-[#024a78] rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <p className="font-raleway font-bold text-white text-base mb-1">
@@ -887,7 +891,6 @@ function ProviderModal({
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function ClinicalProvidersPage() {
   const [selected, setSelected] = useState<Provider | null>(null);
@@ -922,64 +925,52 @@ export default function ClinicalProvidersPage() {
   return (
     <>
       <div className="min-h-screen bg-[#fcfdfd] font-nunito text-slate-800 selection:bg-[#aa7130]/20 selection:text-[#aa7130]">
-        {/* 🌟 LUXURY HERO SECTION */}
-        <section className="relative px-6 pt-28 pb-20 overflow-hidden bg-gradient-to-b from-[#011e33] via-[#022c4a] to-[#02385a] text-white">
-          {/* Ambient Lighting Orbs */}
-          <div className="absolute top-0 right-1/4 w-[480px] h-[480px] rounded-full bg-[#00b99d]/10 blur-[130px] pointer-events-none" />
-          <div className="absolute -bottom-20 left-10 w-[420px] h-[420px] rounded-full bg-[#aa7130]/15 blur-[120px] pointer-events-none" />
-          <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(0deg,white_1px,transparent_1px),linear-gradient(90deg,white_1px,transparent_1px)] bg-[size:50px_50px]" />
+        <section className="relative w-full overflow-hidden bg-[#02385a] text-white">
+          <div className="absolute inset-0 z-0">
+            <img
+              src="/images/hero/team2.webp"
+              alt="Clinical Providers"
+              className="w-full h-full object-cover"
+              style={{ objectPosition: "center 7%" }}
+            />
+            <div className="absolute inset-0 bg-[#02385a]/75" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(166,210,0,0.08),transparent_60%)]" />
+          </div>
 
-          <div className="max-w-6xl mx-auto relative z-10">
-            <div className="inline-flex items-center gap-2.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-6 shadow-sm">
-              <VerifiedBadge size="sm" />
-              <span className="font-raleway font-bold text-xs tracking-[0.14em] uppercase text-amber-300">
-                TriageVerified™ Clinical Directory
-              </span>
-            </div>
+          <div className="absolute inset-0 pointer-events-none">
+            <motion.div
+              animate={{ y: [0, -30, 0] }}
+              transition={{ repeat: Infinity, duration: 8 }}
+              className="absolute w-72 h-72 bg-triage-lime/10 blur-[120px] rounded-full top-20 left-10"
+            />
+            <motion.div
+              animate={{ y: [0, 40, 0] }}
+              transition={{ repeat: Infinity, duration: 10 }}
+              className="absolute w-96 h-96 bg-triage-teal/10 blur-[140px] rounded-full bottom-10 right-10"
+            />
+          </div>
 
-            <h1 className="font-raleway font-extrabold text-white leading-[1.12] mb-6 text-4xl sm:text-5xl lg:text-6xl max-w-3xl tracking-tight">
-              The Clinicians Behind Your Peace of Mind.
-            </h1>
+          <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-32 pb-20 md:pt-40 md:pb-24 max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              className="max-w-3xl"
+            >
+              <p className="font-nunito text-triage-lime uppercase tracking-widest text-sm mb-6 font-semibold">
+                Clinical Directory
+              </p>
 
-            <p className="font-nunito text-white/80 text-lg sm:text-xl leading-relaxed mb-12 max-w-2xl font-normal">
-              Every TriageHome clinical provider is individually licensed by the
-              Nursing and Midwifery Council of Nigeria (NMCN),
-              background vetted, and committed to hospital grade care right in
-              your living room.
-            </p>
+              <h1 className="font-raleway text-4xl sm:text-5xl md:text-6xl font-semibold leading-[1.08] tracking-tight">
+                <span className="text-white">The Clinicians Behind</span>
+                <br />
+                <span className="text-triage-lime">Your Peace of Mind</span>
+              </h1>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-5 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 max-w-4xl">
-              {[
-                {
-                  value: `${PROVIDERS.length}+`,
-                  label: "Vetted Clinicians",
-                  sub: "RNs & Specialists",
-                },
-                {
-                  value: "100%",
-                  label: "NMCN Verified",
-                  sub: "Direct License Registry",
-                },
-                {
-                  value: "Lagos & Beyond",
-                  label: "Coverage Reach",
-                  sub: "Direct Home Dispatch",
-                },
-                { value: "5.0 ★", label: "Family Trust", sub: "Bedside Score" },
-              ].map((s) => (
-                <div key={s.label} className="p-3">
-                  <p className="font-raleway font-extrabold text-white text-2xl sm:text-3xl leading-none mb-1 text-amber-200">
-                    {s.value}
-                  </p>
-                  <p className="font-raleway font-bold text-white text-xs tracking-wide">
-                    {s.label}
-                  </p>
-                  <p className="font-nunito text-white/50 text-[11px] mt-0.5">
-                    {s.sub}
-                  </p>
-                </div>
-              ))}
-            </div>
+              <p className="font-nunito mt-6 text-lg sm:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto">
+                Verified Registered Nurses, Midwives, and Health Assistants delivering trusted, hospital-grade care right in your home.
+              </p>
+            </motion.div>
           </div>
         </section>
 
@@ -1031,7 +1022,6 @@ export default function ClinicalProvidersPage() {
               )}
             </div>
 
-            {/* Category Filter Pills */}
             <div className="flex items-center gap-2.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 no-scrollbar">
               <FilterPill
                 label="All Providers"
@@ -1055,7 +1045,6 @@ export default function ClinicalProvidersPage() {
           </div>
         </div>
 
-        {/* 🗂️ PROVIDERS GRID */}
         <div className="max-w-6xl mx-auto px-6 pt-10 pb-24">
           <div className="flex items-center justify-between mb-8">
             <p className="font-raleway font-bold text-xs tracking-wider uppercase text-slate-400">
@@ -1109,7 +1098,6 @@ export default function ClinicalProvidersPage() {
           )}
         </div>
 
-        {/* 🛡️ 4-PILLAR CLINICAL STANDARDS */}
         <section className="bg-slate-100/70 border-t border-slate-200/80 py-24 px-6">
           <div className="max-w-6xl mx-auto">
             <div className="text-center max-w-2xl mx-auto mb-16">
@@ -1224,7 +1212,7 @@ export default function ClinicalProvidersPage() {
           </div>
         </section>
 
-        {/* 💼 CLINICAL RECRUITMENT BANNER */}
+
         <section className="bg-gradient-to-r from-[#02385a] via-[#024a78] to-[#aa7130] px-6 py-20 text-white relative overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
           <div className="max-w-3xl mx-auto text-center relative z-10">
