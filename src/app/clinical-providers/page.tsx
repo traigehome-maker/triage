@@ -46,11 +46,32 @@ function isHealthAssistant(provider: Provider): boolean {
   return provider.title === "Health Assistant";
 }
 
+function isDoctor(provider: Provider): boolean {
+  return provider.title === "Medical Doctor" || provider.licenseNumber.startsWith("MDCN");
+}
+
+function isNurse(provider: Provider): boolean {
+  return provider.title === "RN";
+}
+
 // ─── Data ─────────────────────────────────────────────────────────────────────
 // imageSlug must match exactly the filename in /public/images/providers/
 // e.g. imageSlug: "zuliyat" => /public/images/providers/zuliyat.jpg
 
 const PROVIDERS: Provider[] = buildProviders([
+  {
+    fullName: "Zainab Olakunle Oduwole",
+    firstName: "Zainab",
+    imageSlug: "zainab",
+    title: "Medical Doctor",
+    qualifications: "General Medicine, Obstetrics & Gynaecology",
+    employeeNumber: "DR-26-001",
+    licenseNumber: "MDCN/R/93838",
+    bio: "I like to think of myself as an introverted extrovert, a realistic optimist. I’m passionate about women’s sexual and reproductive health. In my spare time, you can catch me curled up somewhere reading a book, watching a TV show (I love those), or lifting weights.",
+    languages: ["English"],
+    experience: "4 – 7 years",
+    state: "Lagos",
+  },
   {
     fullName: "Zuliyat Abdulkareem",
     firstName: "Zuliyat",
@@ -183,6 +204,32 @@ const PROVIDERS: Provider[] = buildProviders([
     state: "Lagos",
   },
   {
+    fullName: "Mofoluwake Olugboji",
+    firstName: "Mofoluwake",
+    imageSlug: "mofoluwake",
+    title: "RN",
+    qualifications: "RN",
+    employeeNumber: "CPN-26-014",
+    licenseNumber: "RN266758",
+    bio: "I’m a Registered Nurse who genuinely enjoys caring for people and making a difference in their health journeys. I’m passionate about wellness, preventive care, and helping people feel comfortable, heard, and supported. I value creating positive patient experiences, paying attention to the little details, and continually learning to become better at what I do. For me, good healthcare goes beyond treatment; it’s also about compassion, trust, and making people feel cared for.",
+    languages: ["English, Yoruba"],
+    experience: "1 – 3 years",
+    state: "Lagos",
+  },
+  {
+    fullName: "Chima Success",
+    firstName: "Chima",
+    imageSlug: "chima",
+    title: "RN",
+    qualifications: "RN",
+    employeeNumber: "CPN-26-015",
+    licenseNumber: "RN245782",
+    bio: "I am a dedicated and compassionate Registered Nurse with a strong passion for healthcare, continuous learning, and making a positive difference in people’s lives. I am hardworking, responsible, adaptable, and committed to delivering quality patient-centred care. Beyond my professional life, I enjoy music,drawing , meeting new people, and exploring opportunities for personal and professional growth. I believe in integrity, teamwork, self-development, and striving for excellence in everything I do. My goal is to keep growing, making meaningful contributions, and achieving greater success in life.",
+    languages: ["English, Igbo"],
+    experience: "1 – 3 years",
+    state: "Lagos",
+  },
+  {
     fullName: "Yetunde Akande",
     firstName: "Yetunde",
     imageSlug: "akande",
@@ -229,7 +276,7 @@ const PROVIDERS: Provider[] = buildProviders([
     qualifications: "Health Assistant",
     employeeNumber: "HA-26-004",
     licenseNumber: "N/A",
-    bio: "Hailing from Boki, Cross River State, Kingsley brings a unique mix of problem-solving and organisational skills to caregiving. With his background in facility management, he knows exactly how to keep a home running smoothly, safely, and reliably. But what truly sets Kingsley apart is his heart for people. He provides genuine companionship, always thinking ahead to make sure his clients feel comfortable and completely supported. He brings absolute peace of mind to every home he enters.",
+    bio: "Odok Kingsley from cross river state. Boki local government. As a caregiver, I'm always dedicated to my duties an being active to my job is my biggest priority.",
     languages: ["English"],
     experience: "1 – 3 years",
     state: "Lagos",
@@ -248,47 +295,21 @@ const PROVIDERS: Provider[] = buildProviders([
     state: "Lagos",
   },
   {
-    fullName: "Mofoluwake Olugboji",
-    firstName: "Mofoluwake",
-    imageSlug: "mofoluwake",
-    title: "Health Assistant",
-    qualifications: "Health Assistant",
-    employeeNumber: "HA-26-006",
-    licenseNumber: "N/A",
-    bio: "Mofoluwake combines steady dedication with an exceptionally gentle bedside manner. She takes pride in turning daily health routines into moments of comfort, relief, and confidence for clients, ensuring care instructions are followed diligently while creating a calm, safe environment in the home.",
-    languages: ["English"],
-    experience: "1 – 3 years",
-    state: "Lagos",
-  },
-  {
     fullName: "Destiny Sunday",
     firstName: "Destiny",
     imageSlug: "sunday",
     title: "Health Assistant",
     qualifications: "Health Assistant",
-    employeeNumber: "HA-26-007",
+    employeeNumber: "HA-26-006",
     licenseNumber: "N/A",
-    bio: "Destiny approaches caregiving with unwavering patience, high reliability, and a calm presence that immediately puts patients at ease. Dedicated to thorough health tracking, mobility support, and attentive companionship, he ensures families always feel supported and well-informed.",
-    languages: ["English"],
-    experience: "1 – 3 years",
-    state: "Lagos",
-  },
-  {
-    fullName: "Chima Success",
-    firstName: "Chima",
-    imageSlug: "chima",
-    title: "Health Assistant",
-    qualifications: "Health Assistant",
-    employeeNumber: "HA-26-008",
-    licenseNumber: "N/A",
-    bio: "Driven by genuine compassion and calm precision, Chima is dedicated to making every client feel comfortable and thoroughly cared for. Whether assisting with routine wellness activities or providing supportive bedside care, he listens attentively and brings uplifting, reliable energy into every home.",
-    languages: ["English"],
+    bio: "I am a trained Healthcare Assistant and Caregiver with a strong passion for providing compassionate, safe and quality patient care. I have training in healthcare assistance, First Aid and Basic Life Support (BLS), dementia care, medication management and other essential patient support skills. I am empathetic, patient, attentive to detail and committed to maintaining the dignity, comfort and wellbeing of those under my care. With a background in customer service, I also possess excellent communication, interpersonal and problem-solving skills. I am dedicated to continuous learning, teamwork and delivering professional, person-centred care while making a positive difference in people's lives.",
+    languages: ["English, Igbo"],
     experience: "1 – 3 years",
     state: "Lagos",
   },
 ]);
 
-const TITLES = ["All", "RN", "Health Assistant"];
+const TITLES = ["All", "Doctor", "RN", "Health Assistant"];
 
 const GRADIENT_PAIRS: [string, string][] = [
   ["#02385a", "#00b99d"],
@@ -311,7 +332,9 @@ function TitleBadge({ title }: { title: string }) {
   const cls =
     title === "Health Assistant"
       ? "bg-teal-50 text-teal-700"
-      : "bg-emerald-50 text-emerald-800";
+      : title === "Medical Doctor" || title === "Doctor"
+        ? "bg-sky-50 text-sky-800"
+        : "bg-emerald-50 text-emerald-800";
   return (
     <span
       className={`inline-block text-[11px] font-bold tracking-widest uppercase px-3 py-1 rounded-full font-raleway ${cls}`}
@@ -495,7 +518,6 @@ function ProviderCard({
   onClick: () => void;
 }) {
   const credentials = getCredentials(provider);
-  const isNurse = !isHealthAssistant(provider);
 
   return (
     <button
@@ -568,9 +590,11 @@ function ProviderCard({
               />
             </svg>
             <span className="truncate">
-              {isNurse
-                ? `NMCN Verified • ${provider.licenseNumber}`
-                : "Triage Certified Health Assistant"}
+              {isDoctor(provider)
+                ? `MDCN Verified • ${provider.licenseNumber}`
+                : isNurse(provider)
+                  ? `NMCN Verified • ${provider.licenseNumber}`
+                  : "Triage Certified Health Assistant"}
             </span>
           </div>
         </div>
@@ -672,16 +696,25 @@ function ProviderModal({
   }
 
   const credentials = getCredentials(provider);
+  const doctor = isDoctor(provider);
 
   const ctaHeading = assistant
     ? "Book a home health assistant visit"
-    : `Book an appointment with ${provider.firstName}`;
+    : doctor
+      ? `Book a consultation with Dr. ${provider.firstName}`
+      : `Book an appointment with ${provider.firstName}`;
 
   const ctaMessage = assistant
     ? `Hi TriageHome, I would like to book a home health assistant visit.`
-    : `Hi Triage, I would like to book an appointment with ${provider.firstName}.`;
+    : doctor
+      ? `Hi Triage, I would like to book a medical consultation with Dr. ${provider.firstName}.`
+      : `Hi Triage, I would like to book an appointment with ${provider.firstName}.`;
 
-  const ctaLabel = assistant ? "Book with TriageHome" : "Book an Appointment";
+  const ctaLabel = assistant
+    ? "Book with TriageHome"
+    : doctor
+      ? "Book a Consultation"
+      : "Book an Appointment";
 
   const ctaHref = `https://wa.me/2349134664547?text=${encodeURIComponent(ctaMessage)}`;
 
@@ -901,9 +934,11 @@ export default function ClinicalProvidersPage() {
     const matchesTitle =
       activeTitle === "All"
         ? true
-        : activeTitle === "RN"
-          ? !isHealthAssistant(p)
-          : isHealthAssistant(p);
+        : activeTitle === "Doctor"
+          ? isDoctor(p)
+          : activeTitle === "RN"
+            ? isNurse(p)
+            : isHealthAssistant(p);
 
     const q = search.trim().toLowerCase();
     const matchesSearch =
@@ -919,8 +954,9 @@ export default function ClinicalProvidersPage() {
     return matchesTitle && matchesSearch;
   });
 
-  const rnCount = PROVIDERS.filter((p) => !isHealthAssistant(p)).length;
-  const haCount = PROVIDERS.filter((p) => isHealthAssistant(p)).length;
+  const docCount = PROVIDERS.filter(isDoctor).length;
+  const rnCount = PROVIDERS.filter(isNurse).length;
+  const haCount = PROVIDERS.filter(isHealthAssistant).length;
 
   return (
     <>
@@ -968,7 +1004,7 @@ export default function ClinicalProvidersPage() {
               </h1>
 
               <p className="font-nunito mt-6 text-lg sm:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto">
-                Verified Registered Nurses, Midwives, and Health Assistants delivering trusted, hospital-grade care right in your home.
+                Verified Medical Doctors, Registered Nurses, Midwives, and Health Assistants delivering trusted, hospital-grade care right in your home.
               </p>
             </motion.div>
           </div>
@@ -1028,6 +1064,12 @@ export default function ClinicalProvidersPage() {
                 count={PROVIDERS.length}
                 active={activeTitle === "All"}
                 onClick={() => setActiveTitle("All")}
+              />
+              <FilterPill
+                label="Doctors"
+                count={docCount}
+                active={activeTitle === "Doctor"}
+                onClick={() => setActiveTitle("Doctor")}
               />
               <FilterPill
                 label="Registered Nurses (RN)"
