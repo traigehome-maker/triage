@@ -1004,7 +1004,7 @@ export default function ClinicalProvidersPage() {
               </h1>
 
               <p className="font-nunito mt-6 text-lg sm:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto">
-                Verified Medical Doctors, Registered Nurses, Midwives, and Health Assistants delivering trusted, hospital-grade care right in your home.
+                Verified Medical Doctors, Registered Nurses, Midwives, and Health Assistants delivering trusted, hospital grade care right in your home.
               </p>
             </motion.div>
           </div>
