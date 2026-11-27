@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
@@ -117,15 +117,27 @@ export function ProviderDetailClient({
           transition={{ duration: 0.55, ease: EASE }}
           className="grid grid-cols-1 gap-7 lg:grid-cols-12 lg:items-stretch"
         >
-          <div className="relative min-h-[420px] overflow-hidden rounded-2xl bg-[#f4efe8] shadow-xs sm:min-h-[500px] lg:col-span-5">
+          <motion.div
+            initial={
+              shouldReduceMotion ? undefined : { opacity: 0, x: -16 }
+            }
+            animate={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.08, ease: EASE }}
+            className="relative min-h-[420px] overflow-hidden rounded-2xl bg-[#f4efe8] shadow-xs sm:min-h-[500px] lg:col-span-5"
+          >
             <ProviderPortrait
               provider={provider}
               priority
               sizes="(max-width: 1024px) 100vw, 45vw"
             />
-          </div>
+          </motion.div>
 
-          <div className="flex flex-col justify-between rounded-2xl bg-[#f1f6fd] p-8 sm:p-10 lg:col-span-7">
+          <motion.div
+            initial={shouldReduceMotion ? undefined : { opacity: 0, x: 16 }}
+            animate={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.12, ease: EASE }}
+            className="flex flex-col justify-between rounded-2xl bg-[#f1f6fd] p-8 sm:p-10 lg:col-span-7"
+          >
             <div>
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
@@ -175,29 +187,31 @@ export function ProviderDetailClient({
             </div>
 
             <div className="mt-8 space-y-3 border-t border-slate-200/70 pt-6">
-              <a
+              <motion.a
                 href="https://wa.me/2349134664547"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex w-fit items-center gap-3.5 text-sm font-bold text-triage-navy transition hover:text-triage-orange"
+                whileHover={shouldReduceMotion ? undefined : { x: 4 }}
+                className="flex w-fit items-center gap-3.5 text-sm font-bold text-triage-navy transition-colors hover:text-triage-orange"
               >
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-triage-navy text-white">
                   <Phone className="h-4 w-4" />
                 </span>
                 <span>+234 913 466 4547</span>
-              </a>
+              </motion.a>
 
-              <a
+              <motion.a
                 href="mailto:support@triage-home.com"
-                className="flex w-fit items-center gap-3.5 text-sm font-bold text-triage-navy transition hover:text-triage-orange"
+                whileHover={shouldReduceMotion ? undefined : { x: 4 }}
+                className="flex w-fit items-center gap-3.5 text-sm font-bold text-triage-navy transition-colors hover:text-triage-orange"
               >
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-triage-navy text-white">
                   <Mail className="h-4 w-4" />
                 </span>
                 <span>support@triage-home.com</span>
-              </a>
+              </motion.a>
             </div>
-          </div>
+          </motion.div>
         </motion.section>
 
         <motion.section
@@ -220,31 +234,63 @@ export function ProviderDetailClient({
                 : `Schedule an in-home clinical visit or consultation with ${provider.fullName}.`}
             </p>
 
-            {submitted ? (
-              <div className="mt-7 rounded-2xl border border-slate-200 bg-white p-7 text-center">
-                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
-                  <CheckCircle2 className="h-6 w-6" />
-                </div>
-                <h3 className="font-raleway text-lg font-bold text-triage-navy">
-                  Appointment Request Prepared
-                </h3>
-                <p className="mt-1.5 text-sm text-slate-600">
-                  Your booking request for{" "}
-                  <span className="font-bold text-triage-navy">
-                    {provider.fullName}
-                  </span>{" "}
-                  is ready on WhatsApp.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setSubmitted(false)}
-                  className="mt-5 rounded-full border border-slate-200 px-5 py-2 font-raleway text-xs font-bold uppercase tracking-wider text-triage-navy transition hover:bg-slate-50"
+            <AnimatePresence mode="wait">
+              {submitted ? (
+                <motion.div
+                  key="detail-submitted"
+                  initial={
+                    shouldReduceMotion
+                      ? undefined
+                      : { opacity: 0, scale: 0.96 }
+                  }
+                  animate={
+                    shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }
+                  }
+                  exit={
+                    shouldReduceMotion
+                      ? undefined
+                      : { opacity: 0, scale: 0.96 }
+                  }
+                  transition={{ duration: 0.25, ease: EASE }}
+                  className="mt-7 rounded-2xl border border-slate-200 bg-white p-7 text-center"
                 >
-                  Book Another Time
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleBookAppointment} className="mt-7 space-y-4">
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+                    <CheckCircle2 className="h-6 w-6" />
+                  </div>
+                  <h3 className="font-raleway text-lg font-bold text-triage-navy">
+                    Appointment Request Prepared
+                  </h3>
+                  <p className="mt-1.5 text-sm text-slate-600">
+                    Your booking request for{" "}
+                    <span className="font-bold text-triage-navy">
+                      {provider.fullName}
+                    </span>{" "}
+                    is ready on WhatsApp.
+                  </p>
+                  <motion.button
+                    type="button"
+                    whileHover={
+                      shouldReduceMotion ? undefined : { scale: 1.03 }
+                    }
+                    whileTap={
+                      shouldReduceMotion ? undefined : { scale: 0.97 }
+                    }
+                    onClick={() => setSubmitted(false)}
+                    className="mt-5 rounded-full border border-slate-200 px-5 py-2 font-raleway text-xs font-bold uppercase tracking-wider text-triage-navy transition hover:bg-slate-50"
+                  >
+                    Book Another Time
+                  </motion.button>
+                </motion.div>
+              ) : (
+                <motion.form
+                  key="detail-form"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  onSubmit={handleBookAppointment}
+                  className="mt-7 space-y-4"
+                >
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label
@@ -337,15 +383,20 @@ export function ProviderDetailClient({
                   />
                 </div>
 
-                <button
+                <motion.button
                   type="submit"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-triage-navy px-6 py-3.5 font-raleway text-sm font-bold text-white shadow-md transition hover:bg-triage-orange"
+                  whileHover={
+                    shouldReduceMotion ? undefined : { scale: 1.02, y: -1 }
+                  }
+                  whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
+                  className="group/book inline-flex w-full items-center justify-center gap-2 rounded-full bg-triage-navy px-6 py-3.5 font-raleway text-sm font-bold text-white shadow-md transition-colors hover:bg-triage-orange"
                 >
                   <span>Book An Appointment</span>
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-              </form>
+                  <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover/book:translate-x-1" />
+                </motion.button>
+              </motion.form>
             )}
+            </AnimatePresence>
           </div>
 
           <div className="relative min-h-[420px] overflow-hidden rounded-2xl bg-slate-100 shadow-xs sm:min-h-[520px] lg:col-span-6">
