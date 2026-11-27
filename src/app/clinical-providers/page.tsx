@@ -1,934 +1,47 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import Link from "next/link";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import {
+  ArrowRight,
+  Search,
+  X,
+  ShieldCheck,
+  CheckCircle2,
+  MapPin,
+} from "lucide-react";
+import {
+  PROVIDERS,
+  isDoctor,
+  isNurse,
+  isHealthAssistant,
+  getProviderRoleLabel,
+} from "./providersData";
+import { ProviderPortrait } from "./ProviderPortrait";
 
-
-type Provider = {
-  id: number;
-  fullName: string;
-  displayName: string;
-  firstName: string;
-  initials: string;
-  bio: string;
-  languages: string[];
-  title: string;
-  qualifications: string;
-  experience: string;
-  state: string;
-  licenseNumber: string;
-  employeeNumber: string;
-  imageSlug: string;
-};
-
-type RawProvider = Omit<Provider, "id" | "displayName" | "initials">;
-
-function buildProviders(raw: RawProvider[]): Provider[] {
-  return raw.map((p, i) => {
-    const parts = p.fullName.trim().split(/\s+/);
-    const lastInitial = parts[parts.length - 1]?.[0] ?? "";
-    const initials = (p.firstName[0] + lastInitial).toUpperCase();
-    const displayName = `${p.firstName} ${lastInitial}.`;
-    return { ...p, id: i + 1, displayName, initials };
-  });
-}
-
-
-function getCredentials(provider: Provider): string[] {
-  return provider.qualifications
-    .split(",")
-    .map((q) => q.trim())
-    .filter(Boolean);
-}
-
-function isHealthAssistant(provider: Provider): boolean {
-  return provider.title === "Health Assistant";
-}
-
-function isDoctor(provider: Provider): boolean {
-  return provider.title === "Medical Doctor" || provider.licenseNumber.startsWith("MDCN");
-}
-
-function isNurse(provider: Provider): boolean {
-  return provider.title === "RN";
-}
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
-// imageSlug must match exactly the filename in /public/images/providers/
-// e.g. imageSlug: "zuliyat" => /public/images/providers/zuliyat.jpg
-
-const PROVIDERS: Provider[] = buildProviders([
-  {
-    fullName: "Zainab Olakunle Oduwole",
-    firstName: "Zainab",
-    imageSlug: "zainab",
-    title: "Medical Doctor",
-    qualifications: "General Medicine, Obstetrics & Gynaecology",
-    employeeNumber: "DR-26-001",
-    licenseNumber: "MDCN/R/93838",
-    bio: "I like to think of myself as an introverted extrovert, a realistic optimist. I’m passionate about women’s sexual and reproductive health. In my spare time, you can catch me curled up somewhere reading a book, watching a TV show (I love those), or lifting weights.",
-    languages: ["English"],
-    experience: "4 – 7 years",
-    state: "Lagos",
-  },
-  {
-    fullName: "Zuliyat Abdulkareem",
-    firstName: "Zuliyat",
-    imageSlug: "zuliyat",
-    title: "RN",
-    qualifications: "RN",
-    employeeNumber: "CPN-26-001",
-    licenseNumber: "84759/2023/L",
-    bio: "Zuliyat believes that every person has a unique story worth listening to. A deep lover of books, she easily gets lost in fiction and turns to motivational reading to constantly grow and see the world through fresh eyes. This passion for learning makes Zuliyat an incredible conversationalist and an even better provider. She doesn't just look after physical health, she sits down, connects, and builds genuine friendships. She brings an uplifting, warm energy into every home, turning quiet days into bright, meaningful moments for her clients and their families.",
-    languages: ["English", "Yoruba", "Hausa"],
-    experience: "1 – 3 years",
-    state: "Lagos",
-  },
-  {
-    fullName: "Eunice Oyewale",
-    firstName: "Eunice",
-    imageSlug: "Oyewale",
-    title: "RN",
-    qualifications: "RN",
-    employeeNumber: "CPN-26-002",
-    licenseNumber: "RN245602",
-    bio: "Some people naturally make others feel safe the moment they walk into a room, and that's exactly the kind of care Eunice brings. Calm, attentive, and kind-hearted, she believes clients deserve more than treatment, they deserve patience, respect, and genuine support. With strong clinical knowledge and a thoughtful approach to care, Eunice takes pride in helping people feel comfortable, reassured, and cared for during their most vulnerable moments.",
-    languages: ["English", "Yoruba"],
-    experience: "1 – 3 years",
-    state: "Lagos",
-  },
-
-  {
-    fullName: "Taiwo Alayo",
-    firstName: "Taiwo",
-    imageSlug: "alayo",
-    title: "RN",
-    qualifications: "RN, RM",
-    employeeNumber: "CPN-26-004",
-    licenseNumber: "INT/25/245930",
-    bio: "Growing up in Edo State, Taiwo always knew she wanted a career that genuinely mattered. That spark led her to Igbinedion University, Okada, where she earned her BNSc along with her RN, RM, and RPHN qualifications. Driven by a deep, restless curiosity, she views every single day as a fresh chance to learn and grow. You will often find her at community health outreaches, not out of obligation, but because she believes healthcare should meet people exactly where they are.",
-    languages: ["English", "Yoruba"],
-    experience: "Less than 1 year",
-    state: "Lagos",
-  },
-  {
-    fullName: "Simbiat Oladimeji",
-    firstName: "Simbiat",
-    imageSlug: "simbiat",
-    title: "RN",
-    qualifications: "RN, RM",
-    employeeNumber: "CPN-26-005",
-    licenseNumber: "RN224377",
-    bio: "When Simbiat isn't on the hospital floor, her passion for care takes her on the road. She loves travelling for community health outreaches, packing up her skills to reach people in remote areas who need medical attention the most. Whether navigating a busy city ER or setting up a temporary clinic in a distant village, she thrives on adapting to new environments. For her, nursing isn't confined to hospital walls; it's a journey of bringing peace of mind, comfort, and a listening ear to whoever needs it, wherever they are.",
-    languages: ["English", "Yoruba"],
-    experience: "1 – 3 years",
-    state: "Lagos",
-  },
-  {
-    fullName: "Kemisola Ipaye",
-    firstName: "Kemisola",
-    imageSlug: "ipaye",
-    title: "RN",
-    qualifications: "RN",
-    employeeNumber: "CPN-26-006",
-    licenseNumber: "RN204920",
-    bio: "Long before nursing became a profession, caring for people was already part of who Kemisola is. From community health outreach and volunteer support to years of hands-on clinical experience, she has built a reputation for showing up with calmness, compassion, and professionalism when people need it most. With over 4 years of experience in patient assessment, triage, and home-care support, Kemisola knows how to identify red flags quickly while still making clients feel comfortable, heard, and reassured.",
-    languages: ["English", "Yoruba"],
-    experience: "4 – 7 years",
-    state: "Lagos",
-  },
-  {
-    fullName: "Oluwaseun Adebajo",
-    firstName: "Oluwaseun",
-    imageSlug: "adebajo",
-    title: "RN",
-    qualifications: "RN",
-    employeeNumber: "CPN-26-009",
-    licenseNumber: "RN240140",
-    bio: "Oluwaseun delivers 360° care, attending not just to symptoms, but to the whole person: body, mind, and dignity. Calm and compassionate, she partners with clients and colleagues alike to ensure no aspect of care is overlooked. In a field where technology evolves rapidly, she prioritises continuous learning as non-negotiable. Staying current isn't optional; it is how she protects lives. She studies new tools, refines old skills, and adapts without losing the human touch. For her, excellent care means growing every single day.",
-    languages: ["English", "Yoruba"],
-    experience: "1 – 3 years",
-    state: "Lagos, Ogun",
-  },
-  {
-    fullName: "Nosakhare Ero",
-    firstName: "Nosakhare",
-    imageSlug: "ero",
-    title: "RN",
-    qualifications: "RN",
-    employeeNumber: "CPN-26-010",
-    licenseNumber: "RN203851",
-    bio: "A passionate clinical provider dedicated to delivering quality health services with empathy and excellence. Her heart beats for people, and she believes everyone deserves access to good healthcare no matter their background. As an SDG advocate, she champions quality education and good health for both young children and adults. Beyond the hospital, she volunteers her time to community health outreaches. She loves to travel and explore new cultures, which broadens how she connects with and cares for people. At her core, she is driven by compassion, service, and the belief that health is a right, not a privilege.",
-    languages: ["English", "Yoruba"],
-    experience: "4 – 7 years",
-    state: "Lagos",
-  },
-  {
-    fullName: "Rebecca Olori",
-    firstName: "Rebecca",
-    imageSlug: "rebecca",
-    title: "RN",
-    qualifications: "RN, RM",
-    employeeNumber: "CPN-26-011",
-    licenseNumber: "RM144587",
-    bio: "Sweet, cheerful, and respectful, Rebecca brings calm energy into every home she visits. She values honesty, discipline, and treating every client with dignity. For her, nursing is a calling. She will sit with you, listen, and never make you feel rushed or judged. When life gets hard, she shows up anyway. No fancy words, just a provider who genuinely cares.",
-    languages: ["English"],
-    experience: "Less than 1 year",
-    state: "Lagos, Ogun",
-  },
-  {
-    fullName: "Ngozi Ekokwu",
-    firstName: "Ngozi",
-    imageSlug: "ekokwu",
-    title: "RN",
-    qualifications: "RN",
-    employeeNumber: "CPN-26-012",
-    licenseNumber: "RN203566",
-    bio: "Ngozi has a real gift for catching the tiny details that completely change how a client recovers. With over 4 years of clinical experience, she is the provider you want handling head-to-toe assessments and organising care plans, because she stays ten steps ahead. Her real strength is patient education: she can sit down with a stressed family and explain health management so clearly that they instantly feel in control. Currently pursuing her BNSc, she keeps growing while bringing empathy into everything she does.",
-    languages: ["English", "Igbo"],
-    experience: "4 – 7 years",
-    state: "Lagos",
-  },
-  {
-    fullName: "Kehinde Adegbenro",
-    firstName: "Kehinde",
-    imageSlug: "adegbenro",
-    title: "RN",
-    qualifications: "RN",
-    employeeNumber: "CPN-26-013",
-    licenseNumber: "RN263777",
-    bio: "Whether managing a busy clinic or providing one-on-one care in a client's living room, Kehinde keeps his head completely cool. He has a gift for breaking down complex medical talk into plain English, making sure clients and their families always understand their care. Highly adaptable and passionate about learning the latest healthcare practices, he advocates strongly for the people under his watch. For him, an excellent day means delivering expert care while making sure every client feels safe, heard, and comfortable.",
-    languages: ["English", "Yoruba"],
-    experience: "1 – 3 years",
-    state: "Lagos",
-  },
-  {
-    fullName: "Mofoluwake Olugboji",
-    firstName: "Mofoluwake",
-    imageSlug: "mofoluwake",
-    title: "RN",
-    qualifications: "RN",
-    employeeNumber: "CPN-26-014",
-    licenseNumber: "RN266758",
-    bio: "I’m a Registered Nurse who genuinely enjoys caring for people and making a difference in their health journeys. I’m passionate about wellness, preventive care, and helping people feel comfortable, heard, and supported. I value creating positive patient experiences, paying attention to the little details, and continually learning to become better at what I do. For me, good healthcare goes beyond treatment; it’s also about compassion, trust, and making people feel cared for.",
-    languages: ["English, Yoruba"],
-    experience: "1 – 3 years",
-    state: "Lagos",
-  },
-  {
-    fullName: "Chima Success",
-    firstName: "Chima",
-    imageSlug: "chima",
-    title: "RN",
-    qualifications: "RN",
-    employeeNumber: "CPN-26-015",
-    licenseNumber: "RN245782",
-    bio: "I am a dedicated and compassionate Registered Nurse with a strong passion for healthcare, continuous learning, and making a positive difference in people’s lives. I am hardworking, responsible, adaptable, and committed to delivering quality patient-centred care. Beyond my professional life, I enjoy music,drawing , meeting new people, and exploring opportunities for personal and professional growth. I believe in integrity, teamwork, self-development, and striving for excellence in everything I do. My goal is to keep growing, making meaningful contributions, and achieving greater success in life.",
-    languages: ["English, Igbo"],
-    experience: "1 – 3 years",
-    state: "Lagos",
-  },
-  {
-    fullName: "Yetunde Akande",
-    firstName: "Yetunde",
-    imageSlug: "akande",
-    title: "Health Assistant",
-    qualifications: "BSC (Health Assistant)",
-    employeeNumber: "HA-26-001",
-    licenseNumber: "N/A",
-    bio: "Yetunde speaks three languages: English, Yoruba, and French. But her favourite one? Kindness. As a nursing science graduate and health assistant, she shows up with a warm smile, a listening ear, and a calm presence that puts clients at ease. Whether helping with daily care, calming a worried family, or breaking down information in a local dialect, she makes sure no one feels lost or alone. Her superpower? Making clients feel seen, heard, and never alone.",
-    languages: ["English", "Yoruba", "Pidgin", "French"],
-    experience: "Less than 1 year",
-    state: "Lagos",
-  },
-  {
-    fullName: "Temitope Ahmed",
-    firstName: "Temitope",
-    imageSlug: "ahmed",
-    title: "Health Assistant",
-    qualifications: "Health Assistant",
-    employeeNumber: "HA-26-002",
-    licenseNumber: "N/A",
-    bio: "Temitope is from Ondo State and speaks English, Hausa, and Yoruba. Over the years she has gained experience in maternal care, emergency response, ward management, and patient health education. She has supported deliveries, managed unexpected situations, and helped families understand their health in clear terms. What she really offers is trust. When you are in her care, you can breathe easier: no rushing, no guesswork. Just competence, honesty, and the peace of mind that comes from knowing you are in good hands.",
-    languages: ["English", "Yoruba", "Hausa"],
-    experience: "8 – 15 years",
-    state: "Lagos",
-  },
-  {
-    fullName: "Faith Agboma",
-    firstName: "Faith",
-    imageSlug: "faith",
-    title: "Health Assistant",
-    qualifications: "Health Assistant",
-    employeeNumber: "HA-26-003",
-    licenseNumber: "N/A",
-    bio: "A dedicated health assistant committed to delivering compassionate, client-centered support. Brings warmth and professionalism to every care engagement.",
-    languages: ["English"],
-    experience: "1 – 3 years",
-    state: "Lagos",
-  },
-  {
-    fullName: "Kingsley Odok",
-    firstName: "Kingsley",
-    imageSlug: "kingsley",
-    title: "Health Assistant",
-    qualifications: "Health Assistant",
-    employeeNumber: "HA-26-004",
-    licenseNumber: "N/A",
-    bio: "Odok Kingsley from cross river state. Boki local government. As a caregiver, I'm always dedicated to my duties an being active to my job is my biggest priority.",
-    languages: ["English"],
-    experience: "1 – 3 years",
-    state: "Lagos",
-  },
-  {
-    fullName: "Chiamaka Josiah",
-    firstName: "Chiamaka",
-    imageSlug: "chiamaka",
-    title: "Health Assistant",
-    qualifications: "Health Assistant",
-    employeeNumber: "HA-26-005",
-    licenseNumber: "N/A",
-    bio: "Warm, attentive, and deeply empathetic, Chiamaka believes that high-quality home care begins with genuine human connection. With a keen eye for patient comfort, daily living assistance, and proactive wellness monitoring, she brings reassurance into every home, making care routines smooth, dignified, and stress-free for clients and their families.",
-    languages: ["English"],
-    experience: "1 – 3 years",
-    state: "Lagos",
-  },
-  {
-    fullName: "Destiny Sunday",
-    firstName: "Destiny",
-    imageSlug: "sunday",
-    title: "Health Assistant",
-    qualifications: "Health Assistant",
-    employeeNumber: "HA-26-006",
-    licenseNumber: "N/A",
-    bio: "I am a trained Healthcare Assistant and Caregiver with a strong passion for providing compassionate, safe and quality patient care. I have training in healthcare assistance, First Aid and Basic Life Support (BLS), dementia care, medication management and other essential patient support skills. I am empathetic, patient, attentive to detail and committed to maintaining the dignity, comfort and wellbeing of those under my care. With a background in customer service, I also possess excellent communication, interpersonal and problem-solving skills. I am dedicated to continuous learning, teamwork and delivering professional, person-centred care while making a positive difference in people's lives.",
-    languages: ["English, Igbo"],
-    experience: "1 – 3 years",
-    state: "Lagos",
-  },
-]);
-
-const TITLES = ["All", "Doctor", "RN", "Health Assistant"];
-
-const GRADIENT_PAIRS: [string, string][] = [
-  ["#02385a", "#00b99d"],
-  ["#aa7130", "#02385a"],
-  ["#00b99d", "#a6d200"],
-  ["#b745d8", "#02385a"],
-  ["#02385a", "#aa7130"],
-  ["#00b99d", "#02385a"],
-  ["#aa7130", "#00b99d"],
-  ["#a6d200", "#02385a"],
-];
-
-function getGradient(id: number): string {
-  const pair = GRADIENT_PAIRS[(id - 1) % GRADIENT_PAIRS.length];
-  return `linear-gradient(135deg, ${pair[0]} 0%, ${pair[1]} 100%)`;
-}
-
-
-function TitleBadge({ title }: { title: string }) {
-  const cls =
-    title === "Health Assistant"
-      ? "bg-teal-50 text-teal-700"
-      : title === "Medical Doctor" || title === "Doctor"
-        ? "bg-sky-50 text-sky-800"
-        : "bg-emerald-50 text-emerald-800";
-  return (
-    <span
-      className={`inline-block text-[11px] font-bold tracking-widest uppercase px-3 py-1 rounded-full font-raleway ${cls}`}
-    >
-      {title}
-    </span>
-  );
-}
-
-function VerifiedBadge({ size = "md" }: { size?: "sm" | "md" }) {
-  const px = size === "sm" ? "w-4 h-4" : "w-5 h-5";
-  return (
-    <span
-      className={`inline-flex ${px} flex-shrink-0 items-center justify-center rounded-full bg-[#00b99d] ring-2 ring-white`}
-      title="TriageVerified provider"
-      aria-label="TriageVerified provider"
-    >
-      <svg viewBox="0 0 24 24" fill="none" className="w-[62%] h-[62%]">
-        <path
-          d="M5 12.5l4.5 4.5L19 7"
-          stroke="white"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </span>
-  );
-}
-
-function VerifiedLabel() {
-  return (
-    <span className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-wide text-[#00897a] font-raleway">
-      <VerifiedBadge size="sm" />
-      TriageVerified
-    </span>
-  );
-}
-
-const AVATAR_EXTENSIONS = [".jpg", ".png", ".webp", ".jpeg"];
-
-function ProviderAvatar({
-  provider,
-  size = "sm",
-}: {
-  provider: Provider;
-  size?: "sm" | "lg";
-}) {
-  const [extIndex, setExtIndex] = useState(0);
-  const [imgError, setImgError] = useState(false);
-  const isLg = size === "lg";
-  const sizeClass = isLg ? "w-24 h-24" : "w-16 h-16";
-  const px = isLg ? 96 : 64;
-
-  useEffect(() => {
-    setExtIndex(0);
-    setImgError(false);
-  }, [provider.imageSlug]);
-
-  const hasExt = /\.(jpg|jpeg|png|webp)$/i.test(provider.imageSlug);
-  const imageSrc = hasExt
-    ? `/images/providers/${provider.imageSlug}`
-    : `/images/providers/${provider.imageSlug}${AVATAR_EXTENSIONS[extIndex]}`;
-
-  const handleImgError = () => {
-    if (!hasExt && extIndex < AVATAR_EXTENSIONS.length - 1) {
-      setExtIndex((prev) => prev + 1);
-    } else {
-      setImgError(true);
-    }
-  };
-
-  const inner = imgError ? (
-    <div
-      className="w-full h-full rounded-2xl flex items-center justify-center"
-      style={{ background: getGradient(provider.id) }}
-    >
-      <span
-        className={`${isLg ? "text-2xl" : "text-lg"} font-bold tracking-wide text-white font-raleway`}
-      >
-        {provider.initials}
-      </span>
-    </div>
-  ) : (
-    <div className="w-full h-full rounded-2xl overflow-hidden relative bg-slate-100">
-      <Image
-        key={imageSrc}
-        src={imageSrc}
-        alt={`${provider.displayName} headshot`}
-        fill
-        className="object-top"
-        sizes={`${px}px`}
-        onError={handleImgError}
-      />
-    </div>
-  );
-
-  return (
-    <div
-      className={`relative ${sizeClass} flex-shrink-0`}
-    >
-      <div
-        className="w-full h-full rounded-2xl p-[2px] shadow-md"
-        style={{
-          background: "linear-gradient(135deg, #02385a, #00b99d, #aa7130)",
-        }}
-      >
-        {inner}
-      </div>
-      <span className="absolute -bottom-1 -right-1">
-        <VerifiedBadge size={isLg ? "md" : "sm"} />
-      </span>
-    </div>
-  );
-}
-
-function DetailCard({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col gap-2">
-      <div className="flex items-center gap-2">
-        {icon}
-        <span className="text-[10px] font-bold tracking-[0.08em] uppercase text-slate-400 font-raleway">
-          {label}
-        </span>
-      </div>
-      <span className="font-nunito font-bold text-sm text-[#02385a]">
-        {value}
-      </span>
-    </div>
-  );
-}
-
-function FilterPill({
-  label,
-  count,
-  active,
-  onClick,
-}: {
-  label: string;
-  count?: number;
-  active: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`inline-flex items-center gap-2 whitespace-nowrap text-[13px] font-semibold font-raleway px-4 py-2 rounded-xl transition-all duration-200 focus:outline-none ${
-        active
-          ? "bg-[#02385a] text-white shadow-md shadow-[#02385a]/20 scale-[1.02]"
-          : "bg-white border border-slate-200 text-slate-600 hover:border-slate-300 hover:text-[#02385a]"
-      }`}
-    >
-      <span>{label}</span>
-      {count !== undefined && (
-        <span
-          className={`text-[11px] px-2 py-0.5 rounded-full font-bold transition-colors ${
-            active ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
-          }`}
-        >
-          {count}
-        </span>
-      )}
-    </button>
-  );
-}
-
-function ProviderCard({
-  provider,
-  onClick,
-}: {
-  provider: Provider;
-  onClick: () => void;
-}) {
-  const credentials = getCredentials(provider);
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="group text-left w-full bg-white rounded-3xl border border-slate-200/90 hover:border-[#aa7130]/50 shadow-xs hover:shadow-md transition-shadow transition-colors duration-200 overflow-hidden flex flex-col focus:outline-none focus-visible:ring-2 focus-visible:ring-[#aa7130]"
-    >
-      <div className="relative h-20 w-full bg-gradient-to-r from-[#02385a]/10 via-[#00b99d]/10 to-[#aa7130]/10 p-4 flex items-start justify-between overflow-hidden">
-        <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-white/40 blur-xl pointer-events-none" />
-        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-500 font-nunito bg-white/80 backdrop-blur-sm px-2.5 py-1 rounded-full border border-slate-200/60 shadow-xs">
-          <svg
-            className="w-3 h-3 text-[#aa7130]"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M12 21s-6-5.333-6-10a6 6 0 0112 0c0 4.667-6 10-6 10z"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-            <circle
-              cx="12"
-              cy="11"
-              r="2"
-              stroke="currentColor"
-              strokeWidth="2"
-            />
-          </svg>
-          {provider.state}
-        </span>
-
-        <span className="text-[10px] font-mono tracking-wider text-slate-400 bg-white/70 px-2 py-0.5 rounded-md border border-slate-200/50">
-          {provider.employeeNumber}
-        </span>
-      </div>
-
-      {/* Main Body */}
-      <div className="p-6 pt-0 flex flex-col flex-1">
-        {/* Avatar positioned over the header boundary */}
-        <div className="-mt-10 mb-3.5 flex items-end justify-between">
-          <ProviderAvatar provider={provider} size="sm" />
-          <TitleBadge title={provider.title} />
-        </div>
-
-        <div className="mb-3">
-          <h3 className="font-raleway font-extrabold text-[#02385a] text-lg leading-snug group-hover:text-[#aa7130] transition-colors">
-            {provider.displayName}
-          </h3>
-
-          <div className="mt-1 flex items-center gap-1.5 text-[11.5px] font-semibold text-emerald-700 font-nunito">
-            <svg
-              className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="m9 12 2 2 4-4"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span className="truncate">
-              {isDoctor(provider)
-                ? `MDCN Verified • ${provider.licenseNumber}`
-                : isNurse(provider)
-                  ? `NMCN Verified • ${provider.licenseNumber}`
-                  : "Triage Certified Health Assistant"}
-            </span>
-          </div>
-        </div>
-
-        {credentials.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mb-3.5">
-            {credentials.map((q) => (
-              <span
-                key={q}
-                className="bg-slate-50 border border-slate-200/80 text-[#02385a] font-bold text-[10.5px] px-2.5 py-0.5 rounded-lg font-nunito"
-              >
-                {q}
-              </span>
-            ))}
-          </div>
-        )}
-
-        <p className="font-nunito text-[13px] text-slate-600 leading-relaxed line-clamp-3 flex-1 mb-4">
-          {provider.bio}
-        </p>
-        <div className="border-t border-slate-100 pt-3.5 flex flex-col gap-2">
-          <div className="flex items-center justify-between text-[11.5px] font-nunito text-slate-500">
-            <div className="flex items-center gap-1.5">
-              <svg
-                className="w-3.5 h-3.5 text-[#aa7130] flex-shrink-0"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-                <path
-                  d="M12 6v6l4 2"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-              <span className="font-semibold text-slate-700">
-                {provider.experience}
-              </span>
-            </div>
-
-            <span className="text-[11px] truncate max-w-[140px] text-slate-400">
-              {provider.languages.join(", ")}
-            </span>
-          </div>
-        </div>
-
-        <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[#aa7130] font-raleway font-bold text-xs tracking-wider uppercase">
-          <span>View Clinical Profile</span>
-          <svg
-            className="w-4 h-4 flex-shrink-0 transform group-hover:translate-x-0.5 transition-transform duration-200"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M5 12h14M12 5l7 7-7 7"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
-      </div>
-    </button>
-  );
-}
-
-function ProviderModal({
-  provider,
-  onClose,
-}: {
-  provider: Provider;
-  onClose: () => void;
-}) {
-  const overlayRef = useRef<HTMLDivElement>(null);
-  const assistant = isHealthAssistant(provider);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [onClose]);
-
-  function handleOverlayClick(e: React.MouseEvent<HTMLDivElement>) {
-    if (e.target === overlayRef.current) onClose();
-  }
-
-  const credentials = getCredentials(provider);
-  const doctor = isDoctor(provider);
-
-  const ctaHeading = assistant
-    ? "Book a home health assistant visit"
-    : doctor
-      ? `Book a consultation with Dr. ${provider.firstName}`
-      : `Book an appointment with ${provider.firstName}`;
-
-  const ctaMessage = assistant
-    ? `Hi TriageHome, I would like to book a home health assistant visit.`
-    : doctor
-      ? `Hi Triage, I would like to book a medical consultation with Dr. ${provider.firstName}.`
-      : `Hi Triage, I would like to book an appointment with ${provider.firstName}.`;
-
-  const ctaLabel = assistant
-    ? "Book with TriageHome"
-    : doctor
-      ? "Book a Consultation"
-      : "Book an Appointment";
-
-  const ctaHref = `https://wa.me/2349134664547?text=${encodeURIComponent(ctaMessage)}`;
-
-  return (
-    <div
-      ref={overlayRef}
-      onClick={handleOverlayClick}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#021c2e]/75 backdrop-blur-sm"
-    >
-      <div className="bg-white rounded-2xl overflow-hidden w-full max-w-2xl max-h-[92vh] flex flex-col shadow-2xl">
-        <div className="bg-[#02385a] px-8 pt-8 pb-7 relative overflow-hidden flex-shrink-0">
-          <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-white/[0.04] pointer-events-none" />
-          <div className="absolute -bottom-12 right-10 w-28 h-28 rounded-full bg-[#00b99d]/10 pointer-events-none" />
-
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close modal"
-            className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
-          >
-            <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M18 6L6 18M6 6l12 12"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
-
-          <div className="flex items-end gap-5 relative z-10">
-            <ProviderAvatar provider={provider} size="lg" />
-            <div>
-              <h2 className="font-raleway font-extrabold text-white text-xl leading-snug mb-2">
-                {provider.displayName}
-              </h2>
-              <div className="flex flex-wrap items-center gap-2.5">
-                <TitleBadge title={provider.title} />
-                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-wide text-[#5eead4] font-raleway">
-                  <VerifiedBadge size="sm" />
-                  TriageVerified
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="overflow-y-auto flex-1 px-8 py-7 flex flex-col gap-6">
-          <div>
-            <p className="text-[11px] font-bold tracking-[0.1em] uppercase text-[#aa7130] font-raleway mb-2.5">
-              About
-            </p>
-            <p className="font-nunito text-[15px] text-slate-700 leading-[1.8]">
-              {provider.bio}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <DetailCard
-              icon={
-                <svg
-                  className="w-4 h-4 text-[#00b99d]"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <circle
-                    cx="12"
-                    cy="8"
-                    r="4"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M4 20c0-4 3.6-7 8-7s8 3 8 7"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              }
-              label="Experience"
-              value={provider.experience}
-            />
-            <DetailCard
-              icon={
-                <svg
-                  className="w-4 h-4 text-[#aa7130]"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              }
-              label="License Number"
-              value={provider.licenseNumber}
-            />
-            <DetailCard
-              icon={
-                <svg
-                  className="w-4 h-4 text-[#02385a]"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <rect
-                    x="4"
-                    y="5"
-                    width="16"
-                    height="14"
-                    rx="2"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M8 9h8M8 13h5"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              }
-              label="Employee Number"
-              value={provider.employeeNumber}
-            />
-            <DetailCard
-              icon={
-                <svg
-                  className="w-4 h-4 text-[#aa7130]"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                </svg>
-              }
-              label="State of Practice"
-              value={provider.state}
-            />
-          </div>
-
-          <div>
-            <p className="text-[11px] font-bold tracking-[0.1em] uppercase text-[#aa7130] font-raleway mb-2.5">
-              Professional Credentials
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {credentials.map((q) => (
-                <span
-                  key={q}
-                  className="bg-slate-50 border border-slate-200 text-[#02385a] font-bold text-[13px] px-4 py-1 rounded-full font-nunito"
-                >
-                  {q}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <p className="text-[11px] font-bold tracking-[0.1em] uppercase text-[#aa7130] font-raleway mb-2.5">
-              Languages
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {provider.languages.map((lang) => (
-                <span
-                  key={lang}
-                  className="bg-slate-50 border border-slate-200 text-[#02385a] font-bold text-[13px] px-4 py-1 rounded-full font-nunito"
-                >
-                  {lang}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-r from-[#02385a] to-[#024a78] rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div>
-              <p className="font-raleway font-bold text-white text-base mb-1">
-                {ctaHeading}
-              </p>
-              <p className="font-nunito text-sm text-white/60">
-                #HomeHealth, Powered by People
-              </p>
-            </div>
-            <a
-              href={ctaHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#aa7130] hover:bg-[#8c5c22] text-white font-raleway font-bold text-[13px] tracking-wide px-6 py-3 rounded-xl transition-colors flex-shrink-0"
-            >
-              {ctaLabel}
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M5 12h14M12 5l7 7-7 7"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
+const EASE = [0.22, 1, 0.36, 1] as const;
+const TAB_ORDER = ["All", "Doctor", "RN", "Health Assistant"] as const;
 
 export default function ClinicalProvidersPage() {
-  const [selected, setSelected] = useState<Provider | null>(null);
+  const shouldReduceMotion = useReducedMotion();
   const [activeTitle, setActiveTitle] = useState("All");
+  const [tabDirection, setTabDirection] = useState(1);
   const [search, setSearch] = useState("");
+
+  const [apptName, setApptName] = useState("");
+  const [apptEmail, setApptEmail] = useState("");
+  const [apptDate, setApptDate] = useState("");
+  const [apptTime, setApptTime] = useState("");
+  const [apptSubmitted, setApptSubmitted] = useState(false);
+
+  const handleTabChange = (nextTab: string) => {
+    if (nextTab === activeTitle) return;
+    const prevIdx = TAB_ORDER.indexOf(activeTitle as (typeof TAB_ORDER)[number]);
+    const nextIdx = TAB_ORDER.indexOf(nextTab as (typeof TAB_ORDER)[number]);
+    setTabDirection(nextIdx >= prevIdx ? 1 : -1);
+    setActiveTitle(nextTab);
+  };
 
   const filtered = PROVIDERS.filter((p) => {
     const matchesTitle =
@@ -958,345 +71,469 @@ export default function ClinicalProvidersPage() {
   const rnCount = PROVIDERS.filter(isNurse).length;
   const haCount = PROVIDERS.filter(isHealthAssistant).length;
 
+  const handleBannerBooking = (e: React.FormEvent) => {
+    e.preventDefault();
+    const message = `*New Clinical Appointment Request*
+• *Name:* ${apptName}
+• *Email:* ${apptEmail}
+• *Preferred Date:* ${apptDate || "Flexible"}
+• *Preferred Time:* ${apptTime || "Flexible"}`;
+
+    window.open(
+      `https://wa.me/2349134664547?text=${encodeURIComponent(message)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+    setApptSubmitted(true);
+  };
+
   return (
-    <>
-      <div className="min-h-screen bg-[#fcfdfd] font-nunito text-slate-800 selection:bg-[#aa7130]/20 selection:text-[#aa7130]">
-        <section className="relative w-full overflow-hidden bg-[#02385a] text-white">
-          <div className="absolute inset-0 z-0">
-            <img
-              src="/images/hero/team2.webp"
-              alt="Clinical Providers"
-              className="w-full h-full object-cover"
-              style={{ objectPosition: "center 7%" }}
-            />
-            <div className="absolute inset-0 bg-[#02385a]/75" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(166,210,0,0.08),transparent_60%)]" />
-          </div>
+    <main className="min-h-screen bg-white font-nunito text-slate-800">
+      <section className="px-4 pt-24 pb-4 sm:px-6 sm:pt-28">
+        <motion.div
+          initial={shouldReduceMotion ? undefined : { opacity: 0, y: 16 }}
+          animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, ease: EASE }}
+          className="relative mx-auto flex min-h-[480px] w-full max-w-7xl items-end overflow-hidden rounded-2xl sm:min-h-[540px] sm:rounded-3xl lg:min-h-[600px]"
+        >
+          <motion.img
+            src="/images/hero/bg1.webp"
+            alt="TriageHome Clinical Team"
+            initial={shouldReduceMotion ? undefined : { scale: 1.05 }}
+            animate={shouldReduceMotion ? undefined : { scale: 1 }}
+            transition={{ duration: 1.1, ease: EASE }}
+            className="absolute inset-0 h-full w-full object-cover object-[center_18%]"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/45 via-transparent to-transparent" />
 
-          <div className="absolute inset-0 pointer-events-none">
-            <motion.div
-              animate={{ y: [0, -30, 0] }}
-              transition={{ repeat: Infinity, duration: 8 }}
-              className="absolute w-72 h-72 bg-triage-lime/10 blur-[120px] rounded-full top-20 left-10"
-            />
-            <motion.div
-              animate={{ y: [0, 40, 0] }}
-              transition={{ repeat: Infinity, duration: 10 }}
-              className="absolute w-96 h-96 bg-triage-teal/10 blur-[140px] rounded-full bottom-10 right-10"
-            />
-          </div>
-
-          <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-32 pb-20 md:pt-40 md:pb-24 max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="max-w-3xl"
-            >
-              <p className="font-nunito text-triage-lime uppercase tracking-widest text-sm mb-6 font-semibold">
-                Clinical Directory
-              </p>
-
-              <h1 className="font-raleway text-4xl sm:text-5xl md:text-6xl font-semibold leading-[1.08] tracking-tight">
-                <span className="text-white">The Clinicians Behind</span>
-                <br />
-                <span className="text-triage-lime">Your Peace of Mind</span>
-              </h1>
-
-              <p className="font-nunito mt-6 text-lg sm:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto">
-                Verified Medical Doctors, Registered Nurses, Midwives, and Health Assistants delivering trusted, hospital grade care right in your home.
-              </p>
-            </motion.div>
-          </div>
-        </section>
-
-        <div className="sticky top-0 z-30 bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] px-6 py-4">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            {/* Search Input */}
-            <div className="relative w-full md:w-96">
-              <svg
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"
-                viewBox="0 0 24 24"
-                fill="none"
+          <div className="relative z-10 w-full p-8 sm:p-12 lg:p-16">
+            <div className="max-w-md text-left">
+              <motion.h1
+                initial={
+                  shouldReduceMotion ? undefined : { opacity: 0, y: 20 }
+                }
+                animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, delay: 0.1, ease: EASE }}
+                className="font-raleway text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl"
               >
-                <circle
-                  cx="11"
-                  cy="11"
-                  r="7"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                />
-                <path
-                  d="m21 21-4.35-4.35"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-              </svg>
+                Our Clinicians
+              </motion.h1>
+
+              <motion.p
+                initial={
+                  shouldReduceMotion ? undefined : { opacity: 0, y: 18 }
+                }
+                animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, delay: 0.2, ease: EASE }}
+                className="mt-4 text-sm leading-relaxed text-white/90 sm:text-base"
+              >
+                Our medical team remains current through ongoing education and
+                training, ensuring you receive safe, responsive care at home.
+              </motion.p>
+
+              <motion.div
+                initial={
+                  shouldReduceMotion ? undefined : { opacity: 0, y: 16 }
+                }
+                animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, delay: 0.3, ease: EASE }}
+                className="mt-7"
+              >
+                <motion.a
+                  href="#directory"
+                  whileHover={
+                    shouldReduceMotion ? undefined : { scale: 1.04, y: -2 }
+                  }
+                  whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+                  className="group/cta inline-flex items-center gap-3 rounded-full bg-white px-6 py-3 font-raleway text-sm font-bold text-triage-navy shadow-md transition-colors hover:bg-slate-100"
+                >
+                  <span>Start a Checkup Now</span>
+                  <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover/cta:translate-x-1" />
+                </motion.a>
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      <section id="directory" className="px-6 py-20 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <motion.div
+            initial={shouldReduceMotion ? undefined : { opacity: 0, y: 20 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.55, ease: EASE }}
+            className="mx-auto mb-12 max-w-2xl text-center"
+          >
+            <h2 className="font-raleway text-3xl font-bold tracking-tight text-triage-navy sm:text-4xl md:text-5xl">
+              Meet Our Clinicians
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-slate-500 sm:text-base">
+              Our clinicians work closely with you to understand your needs,
+              address your concerns, and achieve your overall health goals.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={shouldReduceMotion ? undefined : { opacity: 0, y: 14 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5, delay: 0.08, ease: EASE }}
+            className="mb-10 flex flex-col items-center justify-between gap-4 border-b border-slate-100 pb-6 md:flex-row"
+          >
+            <div className="relative w-full md:w-80">
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by name, qualification, or language…"
-                className="w-full pl-11 pr-10 py-2.5 bg-slate-50/80 border border-slate-200 rounded-xl text-sm text-[#02385a] font-nunito placeholder:text-slate-400 focus:outline-none focus:border-[#aa7130] focus:bg-white focus:ring-3 focus:ring-[#aa7130]/15 transition-all"
+                placeholder="Search by name, role, or language..."
+                className="w-full rounded-full border border-slate-200 bg-slate-50/70 py-2.5 pl-11 pr-10 text-sm text-triage-navy placeholder:text-slate-400 focus:border-triage-teal focus:bg-white focus:outline-none"
               />
               {search && (
                 <button
                   type="button"
                   onClick={() => setSearch("")}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"
+                  aria-label="Clear search"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                 >
-                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M18 6L6 18M6 6l12 12"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                    />
-                  </svg>
+                  <X className="h-4 w-4" />
                 </button>
               )}
             </div>
 
-            <div className="flex items-center gap-2.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 no-scrollbar">
-              <FilterPill
-                label="All Providers"
-                count={PROVIDERS.length}
-                active={activeTitle === "All"}
-                onClick={() => setActiveTitle("All")}
-              />
-              <FilterPill
-                label="Doctors"
-                count={docCount}
-                active={activeTitle === "Doctor"}
-                onClick={() => setActiveTitle("Doctor")}
-              />
-              <FilterPill
-                label="Registered Nurses (RN)"
-                count={rnCount}
-                active={activeTitle === "RN"}
-                onClick={() => setActiveTitle("RN")}
-              />
-              <FilterPill
-                label="Health Assistants"
-                count={haCount}
-                active={activeTitle === "Health Assistant"}
-                onClick={() => setActiveTitle("Health Assistant")}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="max-w-6xl mx-auto px-6 pt-10 pb-24">
-          <div className="flex items-center justify-between mb-8">
-            <p className="font-raleway font-bold text-xs tracking-wider uppercase text-slate-400">
-              Showing {filtered.length} of {PROVIDERS.length} Verified
-              Clinicians
-            </p>
-            {search && (
-              <button
-                type="button"
-                onClick={() => setSearch("")}
-                className="text-xs text-[#aa7130] hover:underline font-semibold font-nunito"
-              >
-                Clear search filter
-              </button>
-            )}
-          </div>
-
-          {filtered.length === 0 ? (
-            <div className="text-center py-24 bg-white rounded-3xl border border-slate-200/80 p-8 shadow-sm">
-              <div className="w-16 h-16 rounded-2xl bg-amber-50 text-[#aa7130] flex items-center justify-center mx-auto mb-4 text-2xl">
-                🔍
-              </div>
-              <h3 className="font-raleway font-bold text-xl text-[#02385a] mb-2">
-                No matching providers found
-              </h3>
-              <p className="font-nunito text-slate-500 text-sm max-w-md mx-auto mb-6">
-                We couldn't find any clinical providers matching "{search}". Try
-                searching by another name, credential, or specialty.
-              </p>
-              <button
-                type="button"
-                onClick={() => {
-                  setSearch("");
-                  setActiveTitle("All");
-                }}
-                className="px-6 py-2.5 bg-[#02385a] text-white rounded-xl text-sm font-semibold hover:bg-[#aa7130] transition-colors"
-              >
-                Reset All Filters
-              </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-              {filtered.map((provider) => (
-                <ProviderCard
-                  key={provider.id}
-                  provider={provider}
-                  onClick={() => setSelected(provider)}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-
-        <section className="bg-slate-100/70 border-t border-slate-200/80 py-24 px-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center max-w-2xl mx-auto mb-16">
-              <p className="text-[#aa7130] font-raleway font-bold text-xs tracking-widest uppercase mb-3">
-                The Triage Standard
-              </p>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#02385a] font-raleway">
-                Why Families Trust Our Clinical Network
-              </h2>
-              <p className="mt-4 text-slate-600 font-nunito text-base leading-relaxed">
-                Inviting a healthcare professional into your home requires
-                complete confidence. Here is how we safeguard every interaction.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="no-scrollbar flex w-full items-center gap-2 overflow-x-auto pb-1 md:w-auto md:pb-0">
               {[
+                { key: "All", label: "All", count: PROVIDERS.length },
+                { key: "Doctor", label: "Doctors", count: docCount },
+                { key: "RN", label: "Registered Nurses", count: rnCount },
                 {
-                  title: "NMCN Direct Verification",
-                  desc: "Every nurse and midwife's license is authenticated directly with the Nursing and Midwifery Council of Nigeria.",
-                  icon: (
-                    <svg
-                      className="w-6 h-6 text-[#02385a]"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      />
-                    </svg>
-                  ),
+                  key: "Health Assistant",
+                  label: "Health Assistants",
+                  count: haCount,
                 },
-                {
-                  title: "Background & Identity Vetted",
-                  desc: "Multi-point criminal background verification, guarantor confirmation, and residence checks prior to client dispatch.",
-                  icon: (
-                    <svg
-                      className="w-6 h-6 text-[#00b99d]"
-                      viewBox="0 0 24 24"
-                      fill="none"
+              ].map((tab) => {
+                const active = activeTitle === tab.key;
+                return (
+                  <motion.button
+                    key={tab.key}
+                    type="button"
+                    whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
+                    onClick={() => handleTabChange(tab.key)}
+                    className={`relative inline-flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 font-raleway text-xs font-bold transition-colors ${
+                      active
+                        ? "text-white"
+                        : "border border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-triage-navy"
+                    }`}
+                  >
+                    {active && (
+                      <motion.span
+                        layoutId="activeProviderTab"
+                        transition={{
+                          type: "spring",
+                          stiffness: 380,
+                          damping: 32,
+                        }}
+                        className="absolute inset-0 rounded-full bg-triage-navy shadow-sm"
+                      />
+                    )}
+                    <span className="relative z-10">{tab.label}</span>
+                    <span
+                      className={`relative z-10 rounded-full px-2 py-0.5 text-[11px] transition-colors ${
+                        active
+                          ? "bg-white/20 text-white"
+                          : "bg-slate-100 text-slate-500"
+                      }`}
                     >
-                      <circle
-                        cx="12"
-                        cy="8"
-                        r="4"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      />
-                      <path
-                        d="M4 20c0-4 3.6-7 8-7s8 3 8 7"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      />
-                    </svg>
-                  ),
-                },
-                {
-                  title: "BLS & Emergency Trained",
-                  desc: "Certified in Basic Life Support (BLS), vitals monitoring, infection control, and rapid emergency escalation.",
-                  icon: (
-                    <svg
-                      className="w-6 h-6 text-[#aa7130]"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M22 12h-4l-3 9L9 3l-3 9H2"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  ),
-                },
-                {
-                  title: "Empathetic Bedside Manner",
-                  desc: "Selected not just for technical skill, but for kindness, patience, and profound respect for your family's dignity.",
-                  icon: (
-                    <svg
-                      className="w-6 h-6 text-pink-600"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      />
-                    </svg>
-                  ),
-                },
-              ].map((p, i) => (
-                <div
-                  key={i}
-                  className="bg-white p-7 rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-shadow"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center mb-5 border border-slate-100">
-                    {p.icon}
-                  </div>
-                  <h3 className="font-raleway font-bold text-[#02385a] text-lg mb-2">
-                    {p.title}
-                  </h3>
-                  <p className="font-nunito text-slate-500 text-sm leading-relaxed">
-                    {p.desc}
-                  </p>
-                </div>
-              ))}
+                      {tab.count}
+                    </span>
+                  </motion.button>
+                );
+              })}
             </div>
+          </motion.div>
+
+          <div className="overflow-hidden">
+            <AnimatePresence mode="wait" initial={false}>
+              {filtered.length === 0 ? (
+                <motion.div
+                  key={`${activeTitle}-empty`}
+                  initial={
+                    shouldReduceMotion
+                      ? undefined
+                      : { opacity: 0, x: tabDirection * 24 }
+                  }
+                  animate={
+                    shouldReduceMotion ? undefined : { opacity: 1, x: 0 }
+                  }
+                  exit={
+                    shouldReduceMotion
+                      ? undefined
+                      : { opacity: 0, x: tabDirection * -24 }
+                  }
+                  transition={{ duration: 0.25, ease: EASE }}
+                  className="rounded-3xl border border-slate-200/80 bg-slate-50/50 px-6 py-20 text-center"
+                >
+                  <h3 className="font-raleway text-xl font-bold text-triage-navy">
+                    No matching clinicians found
+                  </h3>
+                  <p className="mx-auto mt-2 max-w-md text-sm text-slate-500">
+                    We couldn&apos;t find any providers matching &ldquo;{search}
+                    &rdquo;. Try adjusting your search or filter.
+                  </p>
+                  <motion.button
+                    type="button"
+                    whileHover={
+                      shouldReduceMotion ? undefined : { scale: 1.03 }
+                    }
+                    whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+                    onClick={() => {
+                      setSearch("");
+                      handleTabChange("All");
+                    }}
+                    className="mt-6 rounded-full bg-triage-navy px-6 py-2.5 font-raleway text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-triage-orange"
+                  >
+                    Reset Filters
+                  </motion.button>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key={activeTitle}
+                  initial={
+                    shouldReduceMotion
+                      ? undefined
+                      : { opacity: 0, x: tabDirection * 28 }
+                  }
+                  animate={
+                    shouldReduceMotion ? undefined : { opacity: 1, x: 0 }
+                  }
+                  exit={
+                    shouldReduceMotion
+                      ? undefined
+                      : { opacity: 0, x: tabDirection * -28 }
+                  }
+                  transition={{ duration: 0.26, ease: EASE }}
+                  className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3"
+                >
+                  {filtered.map((provider, idx) => (
+                    <motion.div
+                      key={provider.id}
+                      initial={
+                        shouldReduceMotion
+                          ? undefined
+                          : { opacity: 0, x: tabDirection * 18, y: 10 }
+                      }
+                      animate={
+                        shouldReduceMotion
+                          ? undefined
+                          : { opacity: 1, x: 0, y: 0 }
+                      }
+                      whileHover={
+                        shouldReduceMotion ? undefined : { y: -4 }
+                      }
+                      transition={{
+                        duration: 0.36,
+                        delay: Math.min(idx * 0.035, 0.22),
+                        ease: EASE,
+                      }}
+                    >
+                      <Link
+                        href={`/clinical-providers/${provider.id}`}
+                        className="group relative block aspect-[3/4] w-full overflow-hidden rounded-2xl bg-[#eef4fc] shadow-xs transition-shadow duration-300 hover:shadow-xl"
+                      >
+                        <ProviderPortrait
+                          provider={provider}
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          className="transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                        />
+
+                        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#02385a]/95 via-[#02385a]/50 to-transparent" />
+
+                        <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-[11px] font-bold text-triage-navy shadow-xs backdrop-blur-sm">
+                          <ShieldCheck className="h-3.5 w-3.5 text-triage-teal" />
+                          <span>TriageVerified</span>
+                        </div>
+
+                        <div className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-triage-navy/75 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur-sm">
+                          <MapPin className="h-3 w-3 text-triage-lime" />
+                          <span>{provider.state}</span>
+                        </div>
+
+                        <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6 text-white">
+                          <div>
+                            <h3 className="font-raleway text-xl font-bold leading-snug text-white">
+                              {provider.fullName}
+                            </h3>
+                            <p className="mt-0.5 text-sm font-medium text-white/85">
+                              {getProviderRoleLabel(provider)}
+                            </p>
+                          </div>
+
+                          <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-all duration-300 group-hover:translate-x-0.5 group-hover:bg-white group-hover:text-triage-navy">
+                            <ArrowRight className="h-4 w-4" />
+                          </span>
+                        </div>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        </section>
+        </div>
+      </section>
 
+      <section id="book-appointment" className="px-6 pb-24">
+        <div className="mx-auto max-w-6xl">
+          <motion.div
+            initial={shouldReduceMotion ? undefined : { opacity: 0, y: 24 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, ease: EASE }}
+            className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#02385a] via-[#044d7a] to-[#02385a] px-6 py-16 text-white shadow-xl sm:px-12 sm:py-20"
+          >
+            <motion.div
+              animate={
+                shouldReduceMotion ? undefined : { scale: [1, 1.1, 1] }
+              }
+              transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+              className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-triage-teal/20 blur-[100px]"
+            />
+            <motion.div
+              animate={shouldReduceMotion ? undefined : { x: [0, 20, 0] }}
+              transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+              className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-triage-lime/15 blur-[100px]"
+            />
 
-        <section className="bg-gradient-to-r from-[#02385a] via-[#024a78] to-[#aa7130] px-6 py-20 text-white relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
-          <div className="max-w-3xl mx-auto text-center relative z-10">
-            <span className="inline-block px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-amber-200 font-raleway font-bold text-xs uppercase tracking-widest mb-5">
-              Healthcare Providers
-            </span>
-            <h2 className="font-raleway font-extrabold text-white text-3xl sm:text-4xl mb-4 leading-tight">
-              Are you a licensed healthcare professional?
-            </h2>
-            <p className="font-nunito text-white/80 text-base sm:text-lg leading-relaxed mb-10 max-w-xl mx-auto">
-              Join our growing network of verified Registered Nurses, Midwives,
-              and Health Assistants delivering trusted, dignified care to
-              families across Nigeria.
-            </p>
-            <a
-              href="https://wa.me/2349134664547?text=Hello%2C%20I%20am%20interested%20in%20joining%20Triage%20as%20a%20healthcare%20provider.%20Please%20share%20the%20application%20process."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-white text-[#02385a] hover:bg-amber-50 font-raleway font-extrabold text-sm tracking-wide px-8 py-4 rounded-2xl shadow-xl transition-all duration-300 hover:scale-105"
-            >
-              <span>Apply to Join Our Clinical Network</span>
-              <svg
-                className="w-4 h-4 text-[#aa7130]"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M5 12h14M12 5l7 7-7 7"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </a>
-          </div>
-        </section>
-      </div>
+            <div className="relative z-10 mx-auto max-w-5xl">
+              <h2 className="text-center font-raleway text-3xl font-bold tracking-tight text-white sm:text-5xl">
+                Book Appointment
+              </h2>
 
-      {selected !== null && (
-        <ProviderModal provider={selected} onClose={() => setSelected(null)} />
-      )}
-    </>
+              <p className="mt-10 font-raleway text-sm font-bold text-white/95 sm:text-base">
+                Book Your Appointment Today
+              </p>
+
+              <AnimatePresence mode="wait">
+                {apptSubmitted ? (
+                  <motion.div
+                    key="banner-submitted"
+                    initial={
+                      shouldReduceMotion
+                        ? undefined
+                        : { opacity: 0, scale: 0.96 }
+                    }
+                    animate={
+                      shouldReduceMotion
+                        ? undefined
+                        : { opacity: 1, scale: 1 }
+                    }
+                    exit={
+                      shouldReduceMotion
+                        ? undefined
+                        : { opacity: 0, scale: 0.96 }
+                    }
+                    transition={{ duration: 0.25, ease: EASE }}
+                    className="mt-6 flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/20 bg-white/10 px-6 py-5 backdrop-blur-sm sm:flex-row"
+                  >
+                    <div className="flex items-center gap-3 text-left">
+                      <CheckCircle2 className="h-6 w-6 flex-shrink-0 text-triage-lime" />
+                      <div>
+                        <p className="font-raleway text-sm font-bold text-white">
+                          Appointment Request Prepared
+                        </p>
+                        <p className="text-xs text-white/80">
+                          Thank you, {apptName}. Our care coordinator will
+                          confirm your visit shortly.
+                        </p>
+                      </div>
+                    </div>
+                    <motion.button
+                      type="button"
+                      whileHover={
+                        shouldReduceMotion ? undefined : { scale: 1.03 }
+                      }
+                      whileTap={
+                        shouldReduceMotion ? undefined : { scale: 0.97 }
+                      }
+                      onClick={() => {
+                        setApptSubmitted(false);
+                        setApptName("");
+                        setApptEmail("");
+                        setApptDate("");
+                        setApptTime("");
+                      }}
+                      className="rounded-full bg-white px-5 py-2 font-raleway text-xs font-bold text-triage-navy transition hover:bg-slate-100"
+                    >
+                      Book Another
+                    </motion.button>
+                  </motion.div>
+                ) : (
+                  <motion.form
+                    key="banner-form"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    onSubmit={handleBannerBooking}
+                    className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-12"
+                  >
+                    <input
+                      type="text"
+                      required
+                      value={apptName}
+                      onChange={(e) => setApptName(e.target.value)}
+                      placeholder="Your name"
+                      className="rounded-full border border-white/30 bg-white/10 px-5 py-3.5 text-sm text-white placeholder:text-white/70 focus:border-white focus:bg-white/15 focus:outline-none lg:col-span-3"
+                    />
+
+                    <input
+                      type="email"
+                      required
+                      value={apptEmail}
+                      onChange={(e) => setApptEmail(e.target.value)}
+                      placeholder="Your email"
+                      className="rounded-full border border-white/30 bg-white/10 px-5 py-3.5 text-sm text-white placeholder:text-white/70 focus:border-white focus:bg-white/15 focus:outline-none lg:col-span-3"
+                    />
+
+                    <input
+                      type="date"
+                      required
+                      value={apptDate}
+                      onChange={(e) => setApptDate(e.target.value)}
+                      aria-label="Appointment Date"
+                      className="rounded-full border border-white/30 bg-white/10 px-5 py-3.5 text-sm text-white [color-scheme:dark] focus:border-white focus:bg-white/15 focus:outline-none lg:col-span-2"
+                    />
+
+                    <input
+                      type="time"
+                      required
+                      value={apptTime}
+                      onChange={(e) => setApptTime(e.target.value)}
+                      aria-label="Appointment Time"
+                      className="rounded-full border border-white/30 bg-white/10 px-5 py-3.5 text-sm text-white [color-scheme:dark] focus:border-white focus:bg-white/15 focus:outline-none lg:col-span-2"
+                    />
+
+                    <motion.button
+                      type="submit"
+                      whileHover={
+                        shouldReduceMotion ? undefined : { scale: 1.03, y: -1 }
+                      }
+                      whileTap={
+                        shouldReduceMotion ? undefined : { scale: 0.97 }
+                      }
+                      className="group/submit inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 font-raleway text-sm font-bold text-triage-navy shadow-md transition-colors hover:bg-slate-100 lg:col-span-2"
+                    >
+                      <span>Submit Now</span>
+                      <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover/submit:translate-x-1" />
+                    </motion.button>
+                  </motion.form>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+    </main>
   );
 }
